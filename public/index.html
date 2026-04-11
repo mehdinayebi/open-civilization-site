@@ -1,3 +1,16 @@
+<!-- AUDIT: Existing animations and transitions (v2 baseline, pre-v3)
+  @keyframes riseIn — hero title lines, hero-sub, hero-promise, hero-ctas. 1s cubic-bezier, staggered delays 0.1-0.8s. Load trigger, runs once.
+  @keyframes pulse — .status-dot red glow. 2.2s ease-out infinite. Load trigger, repeats.
+  @keyframes slide — .marquee-track horizontal scroll. 45s linear infinite. Load trigger, repeats.
+  Hover transitions: .mast-link (border 0.15s), .hero-cta (bg/color/border/transform 0.2s),
+    .doctrine-row (bg 0.25s), .connect-row (bg/padding 0.2s/0.25s), .tx-row (bg/padding 0.2s/0.25s),
+    .tx-featured (bg 0.2s), .tx-featured-cta (bg/transform 0.2s), .pitch-btn (bg/color 0.2s),
+    .platform-row (bg 0.2s), .dispatch-form button (bg 0.2s), .colophon-nav/contact a (border/color 0.15s),
+    .footer-bottom a (color/border-color).
+  No IntersectionObserver, no scroll listeners, no prefers-reduced-motion query.
+  JS: only inline form handler (onsubmit on dispatch-form).
+  PRESERVE: riseIn, slide, pulse keyframes. All hover transitions unchanged.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
