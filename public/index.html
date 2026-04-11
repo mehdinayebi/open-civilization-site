@@ -142,6 +142,18 @@
   }
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
 
+  .hero-promise-sub {
+    margin-top: 24px;
+    max-width: 720px;
+    font-family: var(--mono);
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    color: var(--ink-2);
+    opacity: 0;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.55s forwards;
+  }
+
   .hero-ctas {
     margin-top: 50px;
     display: flex;
@@ -963,6 +975,7 @@
   /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
   @media (max-width: 1000px) {
     .hero { padding: 70px 24px 50px; }
+    .hero-promise-sub { font-size: 14px; margin-top: 20px; }
     .section { padding: 60px 24px; }
     .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 40px; }
     .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; }
@@ -1032,7 +1045,10 @@
   </h1>
 
   <p class="hero-promise">
-    Conversations on power, institutions, truth, and the fate of free civilizations.
+    What does it take to keep a civilization <em>free, capable, and able to defend itself,</em> and why are those conditions <em>historically rare, difficult to sustain, and so often lost?</em>
+  </p>
+  <p class="hero-promise-sub">
+    A weekly podcast hosted by Mehdi Nayebi for people who want a clearer map of the world.
   </p>
 
   <div class="hero-ctas">
