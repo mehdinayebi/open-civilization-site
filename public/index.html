@@ -894,6 +894,27 @@
   .footer-bottom a { color: var(--muted); border-bottom: 1px solid transparent; }
   .footer-bottom a:hover { color: var(--red); border-color: var(--red); }
 
+  /* ═════════════════════════════════════ SCROLL REVEAL ═════════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
   /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
   @media (max-width: 1000px) {
     .hero { padding: 70px 24px 50px; }
@@ -982,7 +1003,7 @@
 </section>
 
 <!-- ════════ § I — THE CENTRAL QUESTION ════════ -->
-<section class="section section-question" id="question">
+<section class="section section-question reveal" id="question">
   <div class="question-num">§ I &nbsp;/ &nbsp;Question</div>
   <div class="question-wrap">
     <p class="question">
@@ -1012,7 +1033,7 @@
 </div>
 
 <!-- ════════ § II — THE DOCTRINE ════════ -->
-<section class="section" id="doctrine">
+<section class="section reveal" id="doctrine">
   <div class="section-head">
     <div class="section-num">§ II &nbsp;/ &nbsp;Doctrine</div>
     <h2 class="section-title">The Seven <em>Pillars</em></h2>
@@ -1065,7 +1086,7 @@
 </section>
 
 <!-- ════════ § III — THE HOST ════════ -->
-<section class="section" id="host">
+<section class="section reveal" id="host">
   <div class="section-head">
     <div class="section-num">§ III &nbsp;/ &nbsp;Host</div>
     <h2 class="section-title">About the <em>host.</em></h2>
@@ -1111,7 +1132,7 @@
 </section>
 
 <!-- ════════ § IV — EPISODES ════════ -->
-<section class="section" id="episodes">
+<section class="section reveal" id="episodes">
   <div class="section-head">
     <div class="section-num">§ IV &nbsp;/ &nbsp;Episodes</div>
     <h2 class="section-title">Episodes.</h2>
@@ -1183,7 +1204,7 @@
 </section>
 
 <!-- ════════ § V — BE A GUEST ════════ -->
-<section class="section" id="guest">
+<section class="section reveal" id="guest">
   <div class="section-head">
     <div class="section-num">§ V &nbsp;/ &nbsp;Guests</div>
     <h2 class="section-title">Come on the <em>show.</em></h2>
@@ -1216,7 +1237,7 @@
 </section>
 
 <!-- ════════ § VI — LISTEN ════════ -->
-<section class="section" id="listen">
+<section class="section reveal" id="listen">
   <div class="section-head">
     <div class="section-num">§ VI &nbsp;/ &nbsp;Listen</div>
     <h2 class="section-title">Listen <em>anywhere.</em></h2>
@@ -1257,7 +1278,7 @@
 </section>
 
 <!-- ════════ § VII — DISPATCH / NEWSLETTER ════════ -->
-<section class="dispatch" id="dispatch">
+<section class="dispatch reveal" id="dispatch">
   <div class="dispatch-inner">
     <div class="dispatch-eyebrow">Dispatch · The newsletter</div>
     <h2>A weekly <em>dispatch</em> for people who want a deeper map of the world.</h2>
@@ -1309,6 +1330,30 @@
     <div><a href="mailto:contact@opencivilization.fm">contact@opencivilization.fm</a></div>
   </div>
 </footer>
+
+<script>
+  // Scroll-reveal observer for .reveal elements
+  (function() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function(el) {
+        el.classList.add('is-visible');
+      });
+      return;
+    }
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+  })();
+</script>
 
 </body>
 </html>
