@@ -260,8 +260,8 @@
   }
   .section-title em { font-style: italic; font-weight: 300; }
 
-  /* ═════════════════════════════════════ § I — THE QUESTION ═════════════════════════════════════ */
-  .section-question {
+  /* ═════════════════════════════════════ § I — PREMISE ═════════════════════════════════════ */
+  .section-premise {
     padding-top: 70px;
     padding-bottom: 110px;
   }
@@ -275,22 +275,17 @@
     padding-bottom: 14px;
     border-bottom: 1px solid var(--ink);
   }
-  .question-wrap {
-    padding: 20px 0 40px;
+  .premise-wrap {
+    max-width: 1100px;
   }
-  .question {
+  .premise {
     font-family: var(--serif);
-    font-size: clamp(28px, 4.2vw, 60px);
-    line-height: 1.14;
-    letter-spacing: -0.015em;
+    font-size: clamp(22px, 2.8vw, 34px);
+    line-height: 1.45;
+    letter-spacing: -0.005em;
     font-weight: 400;
-    max-width: 1500px;
+    color: var(--ink);
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
-  }
-  .question em {
-    font-style: italic;
-    color: var(--red-ink);
-    font-weight: 300;
   }
 
   /* ═════════════════════════════════════ § II — DOCTRINE ═════════════════════════════════════ */
@@ -977,6 +972,8 @@
     .hero { padding: 70px 24px 50px; }
     .hero-promise-sub { font-size: 14px; margin-top: 20px; }
     .section { padding: 60px 24px; }
+    .section-premise { padding-top: 50px; padding-bottom: 70px; }
+    .premise { font-size: clamp(19px, 3.6vw, 24px); }
     .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 40px; }
     .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; }
     .doctrine-gloss, .doctrine-tag { grid-column: 2; }
@@ -1011,6 +1008,7 @@
   }
 
   @media (max-width: 600px) {
+    .premise { font-size: 18px; line-height: 1.5; }
     .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; }
     .doctrine-num { font-size: 34px; }
     .doctrine-name { font-size: 20px; }
@@ -1029,7 +1027,7 @@
   <div class="sep"></div>
   <div>MMXXVI</div>
   <div class="spacer"></div>
-  <a class="mast-link" href="#question">§ Question</a>
+  <a class="mast-link" href="#question">§ Premise</a>
   <a class="mast-link" href="#doctrine">§ Doctrine</a>
   <a class="mast-link" href="#host">§ Host</a>
   <a class="mast-link" href="#episodes">§ Episodes</a>
@@ -1062,13 +1060,11 @@
   </div>
 </section>
 
-<!-- ════════ § I — THE CENTRAL QUESTION ════════ -->
-<section class="section section-question reveal" id="question">
-  <div class="question-num">§ I &nbsp;/ &nbsp;Question</div>
-  <div class="question-wrap">
-    <p class="question">
-      What does it take to keep a civilization <em>free, capable, and able to defend itself,</em> and why are those conditions <em>historically rare, difficult to sustain, and so often lost?</em>
-    </p>
+<!-- ════════ § I — PREMISE ════════ -->
+<section class="section section-premise reveal" id="question">
+  <div class="question-num">§ I &nbsp;/ &nbsp;Premise</div>
+  <div class="premise-wrap">
+    <p class="premise">Free societies are rare. Most don't last. They usually fall apart from the inside, slowly, while people argue about other things. By the time the decline is obvious, the institutions that could have stopped it are already hollow. This show is about what actually holds free societies together, what quietly pulls them apart, and the people still doing something about it before it's too late.</p>
   </div>
 </section>
 
