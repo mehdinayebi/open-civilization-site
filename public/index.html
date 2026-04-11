@@ -275,55 +275,7 @@
     font-weight: 300;
   }
 
-  /* ═════════════════════════════════════ § II — IS / IS NOT ═════════════════════════════════════ */
-  .ledger-two {
-    display: grid;
-    grid-template-columns: 1fr 1.5px 1fr;
-    gap: 0;
-  }
-  .ledger-two .rule-v { background: var(--ink); }
-  .ledger-col { padding: 0 40px; }
-  .ledger-col:first-child { padding-left: 0; }
-  .ledger-col:last-child  { padding-right: 0; }
-  .ledger-col h4 {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-weight: 600;
-    margin-bottom: 30px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--ink);
-    display: flex;
-    justify-content: space-between;
-  }
-  .ledger-col h4 .tag {
-    padding: 2px 8px;
-    background: var(--ink);
-    color: var(--paper);
-    font-weight: 500;
-    font-size: 9.5px;
-  }
-  .ledger-col h4.is .tag { background: var(--red); }
-  .ledger-list li {
-    list-style: none;
-    padding: 18px 0 16px;
-    border-bottom: 1px dashed var(--muted-2);
-    font-size: 16px;
-    line-height: 1.65;
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    gap: 14px;
-  }
-  .ledger-list li::before {
-    content: attr(data-n);
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 500;
-    padding-top: 4px;
-  }
-  .ledger-list li:last-child { border-bottom: none; }
-
-  /* ═════════════════════════════════════ § III — DOCTRINE ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § II — DOCTRINE ═════════════════════════════════════ */
   .doctrine-table {
     border-top: 1.5px solid var(--ink);
   }
@@ -368,7 +320,7 @@
     padding-top: 6px;
   }
 
-  /* ═════════════════════════════════════ § IV — HOST ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § III — HOST ═════════════════════════════════════ */
   .host-wrap {
     display: grid;
     grid-template-columns: 1fr;
@@ -457,7 +409,7 @@
     transition: transform .2s, color .2s;
   }
 
-  /* ═════════════════════════════════════ § V — FIRST TRANSMISSIONS ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § IV — EPISODES ═════════════════════════════════════ */
   .transmissions {
     border-top: 1.5px solid var(--ink);
   }
@@ -619,7 +571,7 @@
     color: var(--red);
   }
 
-  /* ═════════════════════════════════════ § VI — GUEST PITCH ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § V — GUEST PITCH ═════════════════════════════════════ */
   .guest-pitch {
     display: grid;
     grid-template-columns: 1.3fr 1fr;
@@ -738,7 +690,7 @@
     color: var(--ink);
   }
 
-  /* ═════════════════════════════════════ § VII — SUBSCRIBE ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § VI — SUBSCRIBE ═════════════════════════════════════ */
   .platforms {
     border-top: 1.5px solid var(--ink);
   }
@@ -773,7 +725,7 @@
     color: var(--red);
   }
 
-  /* ═════════════════════════════════════ § VIII — DISPATCH / NEWSLETTER ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § VII — DISPATCH / NEWSLETTER ═════════════════════════════════════ */
   .dispatch {
     padding: 120px 40px;
     background: var(--ink);
@@ -960,9 +912,6 @@
     .hero-sub { flex-direction: column; gap: 14px; }
     .section { padding: 60px 24px; }
     .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 40px; }
-    .ledger-two { grid-template-columns: 1fr; gap: 40px; }
-    .ledger-two .rule-v { display: none; }
-    .ledger-col { padding: 0; }
     .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; }
     .doctrine-gloss, .doctrine-tag { grid-column: 2; }
     .doctrine-tag { text-align: left; margin-top: 8px; }
@@ -1075,40 +1024,10 @@
   </div>
 </div>
 
-<!-- ════════ § II — WHAT IT IS / WHAT IT IS NOT ════════ -->
-<section class="section">
-  <div class="section-head">
-    <div class="section-num">§ II &nbsp;/ &nbsp;Definition</div>
-    <h2 class="section-title">What the show <em>is</em>, &nbsp;and what it is <em>not</em>.</h2>
-  </div>
-
-  <div class="ledger-two">
-    <div class="ledger-col">
-      <h4>What the show is not <span class="tag">NEG</span></h4>
-      <ul class="ledger-list">
-        <li data-n="01">Not a news-reactive politics show.</li>
-        <li data-n="02">Not a generic current-affairs podcast.</li>
-        <li data-n="03">Not a soft conversation about democracy detached from power, incentives, and institutional reality.</li>
-        <li data-n="04">Not a vanity podcast built around guest prestige alone.</li>
-        <li data-n="05">Not a vehicle for any party line, factional lens, or ideological tribe.</li>
-      </ul>
-    </div>
-    <div class="rule-v"></div>
-    <div class="ledger-col">
-      <h4 class="is">What the show is <span class="tag">POS</span></h4>
-      <ul class="ledger-list">
-        <li data-n="01">A doctrine-driven platform for understanding what keeps civilizations free, capable, and able to defend themselves — and what causes them to weaken, decay, or become captured.</li>
-        <li data-n="02">A serious conversation with dissidents, founders, investors, scientists, historians, policymakers, builders, and other high-agency people whose work explains how the world is changing.</li>
-        <li data-n="03">An editorial project designed to leave listeners with a clearer map of reality, sharper judgment about what matters, and a deeper understanding of what serious renewal requires.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ § III — THE DOCTRINE ════════ -->
+<!-- ════════ § II — THE DOCTRINE ════════ -->
 <section class="section" id="doctrine">
   <div class="section-head">
-    <div class="section-num">§ III &nbsp;/ &nbsp;Doctrine</div>
+    <div class="section-num">§ II &nbsp;/ &nbsp;Doctrine</div>
     <h2 class="section-title">The Seven <em>Pillars</em></h2>
   </div>
 
@@ -1158,10 +1077,10 @@
   </div>
 </section>
 
-<!-- ════════ § IV — THE HOST ════════ -->
+<!-- ════════ § III — THE HOST ════════ -->
 <section class="section" id="host">
   <div class="section-head">
-    <div class="section-num">§ IV &nbsp;/ &nbsp;Host</div>
+    <div class="section-num">§ III &nbsp;/ &nbsp;Host</div>
     <h2 class="section-title">About the <em>host.</em></h2>
   </div>
 
@@ -1204,10 +1123,10 @@
   </div>
 </section>
 
-<!-- ════════ § V — FIRST TRANSMISSIONS (EPISODE SLATE) ════════ -->
+<!-- ════════ § IV — EPISODES ════════ -->
 <section class="section" id="episodes">
   <div class="section-head">
-    <div class="section-num">§ V &nbsp;/ &nbsp;Dispatches</div>
+    <div class="section-num">§ IV &nbsp;/ &nbsp;Episodes</div>
     <h2 class="section-title">First <em>transmissions.</em></h2>
   </div>
 
@@ -1276,10 +1195,10 @@
   </div>
 </section>
 
-<!-- ════════ § VI — BE A GUEST ════════ -->
+<!-- ════════ § V — BE A GUEST ════════ -->
 <section class="section" id="guest">
   <div class="section-head">
-    <div class="section-num">§ VI &nbsp;/ &nbsp;Guests</div>
+    <div class="section-num">§ V &nbsp;/ &nbsp;Guests</div>
     <h2 class="section-title">Come on the <em>show.</em></h2>
   </div>
 
@@ -1309,10 +1228,10 @@
   </div>
 </section>
 
-<!-- ════════ § VII — LISTEN ════════ -->
+<!-- ════════ § VI — LISTEN ════════ -->
 <section class="section" id="listen">
   <div class="section-head">
-    <div class="section-num">§ VII &nbsp;/ &nbsp;Listen</div>
+    <div class="section-num">§ VI &nbsp;/ &nbsp;Listen</div>
     <h2 class="section-title">Listen <em>anywhere.</em></h2>
   </div>
 
@@ -1350,7 +1269,7 @@
   </div>
 </section>
 
-<!-- ════════ § VIII — DISPATCH / NEWSLETTER ════════ -->
+<!-- ════════ § VII — DISPATCH / NEWSLETTER ════════ -->
 <section class="dispatch" id="dispatch">
   <div class="dispatch-inner">
     <div class="dispatch-eyebrow">Dispatch · The newsletter</div>
