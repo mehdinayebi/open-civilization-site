@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Open Civilization — A podcast by Mehdi Nayebi</title>
+<meta name="description" content="A host-led, doctrine-driven podcast about what it takes to keep a civilization free, capable, and able to defend itself — and why those conditions are historically rare, difficult to sustain, and so often lost." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper:    #f1ede3;
+    --paper-2:  #e9e4d5;
+    --ink:      #0e0e0e;
+    --ink-2:    #1c1c1a;
+    --muted:    #6e6a5e;
+    --muted-2:  #a8a394;
+    --red:      #b22a1f;
+    --red-ink:  #7a1a12;
+    --rule:     #0e0e0e;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --serif: 'Fraunces', 'Times New Roman', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.55;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Paper grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: var(--mono); cursor: pointer; }
+
+  /* ═════════════════════════════════════ MASTHEAD BAR ═════════════════════════════════════ */
+  .masthead-bar {
+    border-bottom: 1.5px solid var(--ink);
+    padding: 10px 40px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .masthead-bar > div { display: flex; align-items: center; gap: 10px; }
+  .masthead-bar .sep { width: 1px; height: 11px; background: var(--ink); opacity: 0.4; }
+  .masthead-bar .spacer { flex: 1; }
+  .status-dot {
+    width: 7px; height: 7px; background: var(--red); border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(178,42,31,0.6);
+    animation: pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(178,42,31,0.55); }
+    70%  { box-shadow: 0 0 0 6px rgba(178,42,31,0); }
+    100% { box-shadow: 0 0 0 0 rgba(178,42,31,0); }
+  }
+  .mast-link { border-bottom: 1px solid transparent; transition: border-color .15s; }
+  .mast-link:hover { border-color: var(--ink); }
+
+  /* ═════════════════════════════════════ HERO ═════════════════════════════════════ */
+  .hero {
+    padding: 120px 40px 80px;
+    border-bottom: 1.5px solid var(--ink);
+    position: relative;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(72px, 14vw, 220px);
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    margin-bottom: 40px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .hero-title .line {
+    display: block;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .hero-title .line:nth-child(1) { animation-delay: 0.1s; }
+  .hero-title .line:nth-child(2) { animation-delay: 0.25s; font-style: italic; font-weight: 300; }
+  @keyframes riseIn { to { opacity: 1; transform: translateY(0); } }
+
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    max-width: 780px;
+    padding-top: 30px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    opacity: 0;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.5s forwards;
+  }
+  .hero-sub .tagline { font-weight: 500; }
+  .hero-sub .by { color: var(--muted); text-align: right; white-space: nowrap; }
+
+  /* ═════════════════════════════════════ MARQUEE (DOCTRINE) ═════════════════════════════════════ */
+  .marquee {
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: 1.5px solid var(--ink);
+    padding: 18px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 50px;
+    white-space: nowrap;
+    animation: slide 45s linear infinite;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-weight: 500;
+  }
+  .marquee-track span { display: flex; align-items: center; gap: 50px; }
+  .marquee-track span::after {
+    content: '✦';
+    color: var(--red);
+    font-size: 12px;
+  }
+  @keyframes slide {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ═════════════════════════════════════ SECTION SYSTEM ═════════════════════════════════════ */
+  .section {
+    padding: 90px 40px;
+    border-bottom: 1.5px solid var(--ink);
+    position: relative;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 40px;
+    padding-bottom: 30px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--ink);
+    align-items: baseline;
+  }
+  .section-num {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--red);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .section-title em { font-style: italic; font-weight: 300; }
+
+  /* ═════════════════════════════════════ § I — THE QUESTION ═════════════════════════════════════ */
+  .question-wrap {
+    padding: 20px 0 40px;
+  }
+  .question {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4.2vw, 60px);
+    line-height: 1.14;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    max-width: 1500px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .question em {
+    font-style: italic;
+    color: var(--red-ink);
+    font-weight: 300;
+  }
+
+  /* ═════════════════════════════════════ § II — IS / IS NOT ═════════════════════════════════════ */
+  .ledger-two {
+    display: grid;
+    grid-template-columns: 1fr 1.5px 1fr;
+    gap: 0;
+  }
+  .ledger-two .rule-v { background: var(--ink); }
+  .ledger-col { padding: 0 40px; }
+  .ledger-col:first-child { padding-left: 0; }
+  .ledger-col:last-child  { padding-right: 0; }
+  .ledger-col h4 {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-bottom: 30px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+  }
+  .ledger-col h4 .tag {
+    padding: 2px 8px;
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 500;
+    font-size: 9.5px;
+  }
+  .ledger-col h4.is .tag { background: var(--red); }
+  .ledger-list li {
+    list-style: none;
+    padding: 18px 0 16px;
+    border-bottom: 1px dashed var(--muted-2);
+    font-size: 14px;
+    line-height: 1.55;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 14px;
+  }
+  .ledger-list li::before {
+    content: attr(data-n);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 500;
+    padding-top: 4px;
+  }
+  .ledger-list li:last-child { border-bottom: none; }
+
+  /* ═════════════════════════════════════ § III — DOCTRINE ═════════════════════════════════════ */
+  .doctrine-table {
+    border-top: 1.5px solid var(--ink);
+  }
+  .doctrine-row {
+    display: grid;
+    grid-template-columns: 80px 1.2fr 2fr 120px;
+    gap: 40px;
+    padding: 34px 0 30px;
+    border-bottom: 1px solid var(--ink);
+    align-items: baseline;
+    transition: background .25s;
+  }
+  .doctrine-row:hover { background: var(--paper-2); }
+  .doctrine-num {
+    font-family: var(--serif);
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .doctrine-name {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .doctrine-name em { font-style: italic; font-weight: 300; color: var(--muted); }
+  .doctrine-gloss {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .doctrine-tag {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-align: right;
+    color: var(--muted);
+    font-weight: 500;
+    padding-top: 6px;
+  }
+
+  /* ═════════════════════════════════════ § IV — HOST ═════════════════════════════════════ */
+  .host-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .host-photo {
+    aspect-ratio: 3 / 4;
+    background: var(--paper-2);
+    border: 1.5px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .host-photo::after {
+    content: 'MEHDI NAYEBI — PORTRAIT FORTHCOMING';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    padding: 20px;
+  }
+  .host-photo::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1px dashed var(--muted-2);
+  }
+  .host-bio h3 {
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 28px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .host-bio p {
+    font-size: 14px;
+    line-height: 1.75;
+    margin-bottom: 20px;
+    max-width: 70ch;
+  }
+  .host-connect {
+    margin-top: 40px;
+    border-top: 1.5px solid var(--ink);
+  }
+  .connect-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 30px;
+    gap: 24px;
+    align-items: center;
+    padding: 18px 6px 16px;
+    border-bottom: 1px solid var(--ink);
+    transition: background .2s, padding .25s;
+  }
+  .connect-row:hover {
+    background: var(--paper-2);
+    padding-left: 18px;
+  }
+  .connect-row:hover .arrow { transform: translateX(4px); color: var(--red); }
+  .connect-row .k {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .connect-row .v {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .connect-row .arrow {
+    font-size: 16px;
+    text-align: right;
+    color: var(--muted);
+    transition: transform .2s, color .2s;
+  }
+
+  /* ═════════════════════════════════════ § V — FIRST TRANSMISSIONS ═════════════════════════════════════ */
+  .transmissions {
+    border-top: 1.5px solid var(--ink);
+  }
+  .tx-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 180px 160px;
+    gap: 30px;
+    padding: 28px 0 26px;
+    border-bottom: 1px solid var(--ink);
+    align-items: baseline;
+    transition: background .2s, padding .25s;
+    cursor: default;
+  }
+  .tx-row:hover { background: var(--paper-2); padding-left: 12px; }
+  .tx-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .tx-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .tx-title em { font-style: italic; font-weight: 300; }
+  .tx-pillar {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .tx-status {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .tx-status::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--muted-2);
+  }
+  .tx-status.forthcoming { color: var(--muted); }
+  .tx-status.upcoming { color: var(--muted); }
+  .tx-status.upcoming::before { background: var(--muted-2); }
+  .tx-status.production::before { background: var(--red); }
+  .tx-status.production { color: var(--red-ink); }
+  .tx-status.live { color: var(--red); font-weight: 700; }
+  .tx-status.live::before { display: none; }
+
+  .tx-note {
+    margin-top: 50px;
+    padding: 30px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    font-size: 12px;
+    line-height: 1.7;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 30px;
+  }
+  .tx-note .lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    color: var(--red);
+  }
+
+  /* ═════════════════════════════════════ § VI — GUEST PITCH ═════════════════════════════════════ */
+  .guest-pitch {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .guest-lede {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.45;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    margin-bottom: 50px;
+    max-width: 62ch;
+  }
+  .guest-test-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .guest-quote {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.35;
+    font-weight: 400;
+    font-style: italic;
+    padding-left: 24px;
+    border-left: 2px solid var(--ink);
+    margin-bottom: 24px;
+    max-width: 60ch;
+  }
+  .guest-fine {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
+  .pitch-card {
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    padding: 40px 36px;
+    position: sticky;
+    top: 60px;
+  }
+  .pitch-card-eyebrow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pitch-card-eyebrow::before {
+    content: ''; width: 28px; height: 1px; background: var(--red);
+  }
+  .pitch-card-title {
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 20px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .pitch-card-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin-bottom: 32px;
+  }
+  .pitch-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1.5px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: background .2s, color .2s;
+  }
+  .pitch-btn:hover { background: var(--red); border-color: var(--red); }
+  .pitch-btn .pitch-arrow { font-size: 16px; }
+
+  .pitch-meta {
+    padding-top: 24px;
+    border-top: 1px solid var(--ink);
+    display: grid;
+    gap: 14px;
+  }
+  .pitch-meta > div {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    font-size: 11px;
+  }
+  .pitch-meta .mk {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .pitch-meta .mv {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ═════════════════════════════════════ § VII — SUBSCRIBE ═════════════════════════════════════ */
+  .platforms {
+    border-top: 1.5px solid var(--ink);
+  }
+  .platform-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 200px 120px;
+    gap: 30px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--ink);
+    align-items: center;
+    transition: background .2s;
+  }
+  .platform-row:hover { background: var(--paper-2); }
+  .platform-num { font-size: 10px; color: var(--muted); font-weight: 600; }
+  .platform-name {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .platform-url {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .platform-status {
+    text-align: right;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    color: var(--red);
+  }
+
+  /* ═════════════════════════════════════ § VIII — DISPATCH / NEWSLETTER ═════════════════════════════════════ */
+  .dispatch {
+    padding: 120px 40px;
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: 1.5px solid var(--ink);
+    position: relative;
+  }
+  .dispatch-inner {
+    max-width: 900px;
+  }
+  .dispatch-eyebrow {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dispatch-eyebrow::before {
+    content: ''; width: 40px; height: 1px; background: var(--red);
+  }
+  .dispatch h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin-bottom: 30px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .dispatch h2 em { font-style: italic; font-weight: 300; color: #c9c4b3; }
+  .dispatch p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--paper);
+    max-width: 60ch;
+    margin-bottom: 44px;
+    font-weight: 400;
+  }
+  .dispatch-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    max-width: 620px;
+    border: 1.5px solid var(--paper);
+  }
+  .dispatch-form input {
+    background: transparent;
+    border: none;
+    color: var(--paper);
+    padding: 22px 24px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    outline: none;
+  }
+  .dispatch-form input::placeholder {
+    color: #8d8878;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 11px;
+  }
+  .dispatch-form button {
+    background: var(--paper);
+    color: var(--ink);
+    border: none;
+    padding: 0 36px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    transition: background .2s;
+    border-left: 1.5px solid var(--paper);
+  }
+  .dispatch-form button:hover { background: var(--red); color: var(--paper); }
+  .dispatch-foot {
+    margin-top: 28px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #a8a394;
+    font-weight: 500;
+  }
+
+  /* ═════════════════════════════════════ FOOTER ═════════════════════════════════════ */
+  footer {
+    padding: 60px 40px 40px;
+    background: var(--paper);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 30px;
+  }
+  .footer-brand h4 {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+  }
+  .footer-brand p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 340px;
+  }
+  .footer-col h5 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: var(--red);
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li {
+    font-size: 12px;
+    padding: 5px 0;
+    color: var(--ink-2);
+  }
+  .footer-col li a:hover { border-bottom: 1px solid var(--ink); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    padding-top: 20px;
+  }
+  .footer-bottom div { display: flex; gap: 24px; }
+
+  /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
+  @media (max-width: 1000px) {
+    .hero { padding: 70px 24px 50px; }
+    .hero-sub { flex-direction: column; gap: 14px; }
+    .section { padding: 60px 24px; }
+    .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 40px; }
+    .ledger-two { grid-template-columns: 1fr; gap: 40px; }
+    .ledger-two .rule-v { display: none; }
+    .ledger-col { padding: 0; }
+    .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; }
+    .doctrine-gloss, .doctrine-tag { grid-column: 2; }
+    .doctrine-tag { text-align: left; margin-top: 8px; }
+    .host-grid { grid-template-columns: 1fr; gap: 40px; }
+    .host-photo { max-width: 360px; }
+    .connect-row { grid-template-columns: 100px 1fr 20px; gap: 14px; padding: 16px 4px; }
+    .connect-row .v { font-size: 12px; word-break: break-all; }
+    .tx-row { grid-template-columns: 60px 1fr; gap: 12px; }
+    .tx-pillar, .tx-status { grid-column: 2; }
+    .tx-status { justify-content: flex-start; margin-top: 4px; }
+    .guest-pitch { grid-template-columns: 1fr; gap: 50px; }
+    .pitch-card { position: static; padding: 32px 24px; }
+    .platform-row { grid-template-columns: 30px 1fr; gap: 16px; padding: 22px 0; }
+    .platform-url, .platform-status { grid-column: 2; }
+    .platform-status { text-align: left; margin-top: 2px; }
+    .dispatch { padding: 80px 24px; }
+    .dispatch-form { grid-template-columns: 1fr; }
+    .dispatch-form button { padding: 18px; border-left: none; border-top: 1.5px solid var(--paper); }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .masthead-bar { padding: 10px 20px; gap: 16px; font-size: 9.5px; overflow-x: auto; }
+    .masthead-bar .spacer { display: none; }
+    footer { padding: 50px 24px 30px; }
+    .footer-bottom { flex-direction: column; gap: 16px; }
+  }
+
+  @media (max-width: 600px) {
+    .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; }
+    .doctrine-num { font-size: 34px; }
+    .doctrine-name { font-size: 20px; }
+    .connect-row { grid-template-columns: 1fr; gap: 4px; }
+    .connect-row .arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ MASTHEAD BAR ════════ -->
+<div class="masthead-bar">
+  <div><strong>OPEN CIVILIZATION</strong></div>
+  <div class="sep"></div>
+  <div>MMXXVI</div>
+  <div class="spacer"></div>
+  <a class="mast-link" href="#question">§ Question</a>
+  <a class="mast-link" href="#doctrine">§ Doctrine</a>
+  <a class="mast-link" href="#host">§ Host</a>
+  <a class="mast-link" href="#episodes">§ Episodes</a>
+  <a class="mast-link" href="#guest">§ Guests</a>
+  <a class="mast-link" href="#dispatch">§ Dispatch</a>
+</div>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+  <h1 class="hero-title">
+    <span class="line">Open</span>
+    <span class="line">Civilization.</span>
+  </h1>
+
+  <div class="hero-sub">
+    <div class="tagline">How free civilizations endure, &nbsp;/ &nbsp;and how they decay.</div>
+    <div class="by">Host · Mehdi Nayebi</div>
+  </div>
+</section>
+
+<!-- ════════ MARQUEE: DOCTRINE ════════ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Strength over Appeasement</span>
+    <span>Truth over Propaganda</span>
+    <span>Merit over Mediocrity</span>
+    <span>Capacity over Drift</span>
+    <span>Borders with Legitimacy</span>
+    <span>Freedom with Seriousness</span>
+    <span>Renewal through Builders</span>
+    <span>Strength over Appeasement</span>
+    <span>Truth over Propaganda</span>
+    <span>Merit over Mediocrity</span>
+    <span>Capacity over Drift</span>
+    <span>Borders with Legitimacy</span>
+    <span>Freedom with Seriousness</span>
+    <span>Renewal through Builders</span>
+  </div>
+</div>
+
+<!-- ════════ § I — THE CENTRAL QUESTION ════════ -->
+<section class="section" id="question">
+  <div class="section-head">
+    <div class="section-num">§ I &nbsp;/ &nbsp;The Question</div>
+    <h2 class="section-title">The Central <em>Question</em> of the Show</h2>
+  </div>
+  <div class="question-wrap">
+    <p class="question">
+      What does it take to keep a civilization <em>free, capable, and able to defend itself</em> — and why are those conditions <em>historically rare, difficult to sustain, and so often lost?</em>
+    </p>
+  </div>
+</section>
+
+<!-- ════════ § II — WHAT IT IS / WHAT IT IS NOT ════════ -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-num">§ II &nbsp;/ &nbsp;Definition</div>
+    <h2 class="section-title">What the show <em>is</em>, &nbsp;and what it is <em>not</em>.</h2>
+  </div>
+
+  <div class="ledger-two">
+    <div class="ledger-col">
+      <h4>What the show is not <span class="tag">NEG</span></h4>
+      <ul class="ledger-list">
+        <li data-n="01">Not a news-reactive politics show.</li>
+        <li data-n="02">Not a generic current-affairs podcast.</li>
+        <li data-n="03">Not a soft conversation about democracy detached from power, incentives, and institutional reality.</li>
+        <li data-n="04">Not a vanity podcast built around guest prestige alone.</li>
+        <li data-n="05">Not a vehicle for any party line, factional lens, or ideological tribe.</li>
+      </ul>
+    </div>
+    <div class="rule-v"></div>
+    <div class="ledger-col">
+      <h4 class="is">What the show is <span class="tag">POS</span></h4>
+      <ul class="ledger-list">
+        <li data-n="01">A doctrine-driven platform for understanding what keeps civilizations free, capable, and able to defend themselves — and what causes them to weaken, decay, or become captured.</li>
+        <li data-n="02">A serious conversation with dissidents, founders, investors, scientists, historians, policymakers, builders, and other high-agency people whose work explains how the world is changing.</li>
+        <li data-n="03">An editorial project designed to leave listeners with a clearer map of reality, sharper judgment about what matters, and a deeper understanding of what serious renewal requires.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ § III — THE DOCTRINE ════════ -->
+<section class="section" id="doctrine">
+  <div class="section-head">
+    <div class="section-num">§ III &nbsp;/ &nbsp;Doctrine</div>
+    <h2 class="section-title">The Seven <em>Pillars</em></h2>
+  </div>
+
+  <div class="doctrine-table">
+    <div class="doctrine-row">
+      <div class="doctrine-num">01</div>
+      <div class="doctrine-name">Strength <em>over</em> Appeasement</div>
+      <div class="doctrine-gloss">Deterrence, hard power, and the will to defend a free civilization.</div>
+      <div class="doctrine-tag">Power · Will</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">02</div>
+      <div class="doctrine-name">Truth <em>over</em> Propaganda</div>
+      <div class="doctrine-gloss">Epistemic integrity, media accountability, narrative warfare, and resistance to information capture.</div>
+      <div class="doctrine-tag">Truth · Media</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">03</div>
+      <div class="doctrine-name">Merit <em>over</em> Mediocrity</div>
+      <div class="doctrine-gloss">Competence, standards, excellence, and institutional seriousness as survival requirements.</div>
+      <div class="doctrine-tag">Standards</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">04</div>
+      <div class="doctrine-name">Capacity <em>over</em> Drift</div>
+      <div class="doctrine-gloss">State capacity, execution, infrastructure, and the ability to build, maintain, and govern.</div>
+      <div class="doctrine-tag">State · Build</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">05</div>
+      <div class="doctrine-name">Borders <em>with</em> Legitimacy</div>
+      <div class="doctrine-gloss">Managed migration, civic coherence, democratic consent, and the conditions of durable belonging.</div>
+      <div class="doctrine-tag">Consent</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">06</div>
+      <div class="doctrine-name">Freedom <em>with</em> Seriousness</div>
+      <div class="doctrine-gloss">Freedom that remains self-respecting, self-defending, and resistant to its own internal hollowing out.</div>
+      <div class="doctrine-tag">Freedom</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">07</div>
+      <div class="doctrine-name">Renewal <em>through</em> Builders</div>
+      <div class="doctrine-gloss">Founders, scientists, institutions, educators, reformers, and individuals rebuilding what has decayed.</div>
+      <div class="doctrine-tag">Renewal</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ § IV — THE HOST ════════ -->
+<section class="section" id="host">
+  <div class="section-head">
+    <div class="section-num">§ IV &nbsp;/ &nbsp;Host</div>
+    <h2 class="section-title">The <em>spine</em> of the show.</h2>
+  </div>
+
+  <div class="host-grid">
+    <div class="host-photo"></div>
+    <div class="host-bio">
+      <h3>Mehdi Nayebi</h3>
+      <p>Entrepreneur, public thinker, and host of Open Civilization. Born in Tehran, raised in France, and shaped by a decade in London finance at Deutsche Bank and Bank of America, he later built companies across Tehran, Dubai, and Toronto &mdash; and has spent much of his life thinking about what makes societies flourish, decay, or lose the will to defend themselves.</p>
+      <p>He co-founded Alopeyk, one of Iran's largest on-demand logistics platforms, and built inside a sanctioned authoritarian system before leaving Iran for safety reasons. That operational experience gives him an unusually credible perspective on authoritarianism, institutional dysfunction, state failure, and what it means to build under pressure.</p>
+      <p>His work sits at the intersection of geopolitics, institutions, technology, power, and civilizational renewal.</p>
+
+      <div class="host-connect">
+        <a href="mailto:contact@opencivilization.fm" class="connect-row">
+          <span class="k">Email</span>
+          <span class="v">contact@opencivilization.fm</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://x.com/mehdinayebi" target="_blank" rel="noopener" class="connect-row">
+          <span class="k">X / Twitter</span>
+          <span class="v">@mehdinayebi</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/in/mehdinayebi" target="_blank" rel="noopener" class="connect-row">
+          <span class="k">LinkedIn</span>
+          <span class="v">linkedin.com/in/mehdinayebi</span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ § V — FIRST TRANSMISSIONS (EPISODE SLATE) ════════ -->
+<section class="section" id="episodes">
+  <div class="section-head">
+    <div class="section-num">§ V &nbsp;/ &nbsp;Dispatches</div>
+    <h2 class="section-title">First <em>transmissions.</em></h2>
+  </div>
+
+  <div class="transmissions">
+    <a class="tx-row" href="#">
+      <div class="tx-num">EP. 01</div>
+      <div class="tx-title">What Keeps a Civilization <em>Open?</em></div>
+      <div class="tx-pillar">Strength · Truth · Merit</div>
+      <div class="tx-status live">▶ Listen Now</div>
+    </a>
+    <a class="tx-row" href="#">
+      <div class="tx-num">EP. 02</div>
+      <div class="tx-title">How Civilizations <em>Decay</em></div>
+      <div class="tx-pillar">Capacity · Freedom</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </a>
+    <a class="tx-row" href="#">
+      <div class="tx-num">EP. 03</div>
+      <div class="tx-title">The Mechanics of <em>Weakness</em></div>
+      <div class="tx-pillar">Strength · Capacity</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </a>
+    <a class="tx-row" href="#">
+      <div class="tx-num">EP. 04</div>
+      <div class="tx-title">Propaganda <em>Laundering</em> in Open Societies</div>
+      <div class="tx-pillar">Truth · Media</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </a>
+    <a class="tx-row" href="#">
+      <div class="tx-num">EP. 05</div>
+      <div class="tx-title">Iran: A <em>Case Study</em> in Civilizational Capture</div>
+      <div class="tx-pillar">Freedom · Borders</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </a>
+    <a class="tx-row" href="#">
+      <div class="tx-num">EP. 06</div>
+      <div class="tx-title">The <em>Will</em> to Defend</div>
+      <div class="tx-pillar">Strength · Freedom</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </a>
+    <a class="tx-row" href="#">
+      <div class="tx-num">EP. 07</div>
+      <div class="tx-title">The <em>China</em> Question</div>
+      <div class="tx-pillar">Capacity · Strength</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </a>
+  </div>
+
+  <div class="tx-note">
+    <div class="lbl">Editor's Note</div>
+    <div>Season One comprises twenty episodes across three phases: Doctrine &amp; Edge, Broadening the Franchise, and From Diagnosis to Renewal. New episodes are released weekly. The full fifty-episode slate is released on a rolling schedule.</div>
+  </div>
+</section>
+
+<!-- ════════ § VI — BE A GUEST ════════ -->
+<section class="section" id="guest">
+  <div class="section-head">
+    <div class="section-num">§ VI &nbsp;/ &nbsp;Guests</div>
+    <h2 class="section-title">Come on the <em>show.</em></h2>
+  </div>
+
+  <div class="guest-pitch">
+    <div class="guest-pitch-left">
+      <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders &mdash; anyone whose work helps the audience understand something important about power, institutions, freedom, capability, truth, decline, or renewal.</p>
+
+      <h4 class="guest-test-label">The Governing Test</h4>
+      <blockquote class="guest-quote">
+        Does this person help the audience understand something important about power, institutions, freedom, capability, truth, decline, or renewal?
+      </blockquote>
+      <p class="guest-fine">If yes, you fit. The show is not defined by sector &mdash; it is defined by a deeper question. Pitch yourself or someone you know. Every inquiry is read.</p>
+    </div>
+
+    <div class="guest-pitch-right">
+      <div class="pitch-card">
+        <div class="pitch-card-eyebrow">Guest Inquiry</div>
+        <h3 class="pitch-card-title">Pitch the show</h3>
+        <p class="pitch-card-body">Send a short note explaining who you are, what you work on, and which of the seven pillars your ideas most directly engage. A paragraph is enough. Links welcome.</p>
+
+        <a href="mailto:contact@opencivilization.fm?subject=Guest%20Inquiry%20%E2%80%94%20Open%20Civilization" class="pitch-btn">
+          <span>contact@opencivilization.fm</span>
+          <span class="pitch-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ § VII — LISTEN ════════ -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-num">§ VII &nbsp;/ &nbsp;Listen</div>
+    <h2 class="section-title">Listen <em>anywhere.</em></h2>
+  </div>
+
+  <div class="platforms">
+    <a class="platform-row" href="https://podcasts.apple.com/podcast/open-civilization" target="_blank" rel="noopener">
+      <div class="platform-num">01</div>
+      <div class="platform-name">Apple Podcasts</div>
+      <div class="platform-url">podcasts.apple.com</div>
+      <div class="platform-status">Subscribe →</div>
+    </a>
+    <a class="platform-row" href="https://open.spotify.com/show/opencivilization" target="_blank" rel="noopener">
+      <div class="platform-num">02</div>
+      <div class="platform-name">Spotify</div>
+      <div class="platform-url">open.spotify.com</div>
+      <div class="platform-status">Follow →</div>
+    </a>
+    <a class="platform-row" href="https://youtube.com/@opencivilization" target="_blank" rel="noopener">
+      <div class="platform-num">03</div>
+      <div class="platform-name">YouTube</div>
+      <div class="platform-url">youtube.com/@opencivilization</div>
+      <div class="platform-status">Watch →</div>
+    </a>
+    <a class="platform-row" href="https://opencivilization.fm/rss" target="_blank" rel="noopener">
+      <div class="platform-num">04</div>
+      <div class="platform-name">RSS Feed</div>
+      <div class="platform-url">opencivilization.fm/rss</div>
+      <div class="platform-status">Copy →</div>
+    </a>
+    <a class="platform-row" href="https://opencivilization.fm/rss" target="_blank" rel="noopener">
+      <div class="platform-num">05</div>
+      <div class="platform-name">Overcast · Pocket Casts · Fountain</div>
+      <div class="platform-url">Any podcast client via RSS</div>
+      <div class="platform-status">Add →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ════════ § VIII — DISPATCH / NEWSLETTER ════════ -->
+<section class="dispatch" id="dispatch">
+  <div class="dispatch-inner">
+    <div class="dispatch-eyebrow">Dispatch · The newsletter</div>
+    <h2>A weekly <em>dispatch</em> for people who want a deeper map of the world.</h2>
+    <p>New episodes, show notes, and occasional long-form dispatches on what the show is watching. No marketing noise. No list rentals. Leave any time.</p>
+
+    <form class="dispatch-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ✦';">
+      <input type="email" placeholder="Your email address" required />
+      <button type="submit">Subscribe →</button>
+    </form>
+    <div class="dispatch-foot">Weekly · Free · Unsubscribe in one click</div>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <h4>Open Civilization</h4>
+      <p>Conversations on power, institutions, truth, and the fate of free civilizations. Hosted by Mehdi Nayebi.</p>
+    </div>
+    <div class="footer-col">
+      <h5>The Show</h5>
+      <ul>
+        <li><a href="#question">The Question</a></li>
+        <li><a href="#doctrine">The Doctrine</a></li>
+        <li><a href="#host">The Host</a></li>
+        <li><a href="#episodes">Episodes</a></li>
+        <li><a href="#guest">Be a Guest</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Listen</h5>
+      <ul>
+        <li><a href="#">Apple Podcasts</a></li>
+        <li><a href="#">Spotify</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">RSS</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Related</h5>
+      <ul>
+        <li><a href="#guest">Guest Inquiry</a></li>
+        <li><a href="mailto:contact@opencivilization.fm">Contact</a></li>
+        <li><a href="mailto:contact@opencivilization.fm?subject=Press%20Inquiry">Press</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© MMXXVI Open Civilization · All rights reserved</div>
+    <div><a href="mailto:contact@opencivilization.fm">contact@opencivilization.fm</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
