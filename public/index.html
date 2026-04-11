@@ -504,6 +504,88 @@
   .tx-status.live { color: var(--red); font-weight: 700; }
   .tx-status.live::before { display: none; }
 
+  .tx-featured {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: end;
+    padding: 50px 0 46px;
+    border-top: 2.5px solid var(--ink);
+    border-bottom: 2.5px solid var(--ink);
+    background: var(--paper-2);
+    padding-left: 32px;
+    padding-right: 32px;
+    transition: background .2s;
+  }
+  .tx-featured:hover { background: #e0dac8; }
+  .tx-featured-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .tx-featured-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .tx-featured-title em { font-style: italic; font-weight: 300; }
+  .tx-featured-desc {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin-bottom: 26px;
+  }
+  .tx-featured-meta {
+    display: flex;
+    gap: 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--muted);
+    font-weight: 500;
+    flex-wrap: wrap;
+  }
+  .tx-featured-meta .sep { color: var(--muted-2); }
+  .tx-featured-right { align-self: end; }
+  .tx-featured-cta {
+    padding: 20px 32px;
+    background: var(--red);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background .2s, transform .2s;
+  }
+  .tx-featured:hover .tx-featured-cta {
+    background: var(--red-ink);
+    transform: translateX(4px);
+  }
+
+  .tx-upcoming-label {
+    margin-top: 60px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    color: var(--muted);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+
   .tx-note {
     margin-top: 50px;
     padding: 30px;
@@ -833,6 +915,13 @@
     .host-name-display { font-size: clamp(56px, 18vw, 120px); }
     .connect-row { grid-template-columns: 100px 1fr 20px; gap: 14px; padding: 16px 4px; }
     .connect-row .v { font-size: 12px; word-break: break-all; }
+    .tx-featured {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding: 36px 20px;
+    }
+    .tx-featured-right { align-self: start; }
+    .tx-featured-cta { display: inline-block; }
     .tx-row { grid-template-columns: 60px 1fr; gap: 12px; }
     .tx-pillar, .tx-status { grid-column: 2; }
     .tx-status { justify-content: flex-start; margin-top: 4px; }
@@ -1071,12 +1160,26 @@
   </div>
 
   <div class="transmissions">
-    <a class="tx-row" href="#">
-      <div class="tx-num">EP. 01</div>
-      <div class="tx-title">What Keeps a Civilization <em>Open?</em></div>
-      <div class="tx-pillar">Strength · Truth · Merit</div>
-      <div class="tx-status live">▶ Listen Now</div>
+    <a class="tx-featured" href="#">
+      <div class="tx-featured-left">
+        <div class="tx-featured-label">▶ &nbsp;Now Playing &nbsp;·&nbsp; Episode 01</div>
+        <h3 class="tx-featured-title">What Keeps a Civilization <em>Open?</em></h3>
+        <p class="tx-featured-desc">The opening episode. A thesis-setting conversation on what actually sustains free, capable civilizations — and the warning signs when those conditions begin to erode.</p>
+        <div class="tx-featured-meta">
+          <span>Strength · Truth · Merit</span>
+          <span class="sep">·</span>
+          <span>64 min</span>
+          <span class="sep">·</span>
+          <span>Season One</span>
+        </div>
+      </div>
+      <div class="tx-featured-right">
+        <div class="tx-featured-cta">Listen Now &nbsp;→</div>
+      </div>
     </a>
+
+    <div class="tx-upcoming-label">Upcoming</div>
+
     <a class="tx-row" href="#">
       <div class="tx-num">EP. 02</div>
       <div class="tx-title">How Civilizations <em>Decay</em></div>
