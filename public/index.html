@@ -80,6 +80,12 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: padding 0.3s cubic-bezier(.2,.7,.2,1), font-size 0.3s cubic-bezier(.2,.7,.2,1), border-bottom-width 0.3s cubic-bezier(.2,.7,.2,1);
+  }
+  .masthead-bar.is-scrolled {
+    padding: 10px 40px;
+    font-size: 11px;
+    border-bottom-width: 2px;
   }
   .masthead-bar > div { display: flex; align-items: center; gap: 10px; }
   .masthead-bar .sep { width: 1px; height: 12px; background: var(--ink); opacity: 0.4; }
@@ -894,6 +900,19 @@
   .footer-bottom a { color: var(--muted); border-bottom: 1px solid transparent; }
   .footer-bottom a:hover { color: var(--red); border-color: var(--red); }
 
+  /* ═════════════════════════════════════ MASTHEAD SHRINK ═════════════════════════════════════ */
+  @media (max-width: 1000px) {
+    .masthead-bar.is-scrolled {
+      padding: 8px 20px;
+      font-size: 10px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .masthead-bar {
+      transition: none;
+    }
+  }
+
   /* ═════════════════════════════════════ DOCTRINE STAGGER ═════════════════════════════════════ */
   .doctrine-row {
     opacity: 0;
@@ -1392,6 +1411,38 @@
       }, { threshold: 0.2 });
       doctrineObserver.observe(doctrineTable);
     }
+  })();
+
+  // Masthead shrink on scroll past hero
+  (function() {
+    var masthead = document.querySelector('.masthead-bar');
+    var hero = document.querySelector('.hero');
+    if (!masthead || !hero) return;
+
+    var ticking = false;
+    var heroBottom = hero.offsetTop + hero.offsetHeight;
+
+    function update() {
+      if (window.scrollY > heroBottom - 100) {
+        masthead.classList.add('is-scrolled');
+      } else {
+        masthead.classList.remove('is-scrolled');
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', function() {
+      heroBottom = hero.offsetTop + hero.offsetHeight;
+    });
+
+    update();
   })();
 </script>
 
