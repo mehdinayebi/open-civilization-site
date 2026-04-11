@@ -849,45 +849,85 @@
 
   /* ═════════════════════════════════════ FOOTER ═════════════════════════════════════ */
   footer {
-    padding: 60px 40px 40px;
+    padding: 90px 40px 40px;
     background: var(--paper);
+    border-top: 1.5px solid var(--ink);
   }
-  .footer-top {
+  .footer-colophon {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 1.6fr 1.4fr 1fr 1fr;
     gap: 60px;
-    padding-bottom: 50px;
+    padding-bottom: 60px;
     border-bottom: 1px solid var(--ink);
     margin-bottom: 30px;
   }
-  .footer-brand h4 {
+  .colophon-wordmark {
     font-family: var(--serif);
-    font-size: 32px;
+    font-size: clamp(40px, 4.5vw, 58px);
     font-weight: 400;
-    letter-spacing: -0.015em;
-    margin-bottom: 12px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
-  .footer-brand p {
-    font-size: 14px;
+  .colophon-wordmark em { font-style: italic; font-weight: 300; display: block; }
+  .colophon-tagline {
+    font-size: 13px;
     color: var(--muted);
-    line-height: 1.7;
-    max-width: 340px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    max-width: 32ch;
+    line-height: 1.5;
   }
-  .footer-col h5 {
-    font-size: 12px;
+  .colophon-label {
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     font-weight: 600;
-    margin-bottom: 18px;
     color: var(--red);
+    margin-bottom: 20px;
   }
-  .footer-col ul { list-style: none; }
-  .footer-col li {
-    font-size: 14px;
-    padding: 7px 0;
+  .colophon-about p {
+    font-size: 15px;
+    line-height: 1.7;
     color: var(--ink-2);
+    max-width: 38ch;
   }
-  .footer-col li a:hover { border-bottom: 1px solid var(--ink); }
+  .colophon-nav ul,
+  .colophon-contact ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .colophon-nav li,
+  .colophon-contact li {
+    font-size: 14px;
+    padding: 5px 0;
+  }
+  .colophon-nav a,
+  .colophon-contact a {
+    color: var(--ink-2);
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s, color .15s;
+  }
+  .colophon-nav a:hover,
+  .colophon-contact a:hover {
+    color: var(--red);
+    border-color: var(--red);
+  }
+  .footer-setin {
+    display: flex;
+    gap: 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--muted-2);
+    margin-bottom: 20px;
+  }
+  .footer-setin em { font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--ink); }
+  .footer-setin .sep { color: var(--muted-2); }
   .footer-bottom {
     display: flex;
     justify-content: space-between;
@@ -895,9 +935,10 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--muted);
-    padding-top: 20px;
+    padding-top: 10px;
   }
-  .footer-bottom div { display: flex; gap: 24px; }
+  .footer-bottom a { color: var(--muted); border-bottom: 1px solid transparent; }
+  .footer-bottom a:hover { color: var(--red); border-color: var(--red); }
 
   /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
   @media (max-width: 1000px) {
@@ -933,11 +974,12 @@
     .dispatch { padding: 80px 24px; }
     .dispatch-form { grid-template-columns: 1fr; }
     .dispatch-form button { padding: 18px; border-left: none; border-top: 1.5px solid var(--paper); }
-    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    footer { padding: 60px 24px 30px; }
+    .footer-colophon { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .footer-setin { flex-wrap: wrap; }
+    .footer-bottom { flex-direction: column; gap: 14px; }
     .masthead-bar { padding: 10px 20px; gap: 16px; font-size: 9.5px; overflow-x: auto; }
     .masthead-bar .spacer { display: none; }
-    footer { padding: 50px 24px 30px; }
-    .footer-bottom { flex-direction: column; gap: 16px; }
   }
 
   @media (max-width: 600px) {
@@ -947,6 +989,7 @@
     .connect-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
     .connect-row .arrow { display: none; }
     .connect-row .v { font-size: 14px; word-break: break-all; }
+    .footer-colophon { grid-template-columns: 1fr; gap: 36px; }
   }
 </style>
 </head>
@@ -1315,39 +1358,43 @@
 
 <!-- ════════ FOOTER ════════ -->
 <footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <h4>Open Civilization</h4>
-      <p>Conversations on power, institutions, truth, and the fate of free civilizations. Hosted by Mehdi Nayebi.</p>
+  <div class="footer-colophon">
+    <div class="colophon-brand">
+      <h4 class="colophon-wordmark">Open <em>Civilization</em></h4>
+      <p class="colophon-tagline">How free civilizations endure, and how they decay.</p>
     </div>
-    <div class="footer-col">
-      <h5>The Show</h5>
+    <div class="colophon-about">
+      <div class="colophon-label">About</div>
+      <p>A long-form podcast hosted by Mehdi Nayebi. Conversations on power, institutions, truth, and the fate of free civilizations. New episodes weekly.</p>
+    </div>
+    <div class="colophon-nav">
+      <div class="colophon-label">Navigate</div>
       <ul>
         <li><a href="#question">The Question</a></li>
         <li><a href="#doctrine">The Doctrine</a></li>
         <li><a href="#host">The Host</a></li>
         <li><a href="#episodes">Episodes</a></li>
         <li><a href="#guest">Be a Guest</a></li>
+        <li><a href="#listen">Listen</a></li>
+        <li><a href="#dispatch">Newsletter</a></li>
       </ul>
     </div>
-    <div class="footer-col">
-      <h5>Listen</h5>
+    <div class="colophon-contact">
+      <div class="colophon-label">Contact</div>
       <ul>
-        <li><a href="#">Apple Podcasts</a></li>
-        <li><a href="#">Spotify</a></li>
-        <li><a href="#">YouTube</a></li>
-        <li><a href="#">RSS</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Related</h5>
-      <ul>
-        <li><a href="#guest">Guest Inquiry</a></li>
-        <li><a href="mailto:contact@opencivilization.fm">Contact</a></li>
-        <li><a href="mailto:contact@opencivilization.fm?subject=Press%20Inquiry">Press</a></li>
+        <li><a href="mailto:contact@opencivilization.fm">contact@opencivilization.fm</a></li>
+        <li><a href="https://x.com/mehdinayebi" target="_blank" rel="noopener">X / Twitter</a></li>
+        <li><a href="https://linkedin.com/in/mehdinayebi" target="_blank" rel="noopener">LinkedIn</a></li>
       </ul>
     </div>
   </div>
+
+  <div class="footer-setin">
+    <span>Set in <em>Fraunces</em> &amp; <em>IBM Plex Mono</em></span>
+    <span class="sep">·</span>
+    <span>Opencivilization.fm</span>
+  </div>
+
   <div class="footer-bottom">
     <div>© MMXXVI Open Civilization · All rights reserved</div>
     <div><a href="mailto:contact@opencivilization.fm">contact@opencivilization.fm</a></div>
