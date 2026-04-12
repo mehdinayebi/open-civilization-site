@@ -270,7 +270,7 @@
     display: grid;
     grid-template-columns: 80px 1.2fr 2fr 120px;
     gap: 40px;
-    padding: 34px 0 30px;
+    padding: 30px 0 28px;
     border-bottom: 1px solid var(--ink);
     align-items: baseline;
     transition: background .25s;
@@ -306,6 +306,33 @@
     font-weight: 500;
     padding-top: 6px;
   }
+  .doctrine-footer {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    justify-content: flex-end;
+  }
+  .doctrine-link {
+    font-family: var(--mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 14px 24px;
+    border: 1.5px solid var(--ink);
+    transition: background .2s, color .2s, transform .2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .doctrine-link:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateX(4px);
+  }
+  .doctrine-link .arrow { font-size: 15px; }
 
   /* ═════════════════════════════════════ § III — HOST ═════════════════════════════════════ */
   .host-wrap {
@@ -1047,52 +1074,74 @@
 <section class="section reveal" id="doctrine">
   <div class="section-head">
     <div class="section-num">§ II &nbsp;/ &nbsp;Doctrine</div>
-    <h2 class="section-title">The Seven <em>Pillars</em></h2>
+    <h2 class="section-title">Ten <em>principles.</em></h2>
   </div>
 
   <div class="doctrine-table">
     <div class="doctrine-row">
       <div class="doctrine-num">01</div>
-      <div class="doctrine-name">Strength <em>over</em> Appeasement</div>
-      <div class="doctrine-gloss">Deterrence, hard power, and the will to defend a free civilization.</div>
-      <div class="doctrine-tag">Power · Will</div>
+      <div class="doctrine-name">Rare, <em>not default.</em></div>
+      <div class="doctrine-gloss">Most societies in history have been closed, hierarchical, and unfree. The free society is a historical exception. It doesn't sustain itself by inertia, and it doesn't return on its own once lost.</div>
+      <div class="doctrine-tag">Exception</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">02</div>
-      <div class="doctrine-name">Truth <em>over</em> Propaganda</div>
-      <div class="doctrine-gloss">Epistemic integrity, media accountability, narrative warfare, and resistance to information capture.</div>
-      <div class="doctrine-tag">Truth · Media</div>
+      <div class="doctrine-name">Dispersed <em>power.</em></div>
+      <div class="doctrine-gloss">No person, class, or institution can be trusted with unchecked authority. Checks and balances, federalism, judicial independence, free press, and the rule of law exist to stop any single actor from dominating the others.</div>
+      <div class="doctrine-tag">Checks</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">03</div>
-      <div class="doctrine-name">Merit <em>over</em> Mediocrity</div>
-      <div class="doctrine-gloss">Competence, standards, excellence, and institutional seriousness as survival requirements.</div>
-      <div class="doctrine-tag">Standards</div>
-    </div>
-    <div class="doctrine-row">
-      <div class="doctrine-num">04</div>
-      <div class="doctrine-name">Capacity <em>over</em> Drift</div>
-      <div class="doctrine-gloss">State capacity, execution, infrastructure, and the ability to build, maintain, and govern.</div>
-      <div class="doctrine-tag">State · Build</div>
-    </div>
-    <div class="doctrine-row">
-      <div class="doctrine-num">05</div>
-      <div class="doctrine-name">Borders <em>with</em> Legitimacy</div>
-      <div class="doctrine-gloss">Managed migration, civic coherence, democratic consent, and the conditions of durable belonging.</div>
-      <div class="doctrine-tag">Consent</div>
-    </div>
-    <div class="doctrine-row">
-      <div class="doctrine-num">06</div>
-      <div class="doctrine-name">Freedom <em>with</em> Seriousness</div>
-      <div class="doctrine-gloss">Freedom that remains self-respecting, self-defending, and resistant to its own internal hollowing out.</div>
+      <div class="doctrine-name">Liberty as <em>foundation.</em></div>
+      <div class="doctrine-gloss">Freedom of conscience, speech, association, movement, and economic activity are not one value among many. They are the condition that makes every other value genuinely chosen rather than imposed.</div>
       <div class="doctrine-tag">Freedom</div>
     </div>
     <div class="doctrine-row">
-      <div class="doctrine-num">07</div>
-      <div class="doctrine-name">Renewal <em>through</em> Builders</div>
-      <div class="doctrine-gloss">Founders, scientists, institutions, educators, reformers, and individuals rebuilding what has decayed.</div>
-      <div class="doctrine-tag">Renewal</div>
+      <div class="doctrine-num">04</div>
+      <div class="doctrine-name">Revisable <em>belief.</em></div>
+      <div class="doctrine-gloss">Truth is discoverable through inquiry. Dogma, whether religious, ideological, or scientific, is the enemy of a society's ability to correct its own mistakes. Beliefs are held provisionally and changed when evidence demands it.</div>
+      <div class="doctrine-tag">Inquiry</div>
     </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">05</div>
+      <div class="doctrine-name">Moral <em>universalism.</em></div>
+      <div class="doctrine-gloss">Some human rights and moral claims hold across cultures and eras. Slavery was wrong when everyone accepted it. Torture is wrong wherever it happens. Cultural relativism is not a license for cruelty.</div>
+      <div class="doctrine-tag">Universal</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">06</div>
+      <div class="doctrine-name">Markets <em>with rules.</em></div>
+      <div class="doctrine-gloss">Voluntary exchange and dispersed economic power produce more prosperity and freedom than central planning. But markets require courts, rules, and occasional correction. The free society is not the same as laissez-faire.</div>
+      <div class="doctrine-tag">Markets</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">07</div>
+      <div class="doctrine-name">Institutions <em>over iconoclasm.</em></div>
+      <div class="doctrine-gloss">Major institutions are load-bearing walls, not rackets. They fail, they must be held accountable, they are sometimes captured. The instinct to burn them down is almost always worse than the instinct to reform them.</div>
+      <div class="doctrine-tag">Institutions</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">08</div>
+      <div class="doctrine-name">Cosmopolitan, <em>particular.</em></div>
+      <div class="doctrine-gloss">Moral concern extends beyond borders, but solidarity and self-government operate through bounded political communities. Nations are the vehicles of free societies, not obstacles to them.</div>
+      <div class="doctrine-tag">Nations</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">09</div>
+      <div class="doctrine-name">Tolerance that <em>defends itself.</em></div>
+      <div class="doctrine-gloss">The free society protects views it finds repugnant. It does not extend that protection to movements whose explicit goal is to end the free society itself.</div>
+      <div class="doctrine-tag">Defense</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">10</div>
+      <div class="doctrine-name">Historically <em>conscious.</em></div>
+      <div class="doctrine-gloss">Free societies know where they came from, know how they have been lost before, and know that each generation has to defend them anew. Progress is not automatic. Reversal is possible and has happened.</div>
+      <div class="doctrine-tag">History</div>
+    </div>
+  </div>
+
+  <div class="doctrine-footer">
+    <a href="/principles.html" class="doctrine-link">Read the full statement <span class="arrow">→</span></a>
   </div>
 </section>
 
