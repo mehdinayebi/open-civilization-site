@@ -1,7 +1,7 @@
 <!-- AUDIT: Existing animations and transitions (v2 baseline, pre-v3)
   @keyframes riseIn: hero title lines, hero-promise, hero-ctas. 1s cubic-bezier, staggered delays 0.1-0.6s. Load trigger, runs once.
   @keyframes pulse — .status-dot red glow. 2.2s ease-out infinite. Load trigger, repeats.
-  @keyframes slide — .marquee-track horizontal scroll. 45s linear infinite. Load trigger, repeats.
+
   Hover transitions: .mast-link (border 0.15s), .hero-cta (bg/color/border/transform 0.2s),
     .doctrine-row (bg 0.25s), .connect-row (bg/padding 0.2s/0.25s), .tx-row (bg/padding 0.2s/0.25s),
     .tx-featured (bg 0.2s), .tx-featured-cta (bg/transform 0.2s), .pitch-btn (bg/color 0.2s),
@@ -9,7 +9,7 @@
     .footer-bottom a (color/border-color).
   No IntersectionObserver, no scroll listeners, no prefers-reduced-motion query.
   JS: only inline form handler (onsubmit on dispatch-form).
-  PRESERVE: riseIn, slide, pulse keyframes. All hover transitions unchanged.
+  PRESERVE: riseIn, pulse keyframes. All hover transitions unchanged.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -201,37 +201,6 @@
     transform: translateX(4px);
   }
   .hero-cta .arrow { font-size: 14px; }
-
-  /* ═════════════════════════════════════ MARQUEE (DOCTRINE) ═════════════════════════════════════ */
-  .marquee {
-    background: var(--ink);
-    color: var(--paper);
-    border-top: 1.5px solid var(--ink);
-    border-bottom: 1.5px solid var(--ink);
-    padding: 22px 0;
-    overflow: hidden;
-    position: relative;
-  }
-  .marquee-track {
-    display: flex;
-    gap: 50px;
-    white-space: nowrap;
-    animation: slide 45s linear infinite;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-weight: 500;
-  }
-  .marquee-track span { display: flex; align-items: center; gap: 50px; }
-  .marquee-track span::after {
-    content: '✦';
-    color: var(--red);
-    font-size: 12px;
-  }
-  @keyframes slide {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
 
   /* ═════════════════════════════════════ SECTION SYSTEM ═════════════════════════════════════ */
   .section {
@@ -1073,25 +1042,6 @@
   </div>
 </section>
 
-<!-- ════════ MARQUEE: DOCTRINE ════════ -->
-<div class="marquee">
-  <div class="marquee-track">
-    <span>Strength over Appeasement</span>
-    <span>Truth over Propaganda</span>
-    <span>Merit over Mediocrity</span>
-    <span>Capacity over Drift</span>
-    <span>Borders with Legitimacy</span>
-    <span>Freedom with Seriousness</span>
-    <span>Renewal through Builders</span>
-    <span>Strength over Appeasement</span>
-    <span>Truth over Propaganda</span>
-    <span>Merit over Mediocrity</span>
-    <span>Capacity over Drift</span>
-    <span>Borders with Legitimacy</span>
-    <span>Freedom with Seriousness</span>
-    <span>Renewal through Builders</span>
-  </div>
-</div>
 
 <!-- ════════ § II — THE DOCTRINE ════════ -->
 <section class="section reveal" id="doctrine">
