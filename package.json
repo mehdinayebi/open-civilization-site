@@ -4,7 +4,7 @@
   "private": true,
   "description": "Open Civilization podcast website",
   "scripts": {
-    "dev": "npx serve public -l 3000",
+    "dev": "vercel dev --listen 3000",
     "start": "npx serve public -l 3000",
     "validate": "npx html-validate public/index.html || true",
     "links": "npx linkinator public/index.html --silent || true"
