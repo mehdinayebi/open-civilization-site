@@ -1345,7 +1345,7 @@
     <h2>A weekly <em>dispatch</em> for people who want a deeper map of the world.</h2>
     <p>New episodes, show notes, and occasional dispatches on what the show is watching. No marketing noise. No list rentals. Leave any time.</p>
 
-    <form class="dispatch-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ✦';">
+    <form class="dispatch-form" id="dispatch-form">
       <input type="email" placeholder="Your email address" required />
       <button type="submit">Subscribe →</button>
     </form>
@@ -1459,6 +1459,50 @@
     });
 
     update();
+  })();
+
+  // Newsletter subscribe handler
+  (function() {
+    var form = document.getElementById('dispatch-form');
+    if (!form) return;
+
+    var btn = form.querySelector('button');
+    var input = form.querySelector('input');
+    var defaultText = 'Subscribe →';
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var email = input.value.trim();
+      if (!email) return;
+
+      // Submitting state
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.ok) {
+          btn.textContent = 'Subscribed';
+          input.value = '';
+          input.disabled = true;
+        } else {
+          btn.textContent = data.error || 'Error. Try again.';
+          btn.disabled = false;
+          setTimeout(function() { btn.textContent = defaultText; }, 3000);
+        }
+      })
+      .catch(function() {
+        btn.textContent = 'Error. Try again.';
+        btn.disabled = false;
+        setTimeout(function() { btn.textContent = defaultText; }, 3000);
+      });
+    });
   })();
 </script>
 
