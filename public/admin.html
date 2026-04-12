@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Subscribers — Open Civilization</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f1ede3;
+    --ink: #0e0e0e;
+    --ink-2: #1c1c1a;
+    --muted: #6e6a5e;
+    --red: #b22a1f;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.6;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 60px 40px;
+    max-width: 900px;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--red);
+    margin-bottom: 40px;
+  }
+  .login-wrap { max-width: 400px; margin-top: 40px; }
+  .login-wrap label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .login-row {
+    display: flex;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+  }
+  .login-row input {
+    flex: 1;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 14px;
+    border: none;
+    background: transparent;
+    outline: none;
+  }
+  .login-row button {
+    padding: 14px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .login-row button:hover { background: var(--red); }
+  .error-msg {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--red);
+    display: none;
+  }
+
+  .stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .stat-value {
+    font-size: 28px;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 12px 0;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  td {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ink);
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  td:first-child { color: var(--muted); width: 50px; }
+  td:last-child { color: var(--muted); font-size: 12px; }
+  tr:hover td { background: #e9e4d5; }
+
+  .empty {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .hidden { display: none; }
+
+  @media (max-width: 600px) {
+    body { padding: 30px 20px; }
+    .stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Open Civilization — Subscribers</h1>
+
+<!-- Login -->
+<div id="login-section">
+  <div class="login-wrap">
+    <label>Admin token</label>
+    <div class="login-row">
+      <input type="password" id="token-input" placeholder="Enter token" />
+      <button id="login-btn">View</button>
+    </div>
+    <div class="error-msg" id="login-error">Invalid token. Try again.</div>
+  </div>
+</div>
+
+<!-- Dashboard (hidden until auth) -->
+<div id="dashboard" class="hidden">
+  <div class="stats">
+    <div>
+      <div class="stat-label">Total subscribers</div>
+      <div class="stat-value" id="total-count">—</div>
+    </div>
+    <div>
+      <div class="stat-label">Latest</div>
+      <div class="stat-value" id="latest-date">—</div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Email</th><th>Subscribed</th></tr>
+    </thead>
+    <tbody id="subscriber-rows"></tbody>
+  </table>
+  <div class="empty hidden" id="empty-msg">No subscribers yet.</div>
+</div>
+
+<script>
+(function() {
+  var tokenInput = document.getElementById('token-input');
+  var loginBtn = document.getElementById('login-btn');
+  var loginError = document.getElementById('login-error');
+  var loginSection = document.getElementById('login-section');
+  var dashboard = document.getElementById('dashboard');
+
+  // Check for saved token
+  var saved = sessionStorage.getItem('oc_admin_token');
+  if (saved) loadSubscribers(saved);
+
+  loginBtn.addEventListener('click', function() { attempt(); });
+  tokenInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') attempt();
+  });
+
+  function attempt() {
+    var token = tokenInput.value.trim();
+    if (!token) return;
+    loginError.style.display = 'none';
+    loginBtn.textContent = '...';
+    loadSubscribers(token);
+  }
+
+  function loadSubscribers(token) {
+    fetch('/api/subscribers', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(function(res) {
+      if (res.status === 401) throw new Error('unauthorized');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function(data) {
+      sessionStorage.setItem('oc_admin_token', token);
+      loginSection.classList.add('hidden');
+      dashboard.classList.remove('hidden');
+      render(data);
+    })
+    .catch(function(err) {
+      sessionStorage.removeItem('oc_admin_token');
+      if (err.message === 'unauthorized') {
+        loginError.style.display = 'block';
+        loginBtn.textContent = 'View';
+        loginSection.classList.remove('hidden');
+        dashboard.classList.add('hidden');
+      } else {
+        loginError.textContent = 'Error loading data.';
+        loginError.style.display = 'block';
+        loginBtn.textContent = 'View';
+      }
+    });
+  }
+
+  function render(data) {
+    document.getElementById('total-count').textContent = data.count;
+
+    if (data.subscribers.length === 0) {
+      document.getElementById('empty-msg').classList.remove('hidden');
+      document.getElementById('latest-date').textContent = '—';
+      return;
+    }
+
+    var latest = new Date(data.subscribers[0].created_at);
+    document.getElementById('latest-date').textContent = formatDate(latest);
+
+    var tbody = document.getElementById('subscriber-rows');
+    tbody.innerHTML = '';
+    data.subscribers.forEach(function(sub, i) {
+      var tr = document.createElement('tr');
+      var d = new Date(sub.created_at);
+      tr.innerHTML =
+        '<td>' + (i + 1) + '</td>' +
+        '<td>' + escapeHtml(sub.email) + '</td>' +
+        '<td>' + formatDate(d) + '</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  function formatDate(d) {
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+})();
+</script>
+
+</body>
+</html>
