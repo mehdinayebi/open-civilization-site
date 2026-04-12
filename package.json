@@ -8,5 +8,9 @@
     "start": "npx serve public -l 3000",
     "validate": "npx html-validate public/index.html || true",
     "links": "npx linkinator public/index.html --silent || true"
+  },
+  "devDependencies": {
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.5"
   }
 }
