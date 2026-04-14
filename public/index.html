@@ -143,11 +143,11 @@
 
   .hero-promise {
     margin-top: 70px;
-    max-width: 1000px;
+    max-width: 1040px;
     font-family: var(--serif);
-    font-size: clamp(34px, 4.6vw, 62px);
-    line-height: 1.08;
-    letter-spacing: -0.025em;
+    font-size: clamp(26px, 3.2vw, 42px);
+    line-height: 1.28;
+    letter-spacing: -0.018em;
     font-weight: 400;
     color: var(--ink);
     opacity: 0;
@@ -156,39 +156,13 @@
   }
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
 
-  .hero-stakes {
-    margin-top: 28px;
-    max-width: 880px;
-    font-family: var(--serif);
-    font-size: clamp(22px, 2.6vw, 34px);
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    font-weight: 400;
-    color: var(--ink-2);
-    opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.55s forwards;
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
-  }
-
-  .hero-promise-sub {
-    margin-top: 32px;
-    max-width: 780px;
-    font-family: var(--mono);
-    font-size: 17px;
-    line-height: 1.6;
-    font-weight: 400;
-    color: var(--ink-2);
-    opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.65s forwards;
-  }
-
   .hero-ctas {
-    margin-top: 50px;
+    margin-top: 54px;
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
     opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.75s forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.6s forwards;
   }
   .hero-cta {
     display: inline-flex;
@@ -316,7 +290,7 @@
   .doctrine-name em { font-style: italic; font-weight: 300; color: var(--muted); }
   .doctrine-gloss {
     font-family: var(--mono);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.7;
     color: var(--ink-2);
   }
@@ -413,9 +387,9 @@
   }
   .host-role em { font-style: italic; color: var(--muted); }
   .host-bio p {
-    font-size: 17px;
+    font-size: 18px;
     line-height: 1.75;
-    margin-bottom: 22px;
+    margin-bottom: 24px;
     max-width: 68ch;
     color: var(--ink-2);
   }
@@ -562,11 +536,11 @@
   .tx-featured-title em { font-style: italic; font-weight: 300; }
   .tx-featured-desc {
     font-family: var(--mono);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.7;
     color: var(--ink-2);
     max-width: 60ch;
-    margin-bottom: 26px;
+    margin-bottom: 28px;
   }
   .tx-featured-meta {
     display: flex;
@@ -818,7 +792,7 @@
   }
   .dispatch h2 em { font-style: italic; font-weight: 300; color: #c9c4b3; }
   .dispatch p {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.7;
     color: var(--paper);
     max-width: 60ch;
@@ -1017,9 +991,7 @@
   /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
   @media (max-width: 1000px) {
     .hero { padding: 70px 24px 50px; }
-    .hero-promise { margin-top: 50px; font-size: clamp(28px, 7vw, 44px); line-height: 1.1; }
-    .hero-stakes { font-size: clamp(19px, 4vw, 24px); margin-top: 22px; line-height: 1.35; }
-    .hero-promise-sub { font-size: 15px; margin-top: 24px; }
+    .hero-promise { margin-top: 50px; font-size: clamp(21px, 5vw, 30px); line-height: 1.3; }
     .section { padding: 60px 24px; }
     .section-premise { padding-top: 50px; padding-bottom: 70px; }
     .premise { font-size: clamp(19px, 3.6vw, 24px); }
@@ -1092,13 +1064,7 @@
   </h1>
 
   <p class="hero-promise">
-    The forces shaping the future of the <em>free world.</em>
-  </p>
-  <p class="hero-stakes">
-    Free societies are rare. Everything we take for granted depends on them.
-  </p>
-  <p class="hero-promise-sub">
-    A show by Mehdi Nayebi on power, institutions, technology, finance, security, and the struggle to keep free societies strong.
+    A show by Mehdi Nayebi on the forces shaping the future of the free world, and on whether open societies can stay strong enough to protect the <em>freedoms, prosperity, and stability</em> we take for granted.
   </p>
 
   <div class="hero-ctas">
@@ -1343,12 +1309,6 @@
   <div class="guest-pitch">
     <div class="guest-pitch-left">
       <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders. The show is not organized by sector. It is organized by relevance. If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
-
-      <h4 class="guest-test-label">The Governing Test</h4>
-      <blockquote class="guest-quote">
-        Does this person's work help us understand one of the forces shaping the future of the free world?
-      </blockquote>
-      <p class="guest-fine">If yes, they fit. Pitch yourself or someone you know. Every inquiry is read.</p>
     </div>
 
     <div class="guest-pitch-right">
@@ -1418,7 +1378,6 @@
       <input type="email" placeholder="Your email address" required />
       <button type="submit">Subscribe →</button>
     </form>
-    <div class="dispatch-foot">Weekly · Free · Unsubscribe in one click</div>
   </div>
 </section>
 
