@@ -217,7 +217,7 @@
     color: var(--ink);
     opacity: 0;
     animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.45s forwards;
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
 
@@ -326,7 +326,7 @@
     letter-spacing: var(--body-lg-ls);
     font-weight: 400;
     color: var(--ink);
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
 
   /* ═════════════════════════════════════ § II — DOCTRINE ═════════════════════════════════════ */
@@ -385,7 +385,7 @@
     max-width: 60ch;
     margin-top: -30px;
     margin-bottom: 40px;
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .doctrine-footer {
     margin-top: 50px;
@@ -587,7 +587,7 @@
     color: var(--ink-2);
     max-width: 60ch;
     margin-bottom: 50px;
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .episodes-lede em { font-style: italic; color: var(--muted); }
   .tx-featured {
@@ -717,7 +717,7 @@
     font-weight: 400;
     color: var(--ink);
     max-width: 40ch;
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .pitch-card {
     border: 1.5px solid var(--ink);
@@ -1037,8 +1037,8 @@
   /* ═════════════════════════════════════ SCROLL REVEAL ═════════════════════════════════════ */
   .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+    transform: translateY(14px);
+    transition: opacity 0.5s cubic-bezier(.2,.7,.2,1), transform 0.5s cubic-bezier(.2,.7,.2,1);
     will-change: opacity, transform;
   }
   .reveal.is-visible {
@@ -1163,10 +1163,6 @@
   <div class="hero-ctas">
     <a href="#question" class="hero-cta primary">
       <span>Read the premise</span>
-      <span class="arrow">→</span>
-    </a>
-    <a href="#dispatch" class="hero-cta secondary">
-      <span>Join the dispatch</span>
       <span class="arrow">→</span>
     </a>
   </div>
@@ -1530,7 +1526,7 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px 20% 0px' });
 
     document.querySelectorAll('.reveal').forEach(function(el) {
       revealObserver.observe(el);
@@ -1546,7 +1542,7 @@
             doctrineObserver.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0, rootMargin: '0px 0px 15% 0px' });
       doctrineObserver.observe(doctrineTable);
     }
   })();
