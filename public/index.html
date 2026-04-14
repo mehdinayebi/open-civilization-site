@@ -54,9 +54,8 @@
 
     /* ═══ TYPE SCALE — mobile base (single source of truth) ═══ */
     /* Generous mobile sizes — editorial, legible, not cramped. */
-    /* display-xl — hero wordmark "Open Civilization." only.
-       Mobile capped at 52px so "Civilization." never wraps on 320px iPhone SE. */
-    --display-xl-size: 52px;
+    /* display-xl — hero wordmark "Open Civilization." only. */
+    --display-xl-size: 60px;
     --display-xl-lh: 0.95;
     --display-xl-ls: -0.02em;
     /* display-lg — section headers, host name, dispatch headline */
@@ -95,7 +94,7 @@
 
   @media (min-width: 768px) {
     :root {
-      --display-xl-size: 128px;
+      --display-xl-size: 144px;
       --display-xl-lh: 0.92;
       --display-lg-size: 80px;
       --display-lg-lh: 1.0;
@@ -1102,10 +1101,22 @@
     .guest-lede { max-width: none; }
     .pitch-card { position: static; padding: 32px 24px; }
 
-    /* Listen */
-    .platform-row { grid-template-columns: 30px 1fr; gap: 16px; padding: 22px 0; }
-    .platform-url, .platform-status { grid-column: 2; }
-    .platform-status { text-align: left; margin-top: 2px; }
+    /* Listen — explicit stack so long URLs like youtube.com/@opencivilization don't collide with the CTA */
+    .platform-row {
+      grid-template-columns: 30px 1fr;
+      grid-template-areas:
+        "num  name"
+        ".    url"
+        ".    status";
+      row-gap: 6px;
+      column-gap: 16px;
+      padding: 22px 0 20px;
+      align-items: start;
+    }
+    .platform-num { grid-area: num; }
+    .platform-name { grid-area: name; }
+    .platform-url { grid-area: url; word-break: break-all; }
+    .platform-status { grid-area: status; text-align: left; margin-top: 6px; }
 
     /* Dispatch */
     .dispatch { padding: 90px 24px; }
