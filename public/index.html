@@ -51,6 +51,66 @@
     --rule:     #0e0e0e;
     --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
     --serif: 'Fraunces', 'Times New Roman', Georgia, serif;
+
+    /* ═══ TYPE SCALE — mobile base (single source of truth) ═══ */
+    /* display-xl — hero wordmark "Open Civilization." only.
+       Mobile capped at 48px so "Civilization." never wraps on 320px iPhone SE. */
+    --display-xl-size: 48px;
+    --display-xl-lh: 0.95;
+    --display-xl-ls: -0.02em;
+    /* display-lg — section headers, host name, dispatch headline */
+    --display-lg-size: 36px;
+    --display-lg-lh: 1.05;
+    --display-lg-ls: -0.015em;
+    /* display-md — featured episode title, pitch card title, principle numbers */
+    --display-md-size: 28px;
+    --display-md-lh: 1.15;
+    --display-md-ls: -0.01em;
+    /* display-sm — upcoming episode titles, principle names */
+    --display-sm-size: 22px;
+    --display-sm-lh: 1.25;
+    --display-sm-ls: -0.005em;
+    /* body-lg — hero paragraph, premise, guest lede, section ledes */
+    --body-lg-size: 18px;
+    --body-lg-lh: 1.55;
+    --body-lg-ls: 0;
+    /* body-md — host bio, dispatch paragraph, pitch card body */
+    --body-md-size: 16px;
+    --body-md-lh: 1.6;
+    --body-md-ls: 0;
+    /* body-sm — principle card glosses (mono), featured episode desc */
+    --body-sm-size: 14px;
+    --body-sm-lh: 1.65;
+    --body-sm-ls: 0;
+    /* label — section markers, tags, caption labels, masthead */
+    --label-size: 12px;
+    --label-lh: 1.4;
+    --label-ls: 0.08em;
+    /* micro — footer legal, schedule block body */
+    --micro-size: 12px;
+    --micro-lh: 1.5;
+    --micro-ls: 0.02em;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --display-xl-size: 112px;
+      --display-xl-lh: 0.92;
+      --display-lg-size: 64px;
+      --display-lg-lh: 1.0;
+      --display-md-size: 44px;
+      --display-md-lh: 1.1;
+      --display-sm-size: 28px;
+      --display-sm-lh: 1.2;
+      --body-lg-size: 22px;
+      --body-lg-lh: 1.5;
+      --body-md-size: 18px;
+      --body-md-lh: 1.55;
+      --body-sm-size: 15px;
+      --body-sm-lh: 1.6;
+      --label-size: 13px;
+      --micro-size: 13px;
+    }
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -87,9 +147,10 @@
     display: flex;
     gap: 32px;
     align-items: center;
-    font-size: 12px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: var(--label-ls);
     text-transform: uppercase;
     background: var(--paper);
     position: sticky;
@@ -99,7 +160,7 @@
   }
   .masthead-bar.is-scrolled {
     padding: 10px 40px;
-    font-size: 11px;
+    font-size: calc(var(--label-size) - 1px);
     border-bottom-width: 2px;
   }
   .masthead-bar > div { display: flex; align-items: center; gap: 10px; }
@@ -128,9 +189,9 @@
   .hero-title {
     font-family: var(--serif);
     font-weight: 400;
-    font-size: clamp(72px, 14vw, 220px);
-    line-height: 0.86;
-    letter-spacing: -0.04em;
+    font-size: var(--display-xl-size);
+    line-height: var(--display-xl-lh);
+    letter-spacing: var(--display-xl-ls);
     margin-bottom: 40px;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
@@ -145,12 +206,12 @@
   @keyframes riseIn { to { opacity: 1; transform: translateY(0); } }
 
   .hero-promise {
-    margin-top: 70px;
-    max-width: 1040px;
+    margin-top: 48px;
+    max-width: 40ch;
     font-family: var(--serif);
-    font-size: clamp(26px, 3.2vw, 42px);
-    line-height: 1.28;
-    letter-spacing: -0.018em;
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    letter-spacing: var(--body-lg-ls);
     font-weight: 400;
     color: var(--ink);
     opacity: 0;
@@ -158,6 +219,10 @@
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
+
+  @media (min-width: 768px) {
+    .hero-promise { max-width: 62ch; margin-top: 56px; }
+  }
 
   .hero-ctas {
     margin-top: 54px;
@@ -171,36 +236,33 @@
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    padding: 20px 32px;
+    padding: 18px 28px;
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
-    border: 1.5px solid var(--ink);
-    transition: background .2s, color .2s, border-color .2s, transform .2s;
-    cursor: pointer;
-  }
-  .hero-cta.primary {
-    background: var(--red);
-    color: var(--paper);
-    border-color: var(--red);
-  }
-  .hero-cta.primary:hover {
-    background: var(--red-ink);
-    border-color: var(--red-ink);
-    transform: translateX(4px);
-  }
-  .hero-cta.secondary {
     background: transparent;
     color: var(--ink);
+    border: 1.5px solid var(--ink);
+    transition: background .2s, color .2s, transform .2s;
+    cursor: pointer;
+  }
+  /* Primary: heavier border to establish hierarchy, both outlined for pre-launch state */
+  .hero-cta.primary { border-width: 2.5px; }
+  .hero-cta.primary:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateX(4px);
   }
   .hero-cta.secondary:hover {
     background: var(--ink);
     color: var(--paper);
     transform: translateX(4px);
   }
-  .hero-cta .arrow { font-size: 14px; }
+  .hero-cta .arrow { font-size: var(--label-size); }
+  /* TODO: when EP 01 ships, swap primary to red filled variant with "Listen to EP 01 →" */
 
   /* ═════════════════════════════════════ SECTION SYSTEM ═════════════════════════════════════ */
   .section {
@@ -218,18 +280,20 @@
     align-items: baseline;
   }
   .section-num {
-    font-size: 12px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     color: var(--red);
   }
   .section-title {
     font-family: var(--serif);
-    font-size: clamp(32px, 4.5vw, 56px);
+    font-size: var(--display-lg-size);
     font-weight: 400;
-    line-height: 1.0;
-    letter-spacing: -0.02em;
+    line-height: var(--display-lg-lh);
+    letter-spacing: var(--display-lg-ls);
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .section-title em { font-style: italic; font-weight: 300; }
@@ -240,9 +304,11 @@
     padding-bottom: 110px;
   }
   .question-num {
-    font-size: 12px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     color: var(--red);
     margin-bottom: 40px;
@@ -250,13 +316,13 @@
     border-bottom: 1px solid var(--ink);
   }
   .premise-wrap {
-    max-width: 920px;
+    max-width: 65ch;
   }
   .premise {
     font-family: var(--serif);
-    font-size: clamp(24px, 3vw, 38px);
-    line-height: 1.4;
-    letter-spacing: -0.012em;
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    letter-spacing: var(--body-lg-ls);
     font-weight: 400;
     color: var(--ink);
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
@@ -278,29 +344,32 @@
   .doctrine-row:hover { background: var(--paper-2); }
   .doctrine-num {
     font-family: var(--serif);
-    font-size: 44px;
+    font-size: var(--display-md-size);
     font-weight: 300;
     line-height: 1;
+    letter-spacing: -0.02em;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .doctrine-name {
     font-family: var(--serif);
-    font-size: 26px;
+    font-size: var(--display-sm-size);
     font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+    line-height: var(--display-sm-lh);
+    letter-spacing: var(--display-sm-ls);
   }
   .doctrine-name em { font-style: italic; font-weight: 300; color: var(--muted); }
   .doctrine-gloss {
     font-family: var(--mono);
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
     color: var(--ink-2);
   }
   .doctrine-tag {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--label-ls);
     text-align: right;
     color: var(--muted);
     font-weight: 500;
@@ -308,8 +377,8 @@
   }
   .doctrine-lede {
     font-family: var(--serif);
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
     font-weight: 400;
     color: var(--ink-2);
     max-width: 60ch;
@@ -326,9 +395,10 @@
   }
   .doctrine-link {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     color: var(--ink);
     padding: 14px 24px;
@@ -343,7 +413,7 @@
     color: var(--paper);
     transform: translateX(4px);
   }
-  .doctrine-link .arrow { font-size: 15px; }
+  .doctrine-link .arrow { font-size: var(--label-size); }
 
   /* ═════════════════════════════════════ § III — HOST ═════════════════════════════════════ */
   .host-wrap {
@@ -353,10 +423,10 @@
   }
   .host-name-display {
     font-family: var(--serif);
-    font-size: clamp(72px, 12vw, 180px);
+    font-size: var(--display-lg-size);
     font-weight: 400;
-    line-height: 0.88;
-    letter-spacing: -0.04em;
+    line-height: var(--display-lg-lh);
+    letter-spacing: var(--display-lg-ls);
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
     padding-bottom: 30px;
     border-bottom: 1.5px solid var(--ink);
@@ -375,23 +445,27 @@
     align-items: start;
   }
   .host-label {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--label-ls);
     color: var(--red);
     font-weight: 600;
   }
   .host-role {
     margin-top: 14px;
-    font-size: 17px;
-    line-height: 1.5;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     color: var(--ink-2);
-    max-width: 28ch;
+    max-width: 32ch;
   }
   .host-role em { font-style: italic; color: var(--muted); }
   .host-bio p {
-    font-size: 18px;
-    line-height: 1.75;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     margin-bottom: 24px;
     max-width: 68ch;
     color: var(--ink-2);
@@ -416,19 +490,23 @@
   }
   .connect-row:hover .arrow { transform: translateX(4px); color: var(--red); }
   .connect-row .k {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--label-ls);
     color: var(--muted);
     font-weight: 600;
   }
   .connect-row .v {
-    font-size: 16px;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     font-weight: 500;
     color: var(--ink);
   }
   .connect-row .arrow {
-    font-size: 18px;
+    font-size: var(--body-md-size);
     text-align: right;
     color: var(--muted);
     transition: transform .2s, color .2s;
@@ -451,30 +529,35 @@
   .tx-row:hover { background: var(--paper-2); padding-left: 12px; }
   .tx-num {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--label-ls);
     color: var(--muted);
   }
   .tx-title {
     font-family: var(--serif);
-    font-size: 24px;
+    font-size: var(--display-sm-size);
     font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+    line-height: var(--display-sm-lh);
+    letter-spacing: var(--display-sm-ls);
   }
   .tx-title em { font-style: italic; font-weight: 300; }
   .tx-pillar {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.13em;
+    letter-spacing: var(--label-ls);
     color: var(--muted);
     font-weight: 500;
   }
   .tx-status {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     text-align: right;
     display: flex;
@@ -497,8 +580,8 @@
 
   .episodes-lede {
     font-family: var(--serif);
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
     font-weight: 400;
     color: var(--ink-2);
     max-width: 60ch;
@@ -520,27 +603,28 @@
   }
   .tx-featured-label {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: var(--label-ls);
     color: var(--red);
     font-weight: 700;
     margin-bottom: 20px;
   }
   .tx-featured-title {
     font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 62px);
+    font-size: var(--display-md-size);
     font-weight: 500;
-    line-height: 1.02;
-    letter-spacing: -0.02em;
+    line-height: var(--display-md-lh);
+    letter-spacing: var(--display-md-ls);
     margin-bottom: 22px;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .tx-featured-title em { font-style: italic; font-weight: 300; }
   .tx-featured-desc {
     font-family: var(--mono);
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
     color: var(--ink-2);
     max-width: 60ch;
     margin-bottom: 28px;
@@ -548,38 +632,48 @@
   .tx-featured-meta {
     display: flex;
     gap: 14px;
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.13em;
+    letter-spacing: var(--label-ls);
     color: var(--muted);
     font-weight: 500;
     flex-wrap: wrap;
   }
   .tx-featured-meta .sep { color: var(--muted-2); }
   .tx-featured-right { align-self: end; }
-  .tx-featured-cta {
-    padding: 20px 32px;
-    background: var(--red);
-    color: var(--paper);
+  /* Coming-soon state indicator (not a button) */
+  .tx-featured-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .tx-featured-cta.upcoming {
-    background: transparent;
+    letter-spacing: var(--label-ls);
     color: var(--muted);
-    border: 1.5px solid var(--muted);
+    font-weight: 600;
+    padding: 0;
+    background: transparent;
+    border: none;
+  }
+  .tx-featured-state::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--muted-2);
   }
 
   .tx-upcoming-label {
     margin-top: 60px;
     margin-bottom: 10px;
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     color: var(--muted);
     padding-bottom: 12px;
@@ -591,16 +685,19 @@
     padding: 30px;
     border: 1.5px solid var(--ink);
     background: var(--paper-2);
-    font-size: 14px;
-    line-height: 1.75;
+    font-family: var(--mono);
+    font-size: var(--micro-size);
+    line-height: var(--micro-lh);
     display: grid;
     grid-template-columns: 180px 1fr;
     gap: 30px;
   }
   .tx-note .lbl {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     color: var(--red);
   }
@@ -614,40 +711,13 @@
   }
   .guest-lede {
     font-family: var(--serif);
-    font-size: clamp(24px, 2.6vw, 32px);
-    line-height: 1.45;
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
     font-weight: 400;
-    letter-spacing: -0.01em;
     color: var(--ink);
-    max-width: 28ch;
+    max-width: 40ch;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
-  .guest-test-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--red);
-    font-weight: 600;
-    margin-bottom: 18px;
-  }
-  .guest-quote {
-    font-family: var(--serif);
-    font-size: 22px;
-    line-height: 1.35;
-    font-weight: 400;
-    font-style: italic;
-    padding-left: 24px;
-    border-left: 2px solid var(--ink);
-    margin-bottom: 24px;
-    max-width: 60ch;
-  }
-  .guest-fine {
-    font-size: 15px;
-    line-height: 1.65;
-    color: var(--muted);
-    max-width: 60ch;
-  }
-
   .pitch-card {
     border: 1.5px solid var(--ink);
     background: var(--paper-2);
@@ -656,9 +726,11 @@
     top: 60px;
   }
   .pitch-card-eyebrow {
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: var(--label-ls);
     color: var(--red);
     font-weight: 600;
     margin-bottom: 18px;
@@ -671,16 +743,17 @@
   }
   .pitch-card-title {
     font-family: var(--serif);
-    font-size: 38px;
+    font-size: var(--display-md-size);
     font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.015em;
+    line-height: var(--display-md-lh);
+    letter-spacing: var(--display-md-ls);
     margin-bottom: 20px;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .pitch-card-body {
-    font-size: 15px;
-    line-height: 1.65;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     color: var(--ink-2);
     margin-bottom: 32px;
   }
@@ -694,36 +767,15 @@
     color: var(--paper);
     border: 1.5px solid var(--ink);
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--label-ls);
+    text-transform: uppercase;
     transition: background .2s, color .2s;
   }
   .pitch-btn:hover { background: var(--red); border-color: var(--red); }
-  .pitch-btn .pitch-arrow { font-size: 16px; }
-
-  .pitch-meta {
-    padding-top: 24px;
-    border-top: 1px solid var(--ink);
-    display: grid;
-    gap: 14px;
-  }
-  .pitch-meta > div {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 16px;
-    font-size: 11px;
-  }
-  .pitch-meta .mk {
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    font-weight: 600;
-  }
-  .pitch-meta .mv {
-    font-weight: 500;
-    color: var(--ink);
-  }
+  .pitch-btn .pitch-arrow { font-size: var(--label-size); }
 
   /* ═════════════════════════════════════ § VI — SUBSCRIBE ═════════════════════════════════════ */
   .platforms {
@@ -739,23 +791,34 @@
     transition: background .2s;
   }
   .platform-row:hover { background: var(--paper-2); }
-  .platform-num { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .platform-num {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: var(--label-ls);
+  }
   .platform-name {
     font-family: var(--serif);
-    font-size: 28px;
+    font-size: var(--display-sm-size);
     font-weight: 500;
-    letter-spacing: -0.01em;
+    line-height: var(--display-sm-lh);
+    letter-spacing: var(--display-sm-ls);
   }
   .platform-url {
-    font-size: 13px;
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
     color: var(--muted);
-    letter-spacing: 0.05em;
   }
   .platform-status {
+    font-family: var(--mono);
     text-align: right;
-    font-size: 11px;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     color: var(--red);
   }
@@ -772,9 +835,11 @@
     max-width: 900px;
   }
   .dispatch-eyebrow {
-    font-size: 12px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: var(--label-ls);
     color: var(--red);
     font-weight: 600;
     margin-bottom: 24px;
@@ -787,17 +852,18 @@
   }
   .dispatch h2 {
     font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 1.02;
-    letter-spacing: -0.02em;
+    font-size: var(--display-lg-size);
+    line-height: var(--display-lg-lh);
+    letter-spacing: var(--display-lg-ls);
     font-weight: 400;
     margin-bottom: 30px;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .dispatch h2 em { font-style: italic; font-weight: 300; color: #c9c4b3; }
   .dispatch p {
-    font-size: 18px;
-    line-height: 1.7;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     color: var(--paper);
     max-width: 60ch;
     margin-bottom: 44px;
@@ -816,37 +882,31 @@
     color: var(--paper);
     padding: 22px 24px;
     font-family: var(--mono);
-    font-size: 14px;
-    letter-spacing: 0.05em;
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     outline: none;
   }
   .dispatch-form input::placeholder {
     color: #8d8878;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    font-size: 12px;
+    letter-spacing: var(--label-ls);
+    font-size: var(--label-size);
   }
   .dispatch-form button {
     background: var(--paper);
     color: var(--ink);
     border: none;
     padding: 0 36px;
-    font-size: 13px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     transition: background .2s;
     border-left: 1.5px solid var(--paper);
   }
   .dispatch-form button:hover { background: var(--red); color: var(--paper); }
-  .dispatch-foot {
-    margin-top: 28px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #a8a394;
-    font-weight: 500;
-  }
 
   /* ═════════════════════════════════════ FOOTER ═════════════════════════════════════ */
   footer {
@@ -864,33 +924,37 @@
   }
   .colophon-wordmark {
     font-family: var(--serif);
-    font-size: clamp(40px, 4.5vw, 58px);
+    font-size: var(--display-md-size);
     font-weight: 400;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
+    line-height: var(--display-md-lh);
+    letter-spacing: var(--display-md-ls);
     margin-bottom: 16px;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .colophon-wordmark em { font-style: italic; font-weight: 300; display: block; }
   .colophon-tagline {
-    font-size: 13px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--label-ls);
     max-width: 32ch;
-    line-height: 1.5;
   }
   .colophon-label {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--label-ls);
     font-weight: 600;
     color: var(--red);
     margin-bottom: 20px;
   }
   .colophon-about p {
-    font-size: 15px;
-    line-height: 1.7;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     color: var(--ink-2);
     max-width: 38ch;
   }
@@ -902,7 +966,9 @@
   }
   .colophon-nav li,
   .colophon-contact li {
-    font-size: 14px;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
     padding: 5px 0;
   }
   .colophon-nav a,
@@ -919,9 +985,11 @@
   .footer-bottom {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-family: var(--mono);
+    font-size: var(--micro-size);
+    line-height: var(--micro-lh);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--micro-ls);
     color: var(--muted);
     padding-top: 20px;
     margin-top: 10px;
@@ -930,12 +998,6 @@
   .footer-bottom a:hover { color: var(--red); border-color: var(--red); }
 
   /* ═════════════════════════════════════ MASTHEAD SHRINK ═════════════════════════════════════ */
-  @media (max-width: 1000px) {
-    .masthead-bar.is-scrolled {
-      padding: 8px 20px;
-      font-size: 10px;
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
     .masthead-bar {
       transition: none;
@@ -992,90 +1054,60 @@
     }
   }
 
-  /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
+  /* ═══════════════════════════════ RESPONSIVE LAYOUT ═══════════════════════════════ */
+  /* Mobile-first: the base rules above are the mobile layout.
+     Font sizes are handled centrally by the type scale tokens in :root and its
+     @media (min-width: 768px) override. These breakpoints handle LAYOUT ONLY. */
+
   @media (max-width: 1000px) {
-    /* Masthead: hide nav links on mobile, keep brand + year clean */
-    .masthead-bar {
-      padding: 16px 24px;
-      gap: 18px;
-      font-size: 11px;
-      overflow: visible;
-    }
-    .masthead-bar.is-scrolled {
-      padding: 12px 24px;
-      font-size: 10.5px;
-    }
+    /* Masthead: hide nav links, keep brand + year as a clean strip */
+    .masthead-bar { padding: 16px 24px; gap: 18px; overflow: visible; }
+    .masthead-bar.is-scrolled { padding: 12px 24px; }
     .masthead-bar .mast-link { display: none; }
     .masthead-bar .spacer { display: none; }
 
     /* Hero */
     .hero { padding: 80px 24px 60px; }
-    .hero-promise {
-      margin-top: 48px;
-      font-size: clamp(22px, 5.4vw, 32px);
-      line-height: 1.32;
-      max-width: none;
-    }
 
     /* Sections */
     .section { padding: 70px 24px; }
     .section-premise { padding-top: 60px; padding-bottom: 80px; }
     .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 44px; }
 
-    /* Premise — larger on mobile for legibility */
-    .premise {
-      font-size: clamp(22px, 5vw, 28px);
-      line-height: 1.4;
-    }
-
     /* Doctrine */
-    .doctrine-lede { margin-top: -10px; margin-bottom: 30px; font-size: clamp(17px, 4vw, 20px); }
+    .doctrine-lede { margin-top: -10px; margin-bottom: 30px; }
     .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 28px 0 26px; }
-    .doctrine-name { font-size: 22px; line-height: 1.2; }
     .doctrine-gloss, .doctrine-tag { grid-column: 2; }
     .doctrine-tag { text-align: left; margin-top: 10px; }
-    .doctrine-gloss { font-size: 15px; line-height: 1.7; margin-top: 4px; }
+    .doctrine-gloss { margin-top: 4px; }
 
     /* Host */
     .host-sub-grid { grid-template-columns: 1fr; gap: 40px; }
-    .host-name-display {
-      font-size: clamp(52px, 14vw, 92px);
-      padding-bottom: 24px;
-    }
-    .host-bio p { font-size: 17px; line-height: 1.75; }
+    .host-name-display { padding-bottom: 24px; }
     .connect-row { grid-template-columns: 100px 1fr 20px; gap: 14px; padding: 16px 4px; }
-    .connect-row .v { font-size: 12px; word-break: break-all; }
+    .connect-row .v { word-break: break-all; }
 
     /* Episodes */
-    .episodes-lede { font-size: clamp(17px, 4vw, 20px); margin-bottom: 40px; }
-    .tx-featured {
-      grid-template-columns: 1fr;
-      gap: 30px;
-      padding: 36px 20px;
-    }
+    .episodes-lede { margin-bottom: 40px; }
+    .tx-featured { grid-template-columns: 1fr; gap: 30px; padding: 36px 20px; }
     .tx-featured-right { align-self: start; }
-    .tx-featured-cta { display: inline-block; }
-    .tx-featured-desc { font-size: 15px; }
     .tx-row { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 20px; }
-    .tx-num { font-size: 11px; }
-    .tx-title { font-size: 22px; line-height: 1.2; text-wrap: balance; }
+    .tx-title { text-wrap: balance; }
     .tx-pillar, .tx-status { grid-column: 1; }
     .tx-status { justify-content: flex-start; margin-top: 6px; }
 
     /* Guests */
     .guest-pitch { grid-template-columns: 1fr; gap: 50px; }
-    .guest-lede { font-size: clamp(22px, 5vw, 28px); line-height: 1.45; max-width: none; }
+    .guest-lede { max-width: none; }
     .pitch-card { position: static; padding: 32px 24px; }
 
     /* Listen */
     .platform-row { grid-template-columns: 30px 1fr; gap: 16px; padding: 22px 0; }
     .platform-url, .platform-status { grid-column: 2; }
     .platform-status { text-align: left; margin-top: 2px; }
-    .platform-name { font-size: 22px; }
 
     /* Dispatch */
     .dispatch { padding: 90px 24px; }
-    .dispatch p { font-size: 17px; }
     .dispatch-form { grid-template-columns: 1fr; }
     .dispatch-form button { padding: 18px; border-left: none; border-top: 1.5px solid var(--paper); }
 
@@ -1087,20 +1119,13 @@
 
   @media (max-width: 600px) {
     .hero { padding: 60px 20px 50px; }
-    .hero-promise { font-size: clamp(20px, 5.6vw, 26px); }
     .section { padding: 56px 20px; }
     .section-premise { padding-top: 46px; padding-bottom: 64px; }
-    .premise { font-size: 21px; line-height: 1.45; }
     .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; gap: 14px; }
-    .doctrine-num { font-size: 32px; }
-    .doctrine-name { font-size: 20px; }
-    .doctrine-gloss { font-size: 14.5px; }
     .connect-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
     .connect-row .arrow { display: none; }
-    .connect-row .v { font-size: 14px; word-break: break-all; }
-    .host-name-display { font-size: clamp(44px, 13vw, 72px); padding-bottom: 20px; }
+    .connect-row .v { word-break: break-all; }
     .tx-featured { padding: 30px 18px; }
-    .tx-featured-title { font-size: 28px; line-height: 1.1; }
     .dispatch { padding: 70px 20px; }
     .footer-colophon { grid-template-columns: 1fr; gap: 36px; }
   }
@@ -1133,13 +1158,14 @@
     A show by Mehdi Nayebi on the forces shaping the future of the free world, and on whether open societies can stay strong enough to protect the <em>freedoms, prosperity, and stability</em> we take for granted.
   </p>
 
+  <!-- TODO: when EP 01 ships, swap primary to red-filled "Listen to EP 01 →" linking to #episodes -->
   <div class="hero-ctas">
-    <a href="#dispatch" class="hero-cta primary">
-      <span>Subscribe</span>
+    <a href="#question" class="hero-cta primary">
+      <span>Read the premise</span>
       <span class="arrow">→</span>
     </a>
-    <a href="#episodes" class="hero-cta secondary">
-      <span>View episodes</span>
+    <a href="#dispatch" class="hero-cta secondary">
+      <span>Join the dispatch</span>
       <span class="arrow">→</span>
     </a>
   </div>
@@ -1297,7 +1323,7 @@
         </div>
       </div>
       <div class="tx-featured-right">
-        <div class="tx-featured-cta upcoming">Coming soon</div>
+        <div class="tx-featured-state">Coming soon</div>
       </div>
     </div>
 
