@@ -247,13 +247,13 @@
     border-bottom: 1px solid var(--ink);
   }
   .premise-wrap {
-    max-width: 1100px;
+    max-width: 920px;
   }
   .premise {
     font-family: var(--serif);
-    font-size: clamp(22px, 2.8vw, 34px);
-    line-height: 1.45;
-    letter-spacing: -0.005em;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.4;
+    letter-spacing: -0.012em;
     font-weight: 400;
     color: var(--ink);
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
@@ -605,18 +605,19 @@
   /* ═════════════════════════════════════ § V — GUEST PITCH ═════════════════════════════════════ */
   .guest-pitch {
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: 1.4fr 1fr;
     gap: 80px;
     align-items: start;
   }
   .guest-lede {
     font-family: var(--serif);
-    font-size: 24px;
+    font-size: clamp(24px, 2.6vw, 32px);
     line-height: 1.45;
     font-weight: 400;
-    letter-spacing: -0.005em;
-    margin-bottom: 50px;
-    max-width: 62ch;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 28ch;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .guest-test-label {
     font-size: 10px;
@@ -1026,14 +1027,18 @@
 
     /* Doctrine */
     .doctrine-lede { margin-top: -10px; margin-bottom: 30px; font-size: clamp(17px, 4vw, 20px); }
-    .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; }
+    .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 28px 0 26px; }
+    .doctrine-name { font-size: 22px; line-height: 1.2; }
     .doctrine-gloss, .doctrine-tag { grid-column: 2; }
-    .doctrine-tag { text-align: left; margin-top: 8px; }
-    .doctrine-gloss { font-size: 15px; line-height: 1.7; }
+    .doctrine-tag { text-align: left; margin-top: 10px; }
+    .doctrine-gloss { font-size: 15px; line-height: 1.7; margin-top: 4px; }
 
     /* Host */
     .host-sub-grid { grid-template-columns: 1fr; gap: 40px; }
-    .host-name-display { font-size: clamp(56px, 18vw, 120px); }
+    .host-name-display {
+      font-size: clamp(52px, 14vw, 92px);
+      padding-bottom: 24px;
+    }
     .host-bio p { font-size: 17px; line-height: 1.75; }
     .connect-row { grid-template-columns: 100px 1fr 20px; gap: 14px; padding: 16px 4px; }
     .connect-row .v { font-size: 12px; word-break: break-all; }
@@ -1048,13 +1053,15 @@
     .tx-featured-right { align-self: start; }
     .tx-featured-cta { display: inline-block; }
     .tx-featured-desc { font-size: 15px; }
-    .tx-row { grid-template-columns: 60px 1fr; gap: 12px; }
-    .tx-pillar, .tx-status { grid-column: 2; }
-    .tx-status { justify-content: flex-start; margin-top: 4px; }
+    .tx-row { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 20px; }
+    .tx-num { font-size: 11px; }
+    .tx-title { font-size: 22px; line-height: 1.2; text-wrap: balance; }
+    .tx-pillar, .tx-status { grid-column: 1; }
+    .tx-status { justify-content: flex-start; margin-top: 6px; }
 
     /* Guests */
     .guest-pitch { grid-template-columns: 1fr; gap: 50px; }
-    .guest-lede { font-size: clamp(19px, 4.6vw, 22px); line-height: 1.5; }
+    .guest-lede { font-size: clamp(22px, 5vw, 28px); line-height: 1.45; max-width: none; }
     .pitch-card { position: static; padding: 32px 24px; }
 
     /* Listen */
@@ -1081,15 +1088,16 @@
     .section { padding: 56px 20px; }
     .section-premise { padding-top: 46px; padding-bottom: 64px; }
     .premise { font-size: 21px; line-height: 1.45; }
-    .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; }
-    .doctrine-num { font-size: 34px; }
+    .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; gap: 14px; }
+    .doctrine-num { font-size: 32px; }
     .doctrine-name { font-size: 20px; }
     .doctrine-gloss { font-size: 14.5px; }
     .connect-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
     .connect-row .arrow { display: none; }
     .connect-row .v { font-size: 14px; word-break: break-all; }
+    .host-name-display { font-size: clamp(44px, 13vw, 72px); padding-bottom: 20px; }
     .tx-featured { padding: 30px 18px; }
-    .tx-featured-title { font-size: 30px; }
+    .tx-featured-title { font-size: 28px; line-height: 1.1; }
     .dispatch { padding: 70px 20px; }
     .footer-colophon { grid-template-columns: 1fr; gap: 36px; }
   }
