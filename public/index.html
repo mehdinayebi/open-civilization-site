@@ -990,19 +990,56 @@
 
   /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
   @media (max-width: 1000px) {
-    .hero { padding: 70px 24px 50px; }
-    .hero-promise { margin-top: 50px; font-size: clamp(21px, 5vw, 30px); line-height: 1.3; }
-    .section { padding: 60px 24px; }
-    .section-premise { padding-top: 50px; padding-bottom: 70px; }
-    .premise { font-size: clamp(19px, 3.6vw, 24px); }
-    .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 40px; }
+    /* Masthead: hide nav links on mobile, keep brand + year clean */
+    .masthead-bar {
+      padding: 16px 24px;
+      gap: 18px;
+      font-size: 11px;
+      overflow: visible;
+    }
+    .masthead-bar.is-scrolled {
+      padding: 12px 24px;
+      font-size: 10.5px;
+    }
+    .masthead-bar .mast-link { display: none; }
+    .masthead-bar .spacer { display: none; }
+
+    /* Hero */
+    .hero { padding: 80px 24px 60px; }
+    .hero-promise {
+      margin-top: 48px;
+      font-size: clamp(22px, 5.4vw, 32px);
+      line-height: 1.32;
+      max-width: none;
+    }
+
+    /* Sections */
+    .section { padding: 70px 24px; }
+    .section-premise { padding-top: 60px; padding-bottom: 80px; }
+    .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 44px; }
+
+    /* Premise — larger on mobile for legibility */
+    .premise {
+      font-size: clamp(22px, 5vw, 28px);
+      line-height: 1.4;
+    }
+
+    /* Doctrine */
+    .doctrine-lede { margin-top: -10px; margin-bottom: 30px; font-size: clamp(17px, 4vw, 20px); }
     .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; }
     .doctrine-gloss, .doctrine-tag { grid-column: 2; }
     .doctrine-tag { text-align: left; margin-top: 8px; }
+    .doctrine-gloss { font-size: 15px; line-height: 1.7; }
+
+    /* Host */
     .host-sub-grid { grid-template-columns: 1fr; gap: 40px; }
     .host-name-display { font-size: clamp(56px, 18vw, 120px); }
+    .host-bio p { font-size: 17px; line-height: 1.75; }
     .connect-row { grid-template-columns: 100px 1fr 20px; gap: 14px; padding: 16px 4px; }
     .connect-row .v { font-size: 12px; word-break: break-all; }
+
+    /* Episodes */
+    .episodes-lede { font-size: clamp(17px, 4vw, 20px); margin-bottom: 40px; }
     .tx-featured {
       grid-template-columns: 1fr;
       gap: 30px;
@@ -1010,32 +1047,50 @@
     }
     .tx-featured-right { align-self: start; }
     .tx-featured-cta { display: inline-block; }
+    .tx-featured-desc { font-size: 15px; }
     .tx-row { grid-template-columns: 60px 1fr; gap: 12px; }
     .tx-pillar, .tx-status { grid-column: 2; }
     .tx-status { justify-content: flex-start; margin-top: 4px; }
+
+    /* Guests */
     .guest-pitch { grid-template-columns: 1fr; gap: 50px; }
+    .guest-lede { font-size: clamp(19px, 4.6vw, 22px); line-height: 1.5; }
     .pitch-card { position: static; padding: 32px 24px; }
+
+    /* Listen */
     .platform-row { grid-template-columns: 30px 1fr; gap: 16px; padding: 22px 0; }
     .platform-url, .platform-status { grid-column: 2; }
     .platform-status { text-align: left; margin-top: 2px; }
-    .dispatch { padding: 80px 24px; }
+    .platform-name { font-size: 22px; }
+
+    /* Dispatch */
+    .dispatch { padding: 90px 24px; }
+    .dispatch p { font-size: 17px; }
     .dispatch-form { grid-template-columns: 1fr; }
     .dispatch-form button { padding: 18px; border-left: none; border-top: 1.5px solid var(--paper); }
+
+    /* Footer */
     footer { padding: 60px 24px 30px; }
     .footer-colophon { grid-template-columns: 1fr 1fr; gap: 40px; }
     .footer-bottom { flex-direction: column; gap: 14px; }
-    .masthead-bar { padding: 10px 20px; gap: 16px; font-size: 9.5px; overflow-x: auto; }
-    .masthead-bar .spacer { display: none; }
   }
 
   @media (max-width: 600px) {
-    .premise { font-size: 18px; line-height: 1.5; }
+    .hero { padding: 60px 20px 50px; }
+    .hero-promise { font-size: clamp(20px, 5.6vw, 26px); }
+    .section { padding: 56px 20px; }
+    .section-premise { padding-top: 46px; padding-bottom: 64px; }
+    .premise { font-size: 21px; line-height: 1.45; }
     .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; }
     .doctrine-num { font-size: 34px; }
     .doctrine-name { font-size: 20px; }
+    .doctrine-gloss { font-size: 14.5px; }
     .connect-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
     .connect-row .arrow { display: none; }
     .connect-row .v { font-size: 14px; word-break: break-all; }
+    .tx-featured { padding: 30px 18px; }
+    .tx-featured-title { font-size: 30px; }
+    .dispatch { padding: 70px 20px; }
     .footer-colophon { grid-template-columns: 1fr; gap: 36px; }
   }
 </style>
