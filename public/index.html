@@ -16,8 +16,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Open Civilization: A podcast by Mehdi Nayebi</title>
-<meta name="description" content="A host-led, doctrine-driven podcast about what it takes to keep a civilization free, capable, and able to defend itself, and why those conditions are historically rare, difficult to sustain, and so often lost." />
+<title>Open Civilization | The forces shaping the future of the free world</title>
+<meta name="description" content="Free societies are rare. Everything we take for granted depends on them. Open Civilization explores the forces shaping the future of the free world." />
+<meta property="og:title" content="Open Civilization | The forces shaping the future of the free world" />
+<meta property="og:description" content="Free societies are rare. Everything we take for granted depends on them. Open Civilization explores the forces shaping the future of the free world." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://opencivilization.fm" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Open Civilization | The forces shaping the future of the free world" />
+<meta name="twitter:description" content="Free societies are rare. Everything we take for granted depends on them. Open Civilization explores the forces shaping the future of the free world." />
 
 <link rel="icon" href="/favicon.ico" sizes="48x48" />
 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -136,27 +143,43 @@
 
   .hero-promise {
     margin-top: 60px;
-    max-width: 820px;
+    max-width: 920px;
     font-family: var(--serif);
-    font-size: clamp(20px, 2.4vw, 28px);
-    line-height: 1.4;
-    letter-spacing: -0.01em;
+    font-size: clamp(26px, 3.4vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
     font-weight: 400;
+    color: var(--ink);
     opacity: 0;
     animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.45s forwards;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
 
-  .hero-promise-sub {
+  .hero-stakes {
     margin-top: 24px;
-    max-width: 720px;
-    font-family: var(--mono);
-    font-size: 16px;
-    line-height: 1.6;
+    max-width: 820px;
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.45;
+    letter-spacing: -0.005em;
     font-weight: 400;
     color: var(--ink-2);
     opacity: 0;
     animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.55s forwards;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+
+  .hero-promise-sub {
+    margin-top: 28px;
+    max-width: 720px;
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 400;
+    color: var(--muted);
+    opacity: 0;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.65s forwards;
   }
 
   .hero-ctas {
@@ -165,7 +188,7 @@
     gap: 16px;
     flex-wrap: wrap;
     opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.6s forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.75s forwards;
   }
   .hero-cta {
     display: inline-flex;
@@ -305,6 +328,17 @@
     color: var(--muted);
     font-weight: 500;
     padding-top: 6px;
+  }
+  .doctrine-lede {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin-top: -30px;
+    margin-bottom: 40px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .doctrine-footer {
     margin-top: 50px;
@@ -983,7 +1017,8 @@
   /* ═════════════════════════════════════ RESPONSIVE ═════════════════════════════════════ */
   @media (max-width: 1000px) {
     .hero { padding: 70px 24px 50px; }
-    .hero-promise-sub { font-size: 14px; margin-top: 20px; }
+    .hero-stakes { font-size: clamp(16px, 3vw, 20px); margin-top: 20px; }
+    .hero-promise-sub { font-size: 13px; margin-top: 22px; }
     .section { padding: 60px 24px; }
     .section-premise { padding-top: 50px; padding-bottom: 70px; }
     .premise { font-size: clamp(19px, 3.6vw, 24px); }
@@ -1056,10 +1091,13 @@
   </h1>
 
   <p class="hero-promise">
-    What does it take to keep a civilization <em>free, capable, and able to defend itself,</em> and why are those conditions <em>historically rare, difficult to sustain, and so often lost?</em>
+    The forces shaping the future of the <em>free world.</em>
+  </p>
+  <p class="hero-stakes">
+    Free societies are rare. Everything we take for granted depends on them.
   </p>
   <p class="hero-promise-sub">
-    A weekly podcast hosted by Mehdi Nayebi for people who want a clearer map of the world.
+    A weekly show hosted by Mehdi Nayebi for people who want a clearer map of the world.
   </p>
 
   <div class="hero-ctas">
@@ -1077,7 +1115,7 @@
 <section class="section section-premise reveal" id="question">
   <div class="question-num">§ I &nbsp;/ &nbsp;Premise</div>
   <div class="premise-wrap">
-    <p class="premise">Free societies are rare. Yet almost everything we value in the modern West depends on them: freedom, prosperity, security, innovation, and the rule of law. These conditions are not permanent. They can decay from within or come under pressure from hostile external forces. Open Civilization is about understanding what keeps such societies alive, and what it will take to defend them.</p>
+    <p class="premise">Free societies are rare. Almost everything we take for granted depends on them: freedom, prosperity, security, innovation, and the rule of law. But those conditions do not sustain themselves. They can weaken from within and come under pressure from abroad. Open Civilization is about the forces shaping whether they stay strong, drift into decline, or lose the will to defend themselves.</p>
   </div>
 </section>
 
@@ -1088,6 +1126,8 @@
     <div class="section-num">§ II &nbsp;/ &nbsp;Doctrine</div>
     <h2 class="section-title">Ten <em>principles.</em></h2>
   </div>
+
+  <p class="doctrine-lede">A compact statement of the principles beneath the project.</p>
 
   <div class="doctrine-table">
     <div class="doctrine-row">
@@ -1173,13 +1213,13 @@
     <div class="host-sub-grid">
       <div class="host-meta-col">
         <div class="host-label">Host &amp; Creator</div>
-        <p class="host-role">Entrepreneur, operator, and public thinker.</p>
+        <p class="host-role">Entrepreneur, operator, and host of Open Civilization.</p>
       </div>
 
       <div class="host-bio">
-        <p>Entrepreneur, public thinker, and host of Open Civilization. Born in Tehran, raised in France, and shaped by a decade in London finance at Deutsche Bank and Bank of America, he later built companies across Tehran, Dubai, and Toronto, and has spent much of his life thinking about what makes societies flourish, decay, or lose the will to defend themselves.</p>
-        <p>He co-founded Alopeyk, one of Iran's largest on-demand logistics platforms, and built inside a sanctioned authoritarian system before leaving Iran for safety reasons. That operational experience gives him an unusually credible perspective on authoritarianism, institutional dysfunction, state failure, and what it means to build under pressure. He knows what a closed society actually looks like, which is the best possible preparation for taking the idea of an open one seriously.</p>
-        <p>His work sits at the intersection of geopolitics, institutions, technology, power, and civilizational renewal.</p>
+        <p>Born in Tehran, raised in France, and shaped by building across Europe, the Middle East, and North America, Mehdi Nayebi has spent much of his life thinking about power, institutions, and why some societies stay free while others are captured from within.</p>
+        <p>He co-founded Alopeyk, one of Iran's largest tech platforms, and built inside a sanctioned authoritarian system before leaving Iran for safety reasons. That experience gave him a direct view of coercion, institutional failure, corruption, and what a closed society actually looks like.</p>
+        <p>Open Civilization grows out of that experience. It is an attempt to understand the forces shaping the future of the free world.</p>
       </div>
     </div>
 
@@ -1300,22 +1340,22 @@
 
   <div class="guest-pitch">
     <div class="guest-pitch-left">
-      <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders. The show is not defined by sector. It is defined by a position, that free societies are rare, fragile, and worth defending, and by the conversations that position makes possible.</p>
+      <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders. The show is not organized by sector. It is organized by relevance. If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
 
       <h4 class="guest-test-label">The Governing Test</h4>
       <blockquote class="guest-quote">
-        Does this person's work help us understand how free societies are built, how they decay, how they defend themselves, or how they renew themselves?
+        Does this person's work help us understand one of the forces shaping the future of the free world?
       </blockquote>
-      <p class="guest-fine">If yes, you fit. The show is not defined by sector. It is defined by a deeper question. Pitch yourself or someone you know. Every inquiry is read.</p>
+      <p class="guest-fine">If yes, they fit. Pitch yourself or someone you know. Every inquiry is read.</p>
     </div>
 
     <div class="guest-pitch-right">
       <div class="pitch-card">
-        <div class="pitch-card-eyebrow">Guest Inquiry</div>
-        <h3 class="pitch-card-title">Pitch the show</h3>
-        <p class="pitch-card-body">Send a short note explaining who you are, what you work on, and which of the seven pillars your ideas most directly engage. A paragraph is enough. Links welcome.</p>
+        <div class="pitch-card-eyebrow">Guest Suggestion</div>
+        <h3 class="pitch-card-title">Suggest a guest</h3>
+        <p class="pitch-card-body">Send a short note explaining who they are, what they work on, and why their perspective matters. A paragraph is enough. Links welcome.</p>
 
-        <a href="mailto:contact@opencivilization.fm?subject=Guest%20Inquiry%20%E2%80%94%20Open%20Civilization" class="pitch-btn">
+        <a href="mailto:contact@opencivilization.fm?subject=Guest%20Suggestion" class="pitch-btn">
           <span>contact@opencivilization.fm</span>
           <span class="pitch-arrow">→</span>
         </a>
@@ -1369,8 +1409,8 @@
 <section class="dispatch reveal" id="dispatch">
   <div class="dispatch-inner">
     <div class="dispatch-eyebrow">Dispatch · The newsletter</div>
-    <h2>A weekly <em>dispatch</em> for people who want a deeper map of the world.</h2>
-    <p>New episodes, show notes, and occasional dispatches on what the show is watching. No marketing noise. No list rentals. Leave any time.</p>
+    <h2>A weekly <em>dispatch</em> for people who want a deeper map of the forces shaping the future of the free world.</h2>
+    <p>Essays, notes, and occasional dispatches on what the show is watching. No marketing noise. Just signal.</p>
 
     <form class="dispatch-form" id="dispatch-form">
       <input type="email" placeholder="Your email address" required />
@@ -1385,11 +1425,11 @@
   <div class="footer-colophon">
     <div class="colophon-brand">
       <h4 class="colophon-wordmark">Open <em>Civilization</em></h4>
-      <p class="colophon-tagline">How free civilizations endure, and how they decay.</p>
+      <p class="colophon-tagline">The forces shaping the future of the free world.</p>
     </div>
     <div class="colophon-about">
       <div class="colophon-label">About</div>
-      <p>A weekly podcast hosted by Mehdi Nayebi. Open Civilization is about what it takes to build, defend, and renew free societies — and why those societies have always been rare. New episodes every week.</p>
+      <p>Open Civilization is hosted by Mehdi Nayebi. It is a show about the forces shaping the future of the free world, and what they mean for free societies.</p>
     </div>
     <div class="colophon-nav">
       <div class="colophon-label">Navigate</div>
