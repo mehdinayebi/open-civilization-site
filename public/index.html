@@ -484,6 +484,17 @@
   .tx-status.live { color: var(--red); font-weight: 700; }
   .tx-status.live::before { display: none; }
 
+  .episodes-lede {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin-bottom: 50px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .episodes-lede em { font-style: italic; color: var(--muted); }
   .tx-featured {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -495,9 +506,7 @@
     background: var(--paper-2);
     padding-left: 32px;
     padding-right: 32px;
-    transition: background .2s;
   }
-  .tx-featured:hover { background: #e0dac8; }
   .tx-featured-label {
     font-family: var(--mono);
     font-size: 11px;
@@ -547,11 +556,11 @@
     letter-spacing: 0.18em;
     font-weight: 700;
     white-space: nowrap;
-    transition: background .2s, transform .2s;
   }
-  .tx-featured:hover .tx-featured-cta {
-    background: var(--red-ink);
-    transform: translateX(4px);
+  .tx-featured-cta.upcoming {
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--muted);
   }
 
   .tx-upcoming-label {
@@ -1201,63 +1210,79 @@
     <h2 class="section-title">Episodes.</h2>
   </div>
 
+  <p class="episodes-lede">Conversations about the forces shaping the future of the free world.</p>
+
   <div class="transmissions">
-    <a class="tx-featured" href="#">
+    <div class="tx-featured">
       <div class="tx-featured-left">
-        <div class="tx-featured-label">▶ &nbsp;Now Playing &nbsp;·&nbsp; Episode 01</div>
+        <div class="tx-featured-label">Episode 01 &nbsp;·&nbsp; Upcoming</div>
         <h3 class="tx-featured-title">What Keeps a Civilization <em>Open?</em></h3>
-        <p class="tx-featured-desc">The opening episode. A thesis-setting conversation on what actually sustains free, capable civilizations, and the warning signs when those conditions begin to erode.</p>
+        <p class="tx-featured-desc">The opening episode. A thesis-setting conversation on the forces that make free societies possible, the warning signs of decay, and why everything we take for granted depends on them.</p>
         <div class="tx-featured-meta">
-          <span>Strength · Truth · Merit</span>
-          <span class="sep">·</span>
-          <span>64 min</span>
-          <span class="sep">·</span>
-          <span>Season One</span>
+          <span>Freedom · Defense</span>
         </div>
       </div>
       <div class="tx-featured-right">
-        <div class="tx-featured-cta">Listen Now &nbsp;→</div>
+        <div class="tx-featured-cta upcoming">Coming soon</div>
       </div>
-    </a>
+    </div>
 
     <div class="tx-upcoming-label">Upcoming</div>
 
-    <a class="tx-row" href="#">
+    <div class="tx-row">
       <div class="tx-num">EP. 02</div>
-      <div class="tx-title">How Civilizations <em>Decay</em></div>
-      <div class="tx-pillar">Capacity · Freedom</div>
+      <div class="tx-title">Why Free Societies <em>Decay</em></div>
+      <div class="tx-pillar">Decay · Institutions</div>
       <div class="tx-status upcoming">Upcoming</div>
-    </a>
-    <a class="tx-row" href="#">
+    </div>
+    <div class="tx-row">
       <div class="tx-num">EP. 03</div>
-      <div class="tx-title">The Mechanics of <em>Weakness</em></div>
-      <div class="tx-pillar">Strength · Capacity</div>
+      <div class="tx-title">Propaganda, Power, and the <em>War on Truth</em></div>
+      <div class="tx-pillar">Truth · Power</div>
       <div class="tx-status upcoming">Upcoming</div>
-    </a>
-    <a class="tx-row" href="#">
+    </div>
+    <div class="tx-row">
       <div class="tx-num">EP. 04</div>
-      <div class="tx-title">Propaganda <em>Laundering</em> in Open Societies</div>
-      <div class="tx-pillar">Truth · Media</div>
+      <div class="tx-title">When Institutions <em>Stop Working</em></div>
+      <div class="tx-pillar">Capacity · Governance</div>
       <div class="tx-status upcoming">Upcoming</div>
-    </a>
-    <a class="tx-row" href="#">
+    </div>
+    <div class="tx-row">
       <div class="tx-num">EP. 05</div>
-      <div class="tx-title">Iran: A <em>Case Study</em> in Civilizational Capture</div>
-      <div class="tx-pillar">Freedom · Borders</div>
+      <div class="tx-title">Why Weakness <em>Invites Aggression</em></div>
+      <div class="tx-pillar">Strength · Security</div>
       <div class="tx-status upcoming">Upcoming</div>
-    </a>
-    <a class="tx-row" href="#">
+    </div>
+    <div class="tx-row">
       <div class="tx-num">EP. 06</div>
-      <div class="tx-title">The <em>Will</em> to Defend</div>
-      <div class="tx-pillar">Strength · Freedom</div>
+      <div class="tx-title">Iran and the <em>Capture of a Nation</em></div>
+      <div class="tx-pillar">Iran · Regime</div>
       <div class="tx-status upcoming">Upcoming</div>
-    </a>
-    <a class="tx-row" href="#">
+    </div>
+    <div class="tx-row">
       <div class="tx-num">EP. 07</div>
-      <div class="tx-title">The <em>China</em> Question</div>
-      <div class="tx-pillar">Capacity · Strength</div>
+      <div class="tx-title">China and the <em>New Age of Dependence</em></div>
+      <div class="tx-pillar">China · Dependence</div>
       <div class="tx-status upcoming">Upcoming</div>
-    </a>
+    </div>
+    <div class="tx-row">
+      <div class="tx-num">EP. 08</div>
+      <div class="tx-title">Chips, AI, and the <em>New Hierarchy of Power</em></div>
+      <div class="tx-pillar">AI · Compute</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </div>
+    <div class="tx-row">
+      <div class="tx-num">EP. 09</div>
+      <div class="tx-title">The Dollar, Sanctions, and <em>Financial Statecraft</em></div>
+      <div class="tx-pillar">Finance · Sanctions</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </div>
+    <div class="tx-row">
+      <div class="tx-num">EP. 10</div>
+      <div class="tx-title">Energy Realism and <em>Civilizational Strength</em></div>
+      <div class="tx-pillar">Energy · Strategy</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </div>
   </div>
 
   <div class="tx-note">
