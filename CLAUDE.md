@@ -186,8 +186,8 @@ The show's editorial position. These are fixed — do not rewrite the names or r
 | 04 | Revisable *belief.* | Inquiry |
 | 05 | Moral *universalism.* | Universal |
 | 06 | Markets *with rules.* | Markets |
-| 07 | Institutions *over iconoclasm.* | Institutions |
-| 08 | Cosmopolitan, *particular.* | Nations |
+| 07 | Reform institutions, *don't destroy them.* | Institutions |
+| 08 | Universal values, *national communities.* | Nations |
 | 09 | Tolerance that *defends itself.* | Defense |
 | 10 | Historically *conscious.* | History |
 
