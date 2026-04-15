@@ -1,0 +1,1980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Framing Engine &mdash; Open Civilization</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="Internal editorial tool for Open Civilization: evaluate doctrinal fit, sharpen framing, and generate episode briefings." />
+
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper:    #f1ede3;
+    --paper-2:  #e9e4d5;
+    --ink:      #0e0e0e;
+    --ink-2:    #1c1c1a;
+    --muted:    #6e6a5e;
+    --muted-2:  #a8a394;
+    --red:      #b22a1f;
+    --red-ink:  #7a1a12;
+    --rule:     #0e0e0e;
+    --mono:  'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --serif: 'Fraunces', 'Times New Roman', Georgia, serif;
+
+    --display-lg-size: 56px;
+    --display-lg-lh: 1.0;
+    --display-lg-ls: -0.015em;
+    --display-sm-size: 28px;
+    --display-sm-lh: 1.2;
+    --body-lg-size: 22px;
+    --body-lg-lh: 1.5;
+    --body-md-size: 16px;
+    --body-md-lh: 1.6;
+    --body-sm-size: 14px;
+    --body-sm-lh: 1.6;
+    --label-size: 12px;
+    --label-lh: 1.4;
+    --label-ls: 0.12em;
+  }
+
+  @media (min-width: 900px) {
+    :root {
+      --display-lg-size: 80px;
+      --body-lg-size: 24px;
+      --body-md-size: 17px;
+      --label-size: 13px;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.6;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.28;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  a { color: inherit; text-decoration: none; }
+  button, input, textarea, select { font-family: var(--mono); font-size: 15px; color: inherit; }
+  button { cursor: pointer; }
+
+  /* ─── Masthead ─── */
+  .masthead-bar {
+    border-bottom: 1.5px solid var(--ink);
+    padding: 14px 32px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-size: var(--label-size);
+    font-weight: 500;
+    letter-spacing: var(--label-ls);
+    text-transform: uppercase;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .masthead-bar .sep { width: 1px; height: 12px; background: var(--ink); opacity: 0.4; }
+  .masthead-bar .spacer { flex: 1; }
+  .mast-link {
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .mast-link:hover { border-color: var(--ink); }
+  .mast-status { color: var(--muted); }
+  .mast-status .dot {
+    display: inline-block;
+    width: 6px; height: 6px; background: var(--red); border-radius: 50%;
+    margin-right: 8px; vertical-align: middle;
+  }
+  @media (max-width: 640px) {
+    .masthead-bar { padding: 12px 20px; gap: 14px; }
+    .mast-hide-mobile { display: none; }
+  }
+
+  /* ─── Page hero ─── */
+  .page-hero {
+    padding: 70px 40px 50px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .page-hero .marker {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--red);
+    margin-bottom: 22px;
+  }
+  .page-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: var(--display-lg-size);
+    line-height: var(--display-lg-lh);
+    letter-spacing: var(--display-lg-ls);
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    margin-bottom: 28px;
+  }
+  .page-hero h1 em { font-style: italic; font-weight: 300; }
+  .page-hero .subtitle {
+    font-family: var(--serif);
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    max-width: 62ch;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  @media (max-width: 640px) {
+    .page-hero { padding: 46px 20px 36px; }
+  }
+
+  /* ─── Container ─── */
+  .main { padding: 50px 40px 90px; max-width: 1600px; }
+  @media (max-width: 640px) {
+    .main { padding: 32px 20px 60px; }
+  }
+
+  /* ─── Login gate ─── */
+  .login-wrap {
+    max-width: 420px;
+    padding: 30px 0 10px;
+  }
+  .login-label {
+    display: block;
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .login-row {
+    display: flex;
+    border: 1.5px solid var(--ink);
+  }
+  .login-row input {
+    flex: 1;
+    padding: 14px 16px;
+    border: none;
+    background: transparent;
+    outline: none;
+  }
+  .login-row button {
+    padding: 14px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    transition: background .2s;
+  }
+  .login-row button:hover { background: var(--red); }
+  .login-help {
+    margin-top: 14px;
+    font-size: var(--body-sm-size);
+    color: var(--muted);
+    max-width: 50ch;
+  }
+  .login-error {
+    margin-top: 14px;
+    font-size: var(--body-sm-size);
+    color: var(--red);
+    display: none;
+  }
+  .hidden { display: none !important; }
+
+  /* ─── Two-column layout ─── */
+  .workbench {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  @media (min-width: 1100px) {
+    .workbench {
+      grid-template-columns: minmax(380px, 440px) minmax(0, 1fr);
+      gap: 70px;
+    }
+  }
+
+  /* ─── Panels ─── */
+  .panel-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 26px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .panel-num {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--red);
+  }
+  .panel-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .panel-title em { font-style: italic; font-weight: 300; }
+
+  /* ─── Form ─── */
+  .form-group { margin-bottom: 24px; }
+  .form-label {
+    display: block;
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .form-label .req { color: var(--red); margin-left: 4px; }
+  .form-textarea {
+    width: 100%;
+    min-height: 190px;
+    padding: 16px 18px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
+    resize: vertical;
+    outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  .form-textarea:focus { background: var(--paper-2); }
+  .form-input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    outline: none;
+    transition: background .15s;
+  }
+  .form-input:focus { background: var(--paper-2); }
+  .form-select {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 5 L7 10 L11 5' stroke='%230e0e0e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  .actions-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    transition: background .2s, color .2s, transform .2s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); transform: translateX(2px); }
+  .btn.primary { border-width: 2.5px; background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--red); border-color: var(--red); }
+  .btn.ghost { border-color: var(--muted); color: var(--muted); }
+  .btn.ghost:hover { background: var(--muted); color: var(--paper); border-color: var(--muted); }
+  .btn[disabled] { opacity: 0.4; pointer-events: none; }
+
+  /* ─── Examples ─── */
+  .examples-wrap {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--muted-2);
+  }
+  .examples-label {
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .examples-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .example-chip {
+    text-align: left;
+    padding: 12px 14px;
+    border: 1px solid var(--muted-2);
+    background: transparent;
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--ink-2);
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .example-chip:hover {
+    background: var(--paper-2);
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .example-chip .lens {
+    color: var(--muted);
+    margin-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+  }
+
+  /* ─── Output: empty / loading / error / result ─── */
+  .output-stage {
+    min-height: 360px;
+  }
+  .state-block {
+    padding: 44px 36px;
+    border: 1px dashed var(--muted-2);
+    background: transparent;
+  }
+  .state-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+    margin-bottom: 14px;
+  }
+  .state-title em { font-style: italic; }
+  .state-body {
+    font-size: var(--body-md-size);
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+  .state-body p { margin-bottom: 12px; }
+  .state-body p:last-child { margin-bottom: 0; }
+  .state-error {
+    border-color: var(--red);
+    background: rgba(178, 42, 31, 0.05);
+  }
+  .state-error .state-title { color: var(--red); }
+
+  .loading-lines {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .loading-lines .line {
+    height: 14px;
+    background: linear-gradient(90deg, var(--paper-2) 25%, var(--muted-2) 50%, var(--paper-2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+  .loading-lines .line:nth-child(1) { width: 80%; }
+  .loading-lines .line:nth-child(2) { width: 60%; }
+  .loading-lines .line:nth-child(3) { width: 72%; }
+  @keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  /* ─── Result cards ─── */
+  .result { display: flex; flex-direction: column; gap: 40px; }
+
+  .verdict-card {
+    border: 1.5px solid var(--ink);
+    padding: 28px 30px;
+    background: transparent;
+  }
+  .verdict-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .verdict-label {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .verdict-value {
+    font-family: var(--serif);
+    font-size: 38px;
+    line-height: 1.05;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .verdict-value em { font-style: italic; font-weight: 300; }
+  .verdict-pill {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1.5px solid var(--ink);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  .verdict-pill.strong  { background: var(--ink); color: var(--paper); }
+  .verdict-pill.viable  { color: var(--red); border-color: var(--red); }
+  .verdict-pill.segment { color: var(--muted); border-color: var(--muted); }
+  .verdict-pill.reject  { color: var(--red); border-color: var(--red); background: rgba(178,42,31,0.06); }
+  .verdict-body {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.65;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+    margin-top: 6px;
+  }
+  .verdict-meta {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--muted-2);
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    font-size: var(--body-sm-size);
+  }
+  .verdict-meta .k {
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .verdict-meta .v { font-weight: 500; color: var(--ink); }
+
+  /* ─── Score card ─── */
+  .score-card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 36px;
+    align-items: start;
+  }
+  @media (max-width: 760px) {
+    .score-card { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .score-total {
+    border: 1.5px solid var(--ink);
+    padding: 22px 24px;
+  }
+  .score-total .n {
+    font-family: var(--serif);
+    font-size: 62px;
+    line-height: 1;
+    font-weight: 300;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .score-total .n em { font-style: italic; color: var(--muted); font-weight: 300; font-size: 28px; }
+  .score-total .band {
+    margin-top: 14px;
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--red);
+    font-weight: 600;
+  }
+  .dims { display: flex; flex-direction: column; gap: 11px; }
+  .dim-row {
+    display: grid;
+    grid-template-columns: 1fr 60px;
+    align-items: center;
+    gap: 16px;
+  }
+  .dim-name {
+    font-size: var(--body-sm-size);
+    color: var(--ink-2);
+  }
+  .dim-bar-outer {
+    grid-column: 1 / -1;
+    height: 3px;
+    background: var(--muted-2);
+    margin-top: 2px;
+    margin-bottom: 4px;
+  }
+  .dim-bar-inner {
+    height: 100%;
+    background: var(--ink);
+    transition: width .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .dim-val {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--muted);
+    text-align: right;
+    font-weight: 500;
+  }
+  .dim-val .sep { color: var(--muted-2); }
+
+  /* ─── Episode framing block ─── */
+  .framing-block { }
+  .framing-label {
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .framing-title {
+    font-family: var(--serif);
+    font-size: 42px;
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .framing-title em { font-style: italic; font-weight: 300; }
+  .framing-thesis {
+    font-family: var(--serif);
+    font-size: var(--body-lg-size);
+    line-height: 1.5;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+    margin-bottom: 24px;
+  }
+  .framing-belongs {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.7;
+    color: var(--ink-2);
+    padding: 18px 22px;
+    border-left: 3px solid var(--red);
+    background: var(--paper-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+
+  /* ─── Briefing block ─── */
+  .briefing { display: flex; flex-direction: column; gap: 28px; }
+  .briefing-section h4 {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .briefing-section p,
+  .briefing-section li {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.65;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .briefing-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  .briefing-section li {
+    padding: 9px 0 9px 22px;
+    position: relative;
+    border-bottom: 1px solid var(--muted-2);
+  }
+  .briefing-section li:last-child { border-bottom: none; }
+  .briefing-section li::before {
+    content: '·';
+    position: absolute;
+    left: 2px;
+    color: var(--red);
+    font-weight: 700;
+  }
+  .triad {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 22px 0;
+    display: grid;
+    gap: 18px;
+  }
+  @media (min-width: 900px) {
+    .triad { grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
+  }
+  .triad-col .k {
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .triad-col .v {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.6;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+
+  /* ─── Follow-up actions ─── */
+  .followups {
+    border-top: 1.5px solid var(--ink);
+    padding-top: 26px;
+  }
+  .followups-label {
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .followups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .fu-btn {
+    text-align: left;
+    padding: 14px 16px;
+    border: 1px solid var(--muted-2);
+    background: transparent;
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--ink-2);
+    transition: background .15s, border-color .15s, color .15s, padding-left .15s;
+  }
+  .fu-btn:hover {
+    border-color: var(--ink);
+    background: var(--paper-2);
+    color: var(--ink);
+    padding-left: 20px;
+  }
+  .fu-btn[disabled] { opacity: 0.4; pointer-events: none; }
+
+  .fu-result {
+    margin-top: 22px;
+    padding: 22px 24px;
+    border: 1px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .fu-result .k {
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .fu-result pre {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ─── JSON panel ─── */
+  .json-panel { border-top: 1.5px solid var(--ink); padding-top: 22px; }
+  .json-panel summary {
+    cursor: pointer;
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    list-style: none;
+    padding: 4px 0;
+  }
+  .json-panel summary::-webkit-details-marker { display: none; }
+  .json-panel summary::before {
+    content: '▸ ';
+    display: inline-block;
+    transition: transform .2s;
+  }
+  .json-panel[open] summary::before {
+    transform: rotate(90deg);
+  }
+  .json-panel pre {
+    margin-top: 14px;
+    padding: 18px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.55;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ─── Toast ─── */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+  }
+  .toast.show { opacity: 1; }
+
+  /* ─── Library section ─── */
+  .library-section {
+    padding-top: 20px;
+    padding-bottom: 90px;
+  }
+  .library-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 26px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .library-head-left {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .library-count {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .library-refresh {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    padding: 6px 0;
+    cursor: pointer;
+    transition: color .15s;
+  }
+  .library-refresh:hover { color: var(--red); }
+  .library-empty {
+    padding: 30px 0;
+    font-size: var(--body-md-size);
+    color: var(--muted);
+    font-family: var(--serif);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .library-list {
+    border-top: 1px solid var(--ink);
+  }
+  .library-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 130px 70px 120px 60px;
+    gap: 20px;
+    padding: 20px 0 18px;
+    border-bottom: 1px solid var(--ink);
+    align-items: baseline;
+    cursor: pointer;
+    transition: background .2s, padding .25s;
+  }
+  .library-row:hover {
+    background: var(--paper-2);
+    padding-left: 12px;
+  }
+  .library-row.is-active {
+    background: var(--paper-2);
+    padding-left: 12px;
+  }
+  .library-row.is-active .library-row-title {
+    color: var(--red);
+  }
+  @media (max-width: 900px) {
+    .library-row {
+      grid-template-columns: 1fr auto;
+      gap: 8px 14px;
+    }
+    .library-row-date    { order: 1; color: var(--muted); font-size: 12px; }
+    .library-row-title   { order: 2; grid-column: 1 / -1; }
+    .library-row-verdict { order: 3; }
+    .library-row-score   { order: 4; justify-self: end; }
+    .library-row-fu      { order: 5; }
+    .library-row-delete  { order: 6; justify-self: end; }
+  }
+  .library-row-date {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .library-row-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--ink);
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .library-row-title em { font-style: italic; font-weight: 300; }
+  .library-row-verdict {
+    display: inline-block;
+    padding: 4px 9px;
+    border: 1.5px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    justify-self: start;
+  }
+  .library-row-verdict.strong  { background: var(--ink); color: var(--paper); }
+  .library-row-verdict.viable  { color: var(--red); border-color: var(--red); }
+  .library-row-verdict.segment { color: var(--muted); border-color: var(--muted); }
+  .library-row-verdict.reject  { color: var(--red); border-color: var(--red); background: rgba(178,42,31,0.06); }
+  .library-row-score {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .library-row-fu {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .library-row-delete {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    justify-self: end;
+    transition: color .15s;
+  }
+  .library-row-delete:hover { color: var(--red); }
+  .library-status {
+    margin-top: 12px;
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    font-family: var(--mono);
+  }
+
+  /* ─── Followup history stack ─── */
+  .fu-entry {
+    margin-top: 16px;
+    padding: 22px 24px;
+    border: 1px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .fu-entry:first-child { margin-top: 22px; }
+  .fu-entry .fu-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+  .fu-entry .fu-action {
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--red);
+    font-weight: 600;
+  }
+  .fu-entry .fu-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .fu-entry pre {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .fu-entry.is-error { border-color: var(--red); }
+  .fu-entry.is-error .fu-action { color: var(--red); }
+
+  /* ─── Reduced motion ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .loading-lines .line { animation: none; background: var(--paper-2); }
+    .dim-bar-inner { transition: none; }
+    .btn, .fu-btn, .example-chip { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead-bar">
+  <div><strong>OC</strong></div>
+  <div class="sep"></div>
+  <div class="mast-hide-mobile">Framing Engine</div>
+  <div class="sep mast-hide-mobile"></div>
+  <div class="mast-status mast-hide-mobile"><span class="dot"></span>Internal</div>
+  <div class="spacer"></div>
+  <a class="mast-link" href="/">← Back to site</a>
+</header>
+
+<section class="page-hero">
+  <div class="marker">§ Editorial workbench</div>
+  <h1>Framing <em>Engine.</em></h1>
+  <p class="subtitle">
+    Evaluate doctrinal fit, sharpen framing, and generate episode briefings for Open Civilization.
+  </p>
+</section>
+
+<!-- ─── Login gate ─── -->
+<section class="main" id="login-section">
+  <div class="login-wrap">
+    <label class="login-label" for="token-input">Access password</label>
+    <div class="login-row">
+      <input type="password" id="token-input" placeholder="Enter password" autocomplete="current-password" />
+      <button id="login-btn" type="button">Enter</button>
+    </div>
+    <div class="login-error" id="login-error">Invalid password. Try again.</div>
+    <p class="login-help">
+      This page is restricted. The password unlocks evaluation, the library, and follow-up transformations. It is stored only in this browser tab for the session.
+    </p>
+  </div>
+</section>
+
+<!-- ─── Main tool ─── -->
+<section class="main hidden" id="workbench">
+  <div class="workbench">
+
+    <!-- LEFT: input form -->
+    <div class="col-input">
+      <div class="panel-head">
+        <span class="panel-num">§ I</span>
+        <span class="panel-title">The <em>input.</em></span>
+      </div>
+
+      <form id="framing-form" autocomplete="off">
+
+        <div class="form-group">
+          <label class="form-label" for="input-text">
+            Topic, article, report, event, or draft episode <span class="req">·</span>
+          </label>
+          <textarea class="form-textarea" id="input-text" name="input_text"
+            placeholder="Paste or type a theme, an article abstract, an event summary, or a draft episode concept. Be specific. Vague prompts yield vague verdicts."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="input-type">Input type</label>
+            <select class="form-select" id="input-type" name="input_type">
+              <option value="theme">Theme</option>
+              <option value="article">Article</option>
+              <option value="report">Report</option>
+              <option value="event">Event</option>
+              <option value="draft_episode">Draft episode</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="desired-lens">Desired lens</label>
+            <select class="form-select" id="desired-lens" name="desired_lens">
+              <option value="general">General</option>
+              <option value="geopolitical">Geopolitical</option>
+              <option value="institutional">Institutional</option>
+              <option value="economic">Economic</option>
+              <option value="technological">Technological</option>
+              <option value="cultural">Cultural</option>
+              <option value="defense">Defense</option>
+              <option value="civilizational">Civilizational</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="notes">Notes <span style="color:var(--muted-2);font-weight:400;">(optional)</span></label>
+          <input type="text" class="form-input" id="notes" name="notes"
+            placeholder="Editorial context, angle hints, constraints" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="guest">Guest in mind <span style="color:var(--muted-2);font-weight:400;">(optional)</span></label>
+          <input type="text" class="form-input" id="guest" name="guest"
+            placeholder="Name or archetype" />
+        </div>
+
+        <div class="actions-row">
+          <button type="submit" class="btn primary" id="evaluate-btn">
+            Evaluate topic
+          </button>
+          <button type="button" class="btn" id="clear-btn">Clear</button>
+        </div>
+      </form>
+
+      <div class="examples-wrap">
+        <div class="examples-label">Examples</div>
+        <div class="examples-list" id="examples-list"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: output -->
+    <div class="col-output">
+      <div class="panel-head">
+        <span class="panel-num">§ II</span>
+        <span class="panel-title">The <em>verdict.</em></span>
+      </div>
+
+      <div class="output-stage" id="output-stage">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── Library ─── -->
+<section class="main library-section hidden" id="library-section">
+  <div class="library-head">
+    <div class="library-head-left">
+      <span class="panel-num">§ III</span>
+      <span class="panel-title">The <em>library.</em></span>
+      <span class="library-count" id="library-count"></span>
+    </div>
+    <button type="button" class="library-refresh" id="library-refresh">Refresh</button>
+  </div>
+  <div id="library-body">
+    <div class="library-empty">Loading saved evaluations.</div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<!-- ─── App script ─── -->
+<script type="module">
+  // ── State ─────────────────────────────────────────────
+  const state = {
+    token: sessionStorage.getItem('oc_framing_password') || '',
+    lastInput: null,
+    lastResult: null,
+    lastSavedId: null,            // DB row id for the currently-displayed evaluation
+    lastFollowups: [],            // [{ action, data, created_at }], newest first
+    isLoading: false,
+    isActionRunning: false,
+    error: null,
+    libraryEntries: [],
+    libraryLoading: false,
+  };
+
+  function authHeaders(extra) {
+    const h = { 'Authorization': 'Bearer ' + state.token };
+    if (extra) Object.assign(h, extra);
+    return h;
+  }
+
+  // Built-in examples — inlined here to avoid a second network call.
+  // Must stay in sync with lib/framing-engine/examples.js.
+  const EXAMPLES = [
+    {
+      id: 'china-dependence',
+      label: 'Western dependence on Chinese manufacturing',
+      input_type: 'theme',
+      desired_lens: 'geopolitical',
+      input_text: "Western economies have built thirty years of consumer prosperity on top of a manufacturing base they no longer own. Advanced electronics, rare-earth processing, pharmaceutical precursors, shipbuilding capacity, and the machine tools that make machine tools are all now concentrated in China. The question for Open Civilization: what kind of civilizational dependency does this create, and what would it take to unwind it without collapsing the consumer economy that paid for it?",
+      notes: '',
+      guest: '',
+    },
+    {
+      id: 'south-korea-demographics',
+      label: 'Birth-rate collapse in South Korea',
+      input_type: 'theme',
+      desired_lens: 'civilizational',
+      input_text: "South Korea now has the lowest fertility rate ever recorded in a modern society, below 0.7. Seoul is below 0.6. This is not a gradual aging story, this is a collapse inside a single generation. What does it reveal about the structural conditions that advanced societies need to reproduce themselves, and can any of them be fixed?",
+      notes: '',
+      guest: '',
+    },
+    {
+      id: 'ai-white-collar',
+      label: 'AI replacing white-collar work',
+      input_type: 'theme',
+      desired_lens: 'technological',
+      input_text: "Large language models are now doing meaningful fractions of the work that used to define professional-class careers: legal research, financial analysis, software engineering, editorial work, consulting memos. The interesting question is not whether jobs disappear. It is what happens to the competence, judgment, and social legitimacy of the professional class when its apprenticeship ladder is cut off.",
+      notes: '',
+      guest: '',
+    },
+  ];
+
+  const DIMENSION_LABELS = {
+    civilizational_relevance: 'Civilizational relevance',
+    doctrinal_fit: 'Doctrinal fit',
+    structural_depth: 'Structural depth',
+    strategic_consequence: 'Strategic consequence',
+    tension_disagreement_potential: 'Tension / disagreement',
+    episode_viability: 'Episode viability',
+    distinctiveness: 'Distinctiveness',
+    audience_payoff: 'Audience payoff',
+    innovation_technological_relevance: 'Innovation + technology',
+  };
+
+  const VERDICT_LABELS = {
+    strong_fit: 'Strong fit',
+    reframe: 'Reframe',
+    segment_only: 'Segment only',
+    reject: 'Reject',
+  };
+
+  const RECOMMENDED_USE_LABELS = {
+    full_episode: 'Full episode',
+    segment: 'Segment',
+    supporting_evidence: 'Supporting evidence',
+    reject: 'Reject',
+  };
+
+  const FOLLOWUP_BUTTONS = [
+    { id: 'reframe_title',          label: 'Reframe title' },
+    { id: 'sharpen_doctrine',       label: 'Sharpen doctrine' },
+    { id: 'make_more_controversial',label: 'Make more controversial' },
+    { id: 'make_more_guest_friendly',label:'Make more guest-friendly' },
+    { id: 'downgrade_to_segment',   label: 'Downgrade to segment' },
+    { id: 'compare_three_framings', label: 'Compare 3 framings' },
+    { id: 'generate_outreach_angle',label: 'Generate outreach angle' },
+  ];
+
+  // ── Utilities ─────────────────────────────────────────
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+  function scoreBandKey(score) {
+    const n = Number(score) || 0;
+    if (n >= 36) return { key: 'strong',  label: 'Strong dedicated episode' };
+    if (n >= 27) return { key: 'viable',  label: 'Viable, needs sharper framing' };
+    if (n >= 18) return { key: 'segment', label: 'Segment, not a full episode' };
+    return { key: 'reject', label: 'Reject' };
+  }
+  function verdictPillClass(v) {
+    if (v === 'strong_fit') return 'strong';
+    if (v === 'reframe') return 'viable';
+    if (v === 'segment_only') return 'segment';
+    return 'reject';
+  }
+  function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+  function readForm() {
+    return {
+      input_text: $('input-text').value.trim(),
+      input_type: $('input-type').value,
+      desired_lens: $('desired-lens').value,
+      notes: $('notes').value.trim(),
+      guest: $('guest').value.trim(),
+    };
+  }
+  function writeForm(data) {
+    $('input-text').value = data.input_text || '';
+    $('input-type').value = data.input_type || 'theme';
+    $('desired-lens').value = data.desired_lens || 'general';
+    $('notes').value = data.notes || '';
+    $('guest').value = data.guest || '';
+  }
+  function formatDate(isoString) {
+    try {
+      const d = new Date(isoString);
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    } catch { return ''; }
+  }
+  function formatDateTime(isoString) {
+    try {
+      const d = new Date(isoString);
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      return months[d.getMonth()] + ' ' + d.getDate() + ', ' + hh + ':' + mm;
+    } catch { return ''; }
+  }
+
+  // ── Login ─────────────────────────────────────────────
+  function showLoginError(msg) {
+    const err = $('login-error');
+    err.textContent = msg || 'Invalid password. Try again.';
+    err.style.display = 'block';
+  }
+  function hideLoginError() { $('login-error').style.display = 'none'; }
+
+  function showLoginGate() {
+    $('login-section').classList.remove('hidden');
+    $('workbench').classList.add('hidden');
+    $('library-section').classList.add('hidden');
+  }
+  function showWorkbench() {
+    $('login-section').classList.add('hidden');
+    $('workbench').classList.remove('hidden');
+    $('library-section').classList.remove('hidden');
+  }
+
+  async function verifyPassword(token) {
+    // Piggyback on the library GET — it returns 200 with an empty list for a
+    // fresh install, 401 for the wrong password.
+    try {
+      const res = await fetch('/api/framing-engine-library', {
+        headers: { 'Authorization': 'Bearer ' + token },
+      });
+      if (res.status === 200) return { ok: true };
+      if (res.status === 401) return { ok: false, reason: 'Invalid password. Try again.' };
+      return { ok: false, reason: 'Auth check returned HTTP ' + res.status + '.' };
+    } catch (err) {
+      return { ok: false, reason: 'Network error: ' + ((err && err.message) || 'unreachable') };
+    }
+  }
+
+  async function attemptLogin() {
+    const token = $('token-input').value.trim();
+    if (!token) return;
+    hideLoginError();
+    $('login-btn').textContent = '...';
+    const result = await verifyPassword(token);
+    $('login-btn').textContent = 'Enter';
+    if (!result.ok) {
+      sessionStorage.removeItem('oc_framing_password');
+      state.token = '';
+      showLoginError(result.reason);
+      return;
+    }
+    sessionStorage.setItem('oc_framing_password', token);
+    state.token = token;
+    showWorkbench();
+    renderExamples();
+    renderEmpty();
+    fetchLibrary();
+  }
+
+  function handleUnauthorized(message) {
+    sessionStorage.removeItem('oc_framing_password');
+    state.token = '';
+    state.isLoading = false;
+    state.isActionRunning = false;
+    showLoginGate();
+    showLoginError(message || 'Session expired. Re-enter the password.');
+  }
+
+  // ── Examples ──────────────────────────────────────────
+  function renderExamples() {
+    const wrap = $('examples-list');
+    wrap.innerHTML = '';
+    EXAMPLES.forEach((ex) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'example-chip';
+      btn.innerHTML = esc(ex.label) + ' <span class="lens">' + esc(ex.desired_lens) + '</span>';
+      btn.addEventListener('click', () => {
+        writeForm(ex);
+        $('input-text').focus();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  // ── Output states ─────────────────────────────────────
+  function renderEmpty() {
+    $('output-stage').innerHTML = `
+      <div class="state-block">
+        <div class="state-title">Awaiting <em>input.</em></div>
+        <div class="state-body">
+          <p>Paste a topic, article, or event on the left, choose an input type and lens, then evaluate.</p>
+          <p>The engine returns a doctrinal verdict, a nine-dimension score, an episode thesis, a full briefing, and optional follow-up transformations.</p>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderLoading() {
+    $('output-stage').innerHTML = `
+      <div class="state-block">
+        <div class="state-title">Evaluating doctrinal <em>fit.</em></div>
+        <div class="state-body">
+          <p>Scoring nine dimensions and generating the episode briefing. This usually takes fifteen to forty seconds.</p>
+          <div class="loading-lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderError(message) {
+    $('output-stage').innerHTML = `
+      <div class="state-block state-error">
+        <div class="state-title">Something went <em>wrong.</em></div>
+        <div class="state-body">
+          <p>${esc(message || 'The engine could not complete the evaluation. Your input has been preserved. Try again.')}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderResult(r) {
+    const band = scoreBandKey(r.fit_score);
+    const pill = verdictPillClass(r.verdict);
+
+    const dimHtml = Object.keys(DIMENSION_LABELS).map((k) => {
+      const v = Number(r.dimension_scores && r.dimension_scores[k]) || 0;
+      const pct = (v / 5) * 100;
+      return `
+        <div class="dim-row">
+          <div class="dim-name">${esc(DIMENSION_LABELS[k])}</div>
+          <div class="dim-val">${v.toFixed(v % 1 === 0 ? 0 : 1)}<span class="sep"> / 5</span></div>
+          <div class="dim-bar-outer"><div class="dim-bar-inner" style="width:${pct}%"></div></div>
+        </div>
+      `;
+    }).join('');
+
+    const list = (arr) => (arr || []).map((x) => `<li>${esc(x)}</li>`).join('');
+
+    const t = r.editorial_triad || {};
+
+    const followupsHtml = FOLLOWUP_BUTTONS.map((b) => `
+      <button type="button" class="fu-btn" data-action="${b.id}">${esc(b.label)}</button>
+    `).join('');
+
+    $('output-stage').innerHTML = `
+      <div class="result">
+
+        <!-- Verdict card -->
+        <div class="verdict-card">
+          <div class="verdict-head">
+            <div>
+              <div class="verdict-label">Verdict</div>
+              <div class="verdict-value">${esc(VERDICT_LABELS[r.verdict] || r.verdict)}</div>
+            </div>
+            <div class="verdict-pill ${pill}">${esc(band.label)}</div>
+          </div>
+          <p class="verdict-body">${esc(r.fit_explanation)}</p>
+          <div class="verdict-meta">
+            <div>
+              <span class="k">Recommended use</span>
+              <span class="v">${esc(RECOMMENDED_USE_LABELS[r.recommended_use] || r.recommended_use)}</span>
+            </div>
+            <div>
+              <span class="k">Score</span>
+              <span class="v">${esc(r.fit_score)} / 45</span>
+            </div>
+            <div>
+              <span class="k">Band</span>
+              <span class="v">${esc(band.label)}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Score card -->
+        <div class="score-card">
+          <div class="score-total">
+            <div class="n">${esc(r.fit_score)}<em> / 45</em></div>
+            <div class="band">${esc(band.label)}</div>
+          </div>
+          <div class="dims">${dimHtml}</div>
+        </div>
+
+        <!-- Framing block -->
+        <div class="framing-block">
+          <div class="framing-label">Episode framing</div>
+          <div class="framing-title">${esc(r.episode_title)}</div>
+          <div class="framing-thesis">${esc(r.episode_thesis)}</div>
+          <div class="framing-belongs">${esc(r.belongs_to_open_civilization_because)}</div>
+        </div>
+
+        <!-- Briefing -->
+        <div class="briefing">
+          <div class="briefing-section">
+            <h4>Core themes</h4>
+            <ul>${list(r.core_themes)}</ul>
+          </div>
+          <div class="briefing-section">
+            <h4>Key questions</h4>
+            <ul>${list(r.key_questions)}</ul>
+          </div>
+          <div class="briefing-section">
+            <h4>Challenges and tensions</h4>
+            <ul>${list(r.tensions)}</ul>
+          </div>
+          <div class="briefing-section">
+            <h4>Opposing and competing views</h4>
+            <ul>${list(r.opposing_views)}</ul>
+          </div>
+          <div class="briefing-section">
+            <h4>Guest profiles</h4>
+            <ul>${list(r.guest_profiles)}</ul>
+          </div>
+          <div class="briefing-section">
+            <h4>Audience payoff</h4>
+            <p>${esc(r.audience_payoff)}</p>
+          </div>
+          <div class="briefing-section">
+            <h4>Opening monologue angle</h4>
+            <p>${esc(r.opening_monologue_angle)}</p>
+          </div>
+          <div class="briefing-section">
+            <h4>Innovation lens</h4>
+            <p>${esc(r.innovation_lens)}</p>
+          </div>
+
+          <div class="triad">
+            <div class="triad-col">
+              <span class="k">What is happening</span>
+              <div class="v">${esc(t.what_is_happening)}</div>
+            </div>
+            <div class="triad-col">
+              <span class="k">Why it matters for open civilization</span>
+              <div class="v">${esc(t.why_it_matters_for_open_civilization)}</div>
+            </div>
+            <div class="triad-col">
+              <span class="k">What follows if we get this wrong</span>
+              <div class="v">${esc(t.what_follows_if_we_get_this_wrong)}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result actions -->
+        <div class="actions-row">
+          <button type="button" class="btn" id="rerun-btn">Re-run</button>
+          <button type="button" class="btn" id="copy-briefing-btn">Copy briefing</button>
+          <button type="button" class="btn" id="copy-json-btn">Copy JSON</button>
+        </div>
+
+        <!-- Follow-ups -->
+        <div class="followups">
+          <div class="followups-label">Follow-up transformations</div>
+          <div class="followups-grid">${followupsHtml}</div>
+          <div id="fu-result-wrap"></div>
+        </div>
+
+        <!-- JSON panel -->
+        <details class="json-panel">
+          <summary>Raw JSON</summary>
+          <pre id="json-block">${esc(JSON.stringify(r, null, 2))}</pre>
+        </details>
+
+      </div>
+    `;
+
+    // Wire up result-scoped buttons
+    $('rerun-btn').addEventListener('click', () => evaluate());
+    $('copy-briefing-btn').addEventListener('click', () => copyBriefing());
+    $('copy-json-btn').addEventListener('click', () => copyJson());
+    document.querySelectorAll('.fu-btn').forEach((btn) => {
+      btn.addEventListener('click', () => runFollowup(btn.getAttribute('data-action')));
+    });
+
+    // Render any preserved followup history (e.g. when loading a saved eval)
+    renderFollowupStack();
+  }
+
+  // Render the follow-up history stack (newest first) into #fu-result-wrap.
+  function renderFollowupStack() {
+    const wrap = $('fu-result-wrap');
+    if (!wrap) return;
+    if (!state.lastFollowups || state.lastFollowups.length === 0) {
+      wrap.innerHTML = '';
+      return;
+    }
+    // Newest first in the UI. Don't mutate state.
+    const entries = state.lastFollowups.slice().reverse();
+    wrap.innerHTML = entries.map((entry) => {
+      const label = (entry.action || '').replaceAll('_', ' ');
+      const time = entry.created_at ? formatDateTime(entry.created_at) : '';
+      const body = entry.data != null
+        ? JSON.stringify(entry.data, null, 2)
+        : (entry.error || 'No data');
+      const errorClass = entry.error ? ' is-error' : '';
+      return `
+        <div class="fu-entry${errorClass}">
+          <div class="fu-head">
+            <span class="fu-action">${esc(label)}</span>
+            ${time ? '<span class="fu-time">' + esc(time) + '</span>' : ''}
+          </div>
+          <pre>${esc(body)}</pre>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── Evaluation ────────────────────────────────────────
+  async function evaluate() {
+    if (state.isLoading) return;
+    const input = readForm();
+    if (!input.input_text) {
+      toast('Input is required');
+      return;
+    }
+    state.lastInput = input;
+    state.lastResult = null;
+    state.lastSavedId = null;
+    state.lastFollowups = [];
+    state.isLoading = true;
+    renderLoading();
+
+    try {
+      const res = await fetch('/api/framing-engine', {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify(input),
+      });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      state.isLoading = false;
+      if (!data.ok) {
+        renderError(data.error || 'Evaluation failed.');
+        return;
+      }
+      state.lastResult = data.result;
+      state.lastSavedId = data.saved_id || null;
+      state.lastFollowups = [];
+      renderResult(data.result);
+      if (data.save_error) {
+        toast('Saved to library failed');
+      }
+      // Refresh the library so the new row appears.
+      fetchLibrary();
+    } catch (err) {
+      state.isLoading = false;
+      renderError((err && err.message) || 'Network error.');
+    }
+  }
+
+  // ── Follow-up actions ─────────────────────────────────
+  async function runFollowup(action) {
+    if (!state.lastResult || !state.lastInput || state.isActionRunning) return;
+    state.isActionRunning = true;
+
+    const buttons = document.querySelectorAll('.fu-btn');
+    buttons.forEach((b) => {
+      b.disabled = true;
+      if (b.getAttribute('data-action') === action) {
+        b.textContent = 'Running…';
+      }
+    });
+
+    // Show a temporary pending entry at the top of the stack.
+    const pending = document.createElement('div');
+    pending.className = 'fu-entry';
+    pending.innerHTML = `
+      <div class="fu-head">
+        <span class="fu-action">${esc(action.replaceAll('_',' '))}</span>
+        <span class="fu-time">Running…</span>
+      </div>
+      <div class="loading-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+    `;
+    const wrap = $('fu-result-wrap');
+    wrap.insertBefore(pending, wrap.firstChild);
+
+    const resetButtons = () => {
+      state.isActionRunning = false;
+      buttons.forEach((b, i) => {
+        b.disabled = false;
+        b.textContent = FOLLOWUP_BUTTONS[i].label;
+      });
+    };
+
+    try {
+      const res = await fetch('/api/framing-engine-action', {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({
+          action,
+          original_input: state.lastInput,
+          current_result: state.lastResult,
+          saved_id: state.lastSavedId || undefined,
+        }),
+      });
+      if (res.status === 401) {
+        resetButtons();
+        pending.remove();
+        return handleUnauthorized();
+      }
+      const data = await res.json();
+      resetButtons();
+      pending.remove();
+
+      if (!data.ok) {
+        state.lastFollowups.push({
+          action,
+          error: data.error || 'Unknown error',
+          created_at: new Date().toISOString(),
+        });
+      } else {
+        state.lastFollowups.push({
+          action,
+          data: data.data,
+          created_at: new Date().toISOString(),
+        });
+      }
+      renderFollowupStack();
+    } catch (err) {
+      resetButtons();
+      pending.remove();
+      state.lastFollowups.push({
+        action,
+        error: (err && err.message) || 'Network error',
+        created_at: new Date().toISOString(),
+      });
+      renderFollowupStack();
+    }
+  }
+
+  // ── Copy helpers ──────────────────────────────────────
+  function formatBriefingText(r) {
+    const bullets = (arr) => (arr || []).map((s) => '  - ' + s).join('\n');
+    const t = r.editorial_triad || {};
+    const lines = [
+      'OPEN CIVILIZATION · EPISODE BRIEFING',
+      '',
+      'EPISODE TITLE',
+      r.episode_title,
+      '',
+      'EPISODE THESIS',
+      r.episode_thesis,
+      '',
+      'WHY THIS BELONGS IN OPEN CIVILIZATION',
+      r.belongs_to_open_civilization_because,
+      '',
+      'CORE THEMES',
+      bullets(r.core_themes),
+      '',
+      'KEY QUESTIONS',
+      bullets(r.key_questions),
+      '',
+      'CHALLENGES AND TENSIONS',
+      bullets(r.tensions),
+      '',
+      'OPPOSING AND COMPETING VIEWS',
+      bullets(r.opposing_views),
+      '',
+      'GUEST PROFILES',
+      bullets(r.guest_profiles),
+      '',
+      'AUDIENCE PAYOFF',
+      r.audience_payoff,
+      '',
+      'OPENING MONOLOGUE ANGLE',
+      r.opening_monologue_angle,
+      '',
+      'INNOVATION LENS',
+      r.innovation_lens,
+      '',
+      'EDITORIAL TRIAD',
+      '  What is happening:',
+      '    ' + (t.what_is_happening || ''),
+      '  Why it matters for open civilization:',
+      '    ' + (t.why_it_matters_for_open_civilization || ''),
+      '  What follows if we get this wrong:',
+      '    ' + (t.what_follows_if_we_get_this_wrong || ''),
+      '',
+      'VERDICT: ' + (VERDICT_LABELS[r.verdict] || r.verdict) +
+        '   SCORE: ' + r.fit_score + '/45' +
+        '   RECOMMENDED USE: ' + (RECOMMENDED_USE_LABELS[r.recommended_use] || r.recommended_use),
+    ];
+    return lines.join('\n');
+  }
+
+  async function copyBriefing() {
+    if (!state.lastResult) return;
+    try {
+      await navigator.clipboard.writeText(formatBriefingText(state.lastResult));
+      toast('Briefing copied');
+    } catch {
+      toast('Copy failed');
+    }
+  }
+  async function copyJson() {
+    if (!state.lastResult) return;
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(state.lastResult, null, 2));
+      toast('JSON copied');
+    } catch {
+      toast('Copy failed');
+    }
+  }
+
+  function clearAll() {
+    writeForm({ input_text: '', input_type: 'theme', desired_lens: 'general', notes: '', guest: '' });
+    state.lastInput = null;
+    state.lastResult = null;
+    state.lastSavedId = null;
+    state.lastFollowups = [];
+    renderEmpty();
+    // Deselect any active library row.
+    document.querySelectorAll('.library-row.is-active').forEach((r) => r.classList.remove('is-active'));
+  }
+
+  // ── Library ───────────────────────────────────────────
+  async function fetchLibrary() {
+    if (state.libraryLoading || !state.token) return;
+    state.libraryLoading = true;
+    try {
+      const res = await fetch('/api/framing-engine-library', {
+        headers: authHeaders(),
+      });
+      if (res.status === 401) {
+        state.libraryLoading = false;
+        return handleUnauthorized();
+      }
+      const data = await res.json();
+      state.libraryLoading = false;
+      if (!data.ok) {
+        renderLibraryError(data.error || 'Failed to load library');
+        return;
+      }
+      state.libraryEntries = data.evaluations || [];
+      renderLibrary();
+    } catch (err) {
+      state.libraryLoading = false;
+      renderLibraryError((err && err.message) || 'Network error');
+    }
+  }
+
+  function renderLibraryError(message) {
+    $('library-count').textContent = '';
+    $('library-body').innerHTML = `
+      <div class="library-empty" style="color:var(--red);">
+        Library unavailable. ${esc(message)}
+      </div>
+    `;
+  }
+
+  function renderLibrary() {
+    const countEl = $('library-count');
+    const bodyEl  = $('library-body');
+    const rows = state.libraryEntries || [];
+    countEl.textContent = rows.length === 0
+      ? 'Empty'
+      : rows.length + (rows.length === 1 ? ' entry' : ' entries');
+
+    if (rows.length === 0) {
+      bodyEl.innerHTML = `
+        <div class="library-empty">
+          No saved evaluations yet. Evaluate a topic above and it will appear here automatically.
+        </div>
+      `;
+      return;
+    }
+
+    const rowsHtml = rows.map((r) => {
+      const pill = verdictPillClass(r.verdict);
+      const verdictLabel = VERDICT_LABELS[r.verdict] || r.verdict;
+      const fuCount = Number(r.followup_count) || 0;
+      const fuLabel = fuCount === 0
+        ? 'No follow-ups'
+        : fuCount === 1
+          ? '1 follow-up'
+          : fuCount + ' follow-ups';
+      const active = state.lastSavedId === r.id ? ' is-active' : '';
+      return `
+        <div class="library-row${active}" data-id="${r.id}">
+          <div class="library-row-date">${esc(formatDate(r.created_at))}</div>
+          <div class="library-row-title">${esc(r.episode_title)}</div>
+          <div class="library-row-verdict ${pill}">${esc(verdictLabel)}</div>
+          <div class="library-row-score">${esc(r.fit_score)}/45</div>
+          <div class="library-row-fu">${esc(fuLabel)}</div>
+          <button type="button" class="library-row-delete" data-id="${r.id}">Delete</button>
+        </div>
+      `;
+    }).join('');
+    bodyEl.innerHTML = `<div class="library-list">${rowsHtml}</div>`;
+
+    // Wire up click handlers — delete wins over row-click via stopPropagation.
+    bodyEl.querySelectorAll('.library-row-delete').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = Number(btn.getAttribute('data-id'));
+        if (Number.isFinite(id)) deleteFromLibrary(id);
+      });
+    });
+    bodyEl.querySelectorAll('.library-row').forEach((row) => {
+      row.addEventListener('click', () => {
+        const id = Number(row.getAttribute('data-id'));
+        if (Number.isFinite(id)) loadFromLibrary(id);
+      });
+    });
+  }
+
+  async function loadFromLibrary(id) {
+    try {
+      const res = await fetch('/api/framing-engine-library?id=' + encodeURIComponent(id), {
+        headers: authHeaders(),
+      });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      if (!data.ok) {
+        toast('Load failed');
+        return;
+      }
+      const ev = data.evaluation;
+      // Populate the form
+      writeForm({
+        input_text: ev.input_text || '',
+        input_type: ev.input_type || 'theme',
+        desired_lens: ev.desired_lens || 'general',
+        notes: ev.notes || '',
+        guest: ev.guest || '',
+      });
+      // Restore state
+      state.lastInput = {
+        input_text: ev.input_text || '',
+        input_type: ev.input_type || 'theme',
+        desired_lens: ev.desired_lens || 'general',
+        notes: ev.notes || '',
+        guest: ev.guest || '',
+      };
+      state.lastResult = ev.result;
+      state.lastSavedId = ev.id;
+      // followups from DB are stored in chronological order (oldest first).
+      state.lastFollowups = Array.isArray(ev.followups) ? ev.followups.slice() : [];
+
+      renderResult(ev.result);
+      renderLibrary(); // re-render so the active row highlights
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      toast('Load failed');
+    }
+  }
+
+  async function deleteFromLibrary(id) {
+    if (!confirm('Delete this saved evaluation? This cannot be undone.')) return;
+    try {
+      const res = await fetch('/api/framing-engine-library?id=' + encodeURIComponent(id), {
+        method: 'DELETE',
+        headers: authHeaders(),
+      });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      if (!data.ok) {
+        toast('Delete failed');
+        return;
+      }
+      // If the deleted entry was currently loaded, reset the workbench.
+      if (state.lastSavedId === id) {
+        state.lastSavedId = null;
+        state.lastResult = null;
+        state.lastFollowups = [];
+        renderEmpty();
+      }
+      toast('Deleted');
+      fetchLibrary();
+    } catch (err) {
+      toast('Delete failed');
+    }
+  }
+
+  // ── Wire up ───────────────────────────────────────────
+  $('login-btn').addEventListener('click', attemptLogin);
+  $('token-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') attemptLogin(); });
+
+  $('framing-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    evaluate();
+  });
+  $('clear-btn').addEventListener('click', clearAll);
+  $('library-refresh').addEventListener('click', fetchLibrary);
+
+  // If a session-stored password exists, auto-verify and unlock. Otherwise
+  // show the login gate.
+  (async function init() {
+    if (state.token) {
+      const result = await verifyPassword(state.token);
+      if (result.ok) {
+        showWorkbench();
+        renderExamples();
+        renderEmpty();
+        fetchLibrary();
+        return;
+      }
+      sessionStorage.removeItem('oc_framing_password');
+      state.token = '';
+    }
+    showLoginGate();
+  })();
+</script>
+
+</body>
+</html>

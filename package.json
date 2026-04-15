@@ -2,10 +2,11 @@
   "name": "open-civilization-site",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Open Civilization podcast website",
   "scripts": {
-    "dev": "vercel dev --listen 3000",
     "start": "npx serve public -l 3000",
+    "test": "node --test tests/*.test.js",
     "validate": "npx html-validate public/index.html || true",
     "links": "npx linkinator public/index.html --silent || true"
   },
