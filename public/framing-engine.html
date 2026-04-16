@@ -775,6 +775,14 @@
   }
   .toast.show { opacity: 1; }
 
+  /* ─── Readiness hint under the actions row ─── */
+  .readiness-hint {
+    margin-top: 12px;
+    font-size: var(--body-sm-size);
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
   /* ─── Library section ─── */
   .library-section {
     padding-top: 20px;
@@ -1391,9 +1399,36 @@
     `;
   }
 
+  // Mirror of lib/framing-engine/schema.js#isFramingReady — kept inline so
+  // the page works without a server round-trip. Server enforces the same
+  // rule on the build-guest-list endpoint.
+  function checkReadiness(r) {
+    if (!r) return { ready: false, reason: 'No framing result available' };
+    if (!r.episode_title || String(r.episode_title).trim().length < 6)
+      return { ready: false, reason: 'Missing or weak episode title' };
+    if (!r.episode_thesis || String(r.episode_thesis).trim().length < 12)
+      return { ready: false, reason: 'Missing or weak episode thesis' };
+    if (!r.belongs_to_open_civilization_because || String(r.belongs_to_open_civilization_because).trim().length < 12)
+      return { ready: false, reason: 'Missing the doctrinal "why this belongs" paragraph' };
+    const all = []
+      .concat(Array.isArray(r.core_themes) ? r.core_themes : [])
+      .concat(Array.isArray(r.key_questions) ? r.key_questions : [])
+      .concat(Array.isArray(r.tensions) ? r.tensions : [])
+      .filter((s) => typeof s === 'string' && s.trim().length >= 6);
+    if (all.length < 3) return { ready: false, reason: 'Need at least 3 substantive themes, questions, or tensions' };
+    if (r.verdict === 'reject') return { ready: false, reason: 'Verdict is reject — not suitable for an episode' };
+    if (r.verdict === 'segment_only') return { ready: false, reason: 'Verdict is segment_only — not a full episode' };
+    return { ready: true };
+  }
+
   function renderResult(r) {
     const band = scoreBandKey(r.fit_score);
     const pill = verdictPillClass(r.verdict);
+    const readiness = checkReadiness(r);
+    const guestListEnabled = readiness.ready && state.lastSavedId != null;
+    const guestListReason = !state.lastSavedId
+      ? 'Result must be saved before handoff (this is automatic on a successful evaluation).'
+      : (readiness.reason || '');
 
     const dimHtml = Object.keys(DIMENSION_LABELS).map((k) => {
       const v = Number(r.dimension_scores && r.dimension_scores[k]) || 0;
@@ -1514,10 +1549,15 @@
 
         <!-- Result actions -->
         <div class="actions-row">
+          <button type="button" class="btn primary" id="build-guest-list-btn"
+                  ${guestListEnabled ? '' : 'disabled title="' + esc(guestListReason) + '"'}>
+            Build Guest List →
+          </button>
           <button type="button" class="btn" id="rerun-btn">Re-run</button>
           <button type="button" class="btn" id="copy-briefing-btn">Copy briefing</button>
           <button type="button" class="btn" id="copy-json-btn">Copy JSON</button>
         </div>
+        ${!guestListEnabled ? '<div class="readiness-hint">Build Guest List unavailable: ' + esc(guestListReason) + '</div>' : ''}
 
         <!-- Follow-ups -->
         <div class="followups">
@@ -1539,6 +1579,10 @@
     $('rerun-btn').addEventListener('click', () => evaluate());
     $('copy-briefing-btn').addEventListener('click', () => copyBriefing());
     $('copy-json-btn').addEventListener('click', () => copyJson());
+    const buildBtn = $('build-guest-list-btn');
+    if (buildBtn && guestListEnabled) {
+      buildBtn.addEventListener('click', () => buildGuestList());
+    }
     document.querySelectorAll('.fu-btn').forEach((btn) => {
       btn.addEventListener('click', () => runFollowup(btn.getAttribute('data-action')));
     });
@@ -1785,6 +1829,37 @@
     renderEmpty();
     // Deselect any active library row.
     document.querySelectorAll('.library-row.is-active').forEach((r) => r.classList.remove('is-active'));
+  }
+
+  // ── Build Guest List handoff ──────────────────────────
+  async function buildGuestList() {
+    if (!state.lastSavedId) { toast('Result must be saved first'); return; }
+    const btn = $('build-guest-list-btn');
+    const prev = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Building…'; }
+    try {
+      const res = await fetch('/api/build-guest-list', {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ framing_evaluation_id: state.lastSavedId }),
+      });
+      if (res.status === 401) {
+        if (btn) { btn.disabled = false; btn.textContent = prev; }
+        return handleUnauthorized();
+      }
+      const data = await res.json();
+      if (!data.ok) {
+        if (btn) { btn.disabled = false; btn.textContent = prev; }
+        toast('Build failed: ' + (data.error || 'unknown'));
+        return;
+      }
+      // Route to Guest Desk — preserve the auth header by passing through the
+      // page (sessionStorage already has the password).
+      window.location.href = '/guest-desk?episode=' + data.episode.id;
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = prev; }
+      toast('Build failed: ' + ((err && err.message) || 'network error'));
+    }
   }
 
   // ── Library ───────────────────────────────────────────

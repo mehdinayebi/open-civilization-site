@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guest Desk &mdash; Open Civilization</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="Internal: build the guest list and outreach plan for an Open Civilization episode." />
+
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper:    #f1ede3;
+    --paper-2:  #e9e4d5;
+    --ink:      #0e0e0e;
+    --ink-2:    #1c1c1a;
+    --muted:    #6e6a5e;
+    --muted-2:  #a8a394;
+    --red:      #b22a1f;
+    --red-ink:  #7a1a12;
+    --rule:     #0e0e0e;
+    --mono:  'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --serif: 'Fraunces', 'Times New Roman', Georgia, serif;
+
+    --display-lg-size: 56px;
+    --display-lg-lh: 1.0;
+    --display-lg-ls: -0.015em;
+    --body-lg-size: 22px;
+    --body-lg-lh: 1.5;
+    --body-md-size: 16px;
+    --body-md-lh: 1.6;
+    --body-sm-size: 14px;
+    --body-sm-lh: 1.6;
+    --label-size: 12px;
+    --label-lh: 1.4;
+    --label-ls: 0.12em;
+  }
+  @media (min-width: 900px) {
+    :root {
+      --display-lg-size: 80px;
+      --body-lg-size: 24px;
+      --body-md-size: 17px;
+      --label-size: 13px;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.6;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.28;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  a { color: inherit; text-decoration: none; }
+  button, input, textarea, select { font-family: var(--mono); font-size: 15px; color: inherit; }
+  button { cursor: pointer; }
+  .hidden { display: none !important; }
+
+  /* Masthead — consistent with other internal pages */
+  .masthead-bar {
+    border-bottom: 1.5px solid var(--ink);
+    padding: 14px 32px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-size: var(--label-size);
+    font-weight: 500;
+    letter-spacing: var(--label-ls);
+    text-transform: uppercase;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .masthead-bar .sep { width: 1px; height: 12px; background: var(--ink); opacity: 0.4; }
+  .masthead-bar .spacer { flex: 1; }
+  .mast-link {
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s;
+  }
+  .mast-link:hover { border-color: var(--ink); }
+  .mast-status { color: var(--muted); }
+  .mast-status .dot {
+    display: inline-block;
+    width: 6px; height: 6px; background: var(--red); border-radius: 50%;
+    margin-right: 8px; vertical-align: middle;
+  }
+  @media (max-width: 640px) {
+    .masthead-bar { padding: 12px 20px; gap: 14px; }
+    .mast-hide-mobile { display: none; }
+  }
+
+  /* Login gate */
+  .main { padding: 50px 40px 90px; max-width: 1600px; }
+  @media (max-width: 640px) { .main { padding: 32px 20px 60px; } }
+  .login-wrap { max-width: 420px; padding: 30px 0 10px; }
+  .login-label { display: block; font-size: var(--label-size); text-transform: uppercase; letter-spacing: var(--label-ls); color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+  .login-row { display: flex; border: 1.5px solid var(--ink); }
+  .login-row input { flex: 1; padding: 14px 16px; border: none; background: transparent; outline: none; }
+  .login-row button { padding: 14px 24px; background: var(--ink); color: var(--paper); border: none; font-size: var(--label-size); text-transform: uppercase; letter-spacing: var(--label-ls); font-weight: 600; transition: background .2s; }
+  .login-row button:hover { background: var(--red); }
+  .login-help { margin-top: 14px; font-size: var(--body-sm-size); color: var(--muted); max-width: 50ch; }
+  .login-error { margin-top: 14px; font-size: var(--body-sm-size); color: var(--red); display: none; }
+
+  /* Page header */
+  .desk-header {
+    padding: 60px 40px 40px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  @media (max-width: 640px) { .desk-header { padding: 40px 20px 28px; } }
+  .desk-marker {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .desk-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: var(--display-lg-size);
+    line-height: var(--display-lg-lh);
+    letter-spacing: var(--display-lg-ls);
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    margin-bottom: 22px;
+  }
+  .desk-title em { font-style: italic; font-weight: 300; }
+  .desk-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--muted);
+  }
+  .desk-meta .k {
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .desk-meta .v { color: var(--ink); }
+  .stage-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+
+  /* Version banner */
+  .version-banner {
+    background: var(--paper-2);
+    border-top: 1.5px solid var(--red);
+    border-bottom: 1.5px solid var(--red);
+    padding: 18px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .version-banner .text {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    color: var(--ink);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .version-banner .text strong { color: var(--red); font-weight: 500; }
+
+  /* Sections */
+  .section {
+    padding: 60px 40px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  @media (max-width: 640px) { .section { padding: 40px 20px; } }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 30px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .section-head-left { display: flex; align-items: baseline; gap: 14px; }
+  .section-num {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--red);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .section-title em { font-style: italic; font-weight: 300; }
+  .section-sub {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    transition: background .2s, color .2s, transform .2s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); transform: translateX(2px); }
+  .btn.primary { border-width: 2.5px; background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--red); border-color: var(--red); }
+  .btn.ghost { border-color: var(--muted); color: var(--muted); }
+  .btn.ghost:hover { background: var(--muted); color: var(--paper); border-color: var(--muted); }
+  .btn[disabled] { opacity: 0.4; pointer-events: none; }
+  .btn-small {
+    padding: 7px 12px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  /* Framing Brief */
+  .brief-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  @media (min-width: 900px) {
+    .brief-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  }
+  .brief-block h4 {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .brief-block p {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.65;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .brief-block.hero {
+    grid-column: 1 / -1;
+  }
+  .brief-block.hero p {
+    font-size: var(--body-lg-size);
+    line-height: 1.5;
+  }
+  .brief-block ul { list-style: none; padding: 0; margin: 0; }
+  .brief-block li {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.6;
+    color: var(--ink-2);
+    padding: 8px 0 8px 22px;
+    position: relative;
+    border-bottom: 1px solid var(--muted-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .brief-block li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--red);
+    font-weight: 700;
+  }
+  .brief-block li:last-child { border-bottom: none; }
+
+  /* Strategy panel */
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  @media (min-width: 1100px) {
+    .strategy-grid { grid-template-columns: 1.4fr 1fr; gap: 40px; }
+  }
+  .strategy-block { }
+  .strategy-block h4 {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .strategy-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .chip {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+    background: transparent;
+  }
+  .chip.weak { color: var(--red); border-color: var(--red); background: rgba(178,42,31,0.04); }
+  .strategy-list { list-style: none; padding: 0; margin: 0 0 22px 0; }
+  .strategy-list li {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.6;
+    padding: 8px 0 8px 22px;
+    position: relative;
+    border-bottom: 1px solid var(--muted-2);
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .strategy-list li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--red);
+    font-weight: 700;
+  }
+  .strategy-list li:last-child { border-bottom: none; }
+  .target-mix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .target-mix .cell {
+    border: 1px solid var(--ink);
+    padding: 14px 16px;
+  }
+  .target-mix .cell .n {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    color: var(--ink);
+  }
+  .target-mix .cell .l {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .weights-table {
+    border: 1px solid var(--ink);
+    padding: 14px 16px;
+  }
+  .weights-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--muted-2);
+  }
+  .weights-row:last-child { border-bottom: none; }
+  .weights-row .v { color: var(--muted); }
+
+  /* Add candidate form */
+  .add-candidate {
+    margin-bottom: 30px;
+    padding: 22px 24px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .add-candidate h4 {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    outline: none;
+  }
+  .form-textarea { min-height: 100px; resize: vertical; grid-column: 1 / -1; }
+  .form-input.full { grid-column: 1 / -1; }
+  .form-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .add-candidate .form-actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Candidate list */
+  .candidates {
+    margin-bottom: 24px;
+  }
+  .candidates-empty {
+    padding: 28px 0;
+    color: var(--muted);
+    font-family: var(--serif);
+    font-style: italic;
+  }
+  .cand-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 130px 70px 90px;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--ink);
+    align-items: baseline;
+    cursor: pointer;
+    transition: background .2s, padding .2s;
+  }
+  .cand-row:hover { background: var(--paper-2); padding-left: 12px; }
+  .cand-row.is-active { background: var(--paper-2); padding-left: 12px; }
+  .cand-row.is-active .cand-name { color: var(--red); }
+  @media (max-width: 760px) {
+    .cand-row {
+      grid-template-columns: 1fr auto;
+      gap: 6px 14px;
+    }
+    .cand-score { order: 1; justify-self: end; }
+    .cand-name  { order: 2; grid-column: 1 / 2; }
+    .cand-title { order: 3; grid-column: 1 / -1; color: var(--muted); }
+    .cand-status { order: 4; }
+    .cand-org { order: 5; grid-column: 1 / -1; color: var(--muted); }
+  }
+  .cand-score {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .cand-score em { font-size: 14px; color: var(--muted); font-style: italic; font-weight: 300; }
+  .cand-name {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--ink);
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .cand-title { font-family: var(--mono); font-size: var(--body-sm-size); color: var(--ink-2); }
+  .cand-org { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .status-pill {
+    display: inline-block;
+    padding: 4px 9px;
+    border: 1px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--ink);
+    background: transparent;
+    justify-self: start;
+  }
+  .status-pill.strong { background: var(--ink); color: var(--paper); }
+  .status-pill.warn { color: var(--red); border-color: var(--red); }
+  .status-pill.muted { color: var(--muted); border-color: var(--muted); }
+
+  /* Candidate detail panel — slides up below the list as a stacked block */
+  .cand-detail {
+    margin-top: 30px;
+    padding: 28px 30px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    display: none;
+  }
+  .cand-detail.is-open { display: block; }
+  .cand-detail-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 22px;
+  }
+  .cand-detail-name {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+    line-height: 1.1;
+  }
+  .cand-detail-name em { font-style: italic; font-weight: 300; }
+  .cand-detail-meta {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--muted);
+  }
+  .cand-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  @media (min-width: 900px) {
+    .cand-detail-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  }
+  .cand-detail-block h4 {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .cand-detail-block p, .cand-detail-block .body {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.65;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .cand-scores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 24px;
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+  }
+  .cand-scores .row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--muted-2); }
+  .cand-scores .row:last-child, .cand-scores .row:nth-last-child(2) { border-bottom: none; }
+  .cand-scores .l { color: var(--ink-2); }
+  .cand-scores .v { color: var(--ink); font-weight: 500; }
+  .cand-detail-actions {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .status-select {
+    padding: 8px 12px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* Drafts */
+  .drafts {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ink);
+  }
+  .drafts-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .drafts-head h4 {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .draft-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--muted-2);
+  }
+  .draft-tab {
+    padding: 8px 14px;
+    border: none;
+    background: transparent;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .draft-tab:hover { color: var(--ink); }
+  .draft-tab.is-active { color: var(--ink); border-bottom-color: var(--red); }
+  .draft-body {
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 18px 20px;
+  }
+  .draft-subject {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .draft-subject .k {
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .draft-text {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.7;
+    color: var(--ink-2);
+    white-space: pre-wrap;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+
+  /* Loading skeleton */
+  .skel {
+    height: 14px;
+    background: linear-gradient(90deg, var(--paper-2) 25%, var(--muted-2) 50%, var(--paper-2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+    margin-bottom: 8px;
+  }
+  .skel.w80 { width: 80%; }
+  .skel.w60 { width: 60%; }
+  @keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  /* Error state */
+  .error-block {
+    border: 1.5px solid var(--red);
+    background: rgba(178,42,31,0.05);
+    padding: 28px 30px;
+    margin-top: 20px;
+  }
+  .error-block h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+  .error-block p {
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.6;
+    color: var(--ink-2);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: var(--label-size);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+  }
+  .toast.show { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skel { animation: none; background: var(--paper-2); }
+    .btn, .cand-row { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead-bar">
+  <div><strong>OC</strong></div>
+  <div class="sep"></div>
+  <div class="mast-hide-mobile">Guest Desk</div>
+  <div class="sep mast-hide-mobile"></div>
+  <div class="mast-status mast-hide-mobile"><span class="dot"></span>Internal</div>
+  <div class="spacer"></div>
+  <a class="mast-link" href="/framing-engine">← Framing Engine</a>
+</header>
+
+<!-- Login gate -->
+<section class="main" id="login-section">
+  <div class="login-wrap">
+    <label class="login-label" for="token-input">Access password</label>
+    <div class="login-row">
+      <input type="password" id="token-input" placeholder="Enter password" autocomplete="current-password" />
+      <button id="login-btn" type="button">Enter</button>
+    </div>
+    <div class="login-error" id="login-error">Invalid password. Try again.</div>
+    <p class="login-help">
+      Same password as the Framing Engine. The token is stored only in this browser tab.
+    </p>
+  </div>
+</section>
+
+<!-- Workbench (hidden until auth + load) -->
+<div id="workbench" class="hidden">
+
+  <header class="desk-header">
+    <div class="desk-marker">§ Editorial workbench / stage 2</div>
+    <h1 class="desk-title" id="episode-title">…</h1>
+    <div class="desk-meta">
+      <div><span class="k">Stage</span><span class="v"><span class="stage-badge" id="stage-badge">Guest planning</span></span></div>
+      <div><span class="k">Source</span><span class="v" id="source-label">…</span></div>
+      <div><span class="k">Synced</span><span class="v" id="synced-label">…</span></div>
+    </div>
+  </header>
+
+  <!-- Version banner — shown when source framing has new updates -->
+  <div class="version-banner hidden" id="version-banner">
+    <div class="text"><strong>Framing updated</strong> — the source framing has new follow-ups since this Guest Desk was created. Refresh strategy to incorporate them, or keep your current state.</div>
+    <div>
+      <button type="button" class="btn btn-small" id="refresh-strategy-btn">Refresh strategy</button>
+    </div>
+  </div>
+
+  <!-- Section 1: Framing Brief -->
+  <section class="section" id="framing-brief">
+    <div class="section-head">
+      <div class="section-head-left">
+        <span class="section-num">§ I</span>
+        <span class="section-title">The <em>framing brief.</em></span>
+      </div>
+      <div class="section-sub">Read-only source of truth</div>
+    </div>
+    <div id="brief-body"></div>
+  </section>
+
+  <!-- Section 2: Guest Strategy -->
+  <section class="section" id="strategy-section">
+    <div class="section-head">
+      <div class="section-head-left">
+        <span class="section-num">§ II</span>
+        <span class="section-title">The <em>guest strategy.</em></span>
+      </div>
+      <div class="section-sub">Derived from the framing</div>
+    </div>
+    <div id="strategy-body"></div>
+  </section>
+
+  <!-- Section 3: Candidate Pipeline -->
+  <section class="section" id="candidates-section">
+    <div class="section-head">
+      <div class="section-head-left">
+        <span class="section-num">§ III</span>
+        <span class="section-title">The <em>candidate pipeline.</em></span>
+        <span class="section-sub" id="cand-count"></span>
+      </div>
+      <div>
+        <button type="button" class="btn primary" id="show-add-candidate-btn">Add candidate</button>
+      </div>
+    </div>
+    <div id="add-candidate-wrap" class="hidden"></div>
+    <div id="candidates-body"></div>
+    <div id="cand-detail" class="cand-detail"></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  // ── State ─────────────────────────────────────────────
+  const state = {
+    token: sessionStorage.getItem('oc_framing_password') || '',
+    episodeId: null,
+    data: null,                  // full /api/guest-desk response
+    activeCandidateId: null,
+    showingAddForm: false,
+    activeDraftKey: null,
+  };
+
+  // Read episode id from URL.
+  state.episodeId = (() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const n = Number(params.get('episode'));
+      return Number.isFinite(n) && n > 0 ? n : null;
+    } catch { return null; }
+  })();
+
+  const STATUS_LABELS = {
+    new: 'New',
+    reviewed: 'Reviewed',
+    strong_fit: 'Strong fit',
+    ready_to_contact: 'Ready to contact',
+    contacted: 'Contacted',
+    follow_up_due: 'Follow-up due',
+    replied: 'Replied',
+    intro_call: 'Intro call',
+    booked: 'Booked',
+    passed: 'Passed',
+    archive: 'Archive',
+  };
+
+  const STATUS_KEYS = Object.keys(STATUS_LABELS);
+
+  const VARIANT_LABELS = {
+    formal: 'Formal email',
+    warmer: 'Warmer email',
+    elite_short: 'Elite short',
+    linkedin: 'LinkedIn DM',
+    x: 'X DM',
+    follow_up_1: 'Follow-up 1',
+    follow_up_2: 'Follow-up 2',
+  };
+
+  // ── Helpers ───────────────────────────────────────────
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+  function authHeaders(extra) {
+    const h = { 'Authorization': 'Bearer ' + state.token };
+    if (extra) Object.assign(h, extra);
+    return h;
+  }
+  function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+  function formatDateTime(iso) {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      return months[d.getMonth()] + ' ' + d.getDate() + ', ' + hh + ':' + mm;
+    } catch { return ''; }
+  }
+  function statusPillClass(status) {
+    if (status === 'booked' || status === 'intro_call' || status === 'replied' || status === 'strong_fit') return 'strong';
+    if (status === 'follow_up_due' || status === 'contacted' || status === 'ready_to_contact') return '';
+    if (status === 'passed' || status === 'archive') return 'muted';
+    return '';
+  }
+
+  // ── Login ─────────────────────────────────────────────
+  function showLoginError(msg) {
+    const err = $('login-error');
+    err.textContent = msg || 'Invalid password. Try again.';
+    err.style.display = 'block';
+  }
+  function hideLoginError() { $('login-error').style.display = 'none'; }
+  function showWorkbench() {
+    $('login-section').classList.add('hidden');
+    $('workbench').classList.remove('hidden');
+  }
+  function showLoginGate() {
+    $('login-section').classList.remove('hidden');
+    $('workbench').classList.add('hidden');
+  }
+  async function verifyPassword(token) {
+    try {
+      const res = await fetch('/api/framing-engine-library', { headers: { 'Authorization': 'Bearer ' + token } });
+      if (res.status === 200) return { ok: true };
+      if (res.status === 401) return { ok: false, reason: 'Invalid password. Try again.' };
+      return { ok: false, reason: 'Auth check returned HTTP ' + res.status };
+    } catch (err) {
+      return { ok: false, reason: 'Network error: ' + ((err && err.message) || 'unreachable') };
+    }
+  }
+  async function attemptLogin() {
+    const token = $('token-input').value.trim();
+    if (!token) return;
+    hideLoginError();
+    $('login-btn').textContent = '...';
+    const r = await verifyPassword(token);
+    $('login-btn').textContent = 'Enter';
+    if (!r.ok) { sessionStorage.removeItem('oc_framing_password'); state.token = ''; showLoginError(r.reason); return; }
+    sessionStorage.setItem('oc_framing_password', token);
+    state.token = token;
+    showWorkbench();
+    loadDesk();
+  }
+  function handleUnauthorized() {
+    sessionStorage.removeItem('oc_framing_password');
+    state.token = '';
+    showLoginGate();
+    showLoginError('Session expired. Re-enter the password.');
+  }
+
+  // ── Load full state ───────────────────────────────────
+  async function loadDesk() {
+    if (!state.episodeId) {
+      $('workbench').innerHTML = `
+        <section class="section">
+          <div class="error-block">
+            <h3>No episode specified</h3>
+            <p>This page expects an <code>?episode=N</code> query parameter. Open this page from the Framing Engine using the Build Guest List button.</p>
+          </div>
+        </section>
+      `;
+      return;
+    }
+    try {
+      const res = await fetch('/api/guest-desk?episode=' + state.episodeId, { headers: authHeaders() });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      if (!data.ok) {
+        renderError(data.error || 'Failed to load Guest Desk.');
+        return;
+      }
+      state.data = data;
+      renderDesk();
+    } catch (err) {
+      renderError((err && err.message) || 'Network error.');
+    }
+  }
+
+  function renderError(message) {
+    $('workbench').innerHTML = `
+      <section class="section">
+        <div class="error-block">
+          <h3>Could not load Guest Desk</h3>
+          <p>${esc(message)}</p>
+        </div>
+      </section>
+    `;
+  }
+
+  // ── Top-level render ──────────────────────────────────
+  function renderDesk() {
+    const { episode, snapshot, strategy, candidates, framing_updated_since_handoff } = state.data;
+    if (!episode) return renderError('Episode missing from response.');
+
+    // Header
+    $('episode-title').innerHTML = esc(episode.title);
+    $('stage-badge').textContent = (episode.stage || '').replace(/_/g, ' ');
+    $('source-label').textContent = 'Generated from Framing #' + episode.framing_evaluation_id;
+    $('synced-label').textContent = formatDateTime(episode.framing_handoff_at);
+
+    // Version banner
+    const banner = $('version-banner');
+    if (framing_updated_since_handoff) banner.classList.remove('hidden');
+    else banner.classList.add('hidden');
+
+    renderBrief(snapshot && snapshot.payload);
+    renderStrategy(strategy && strategy.payload);
+    renderCandidates(candidates || []);
+  }
+
+  // ── Section 1: Framing Brief ──────────────────────────
+  function renderBrief(payload) {
+    const body = $('brief-body');
+    if (!payload) {
+      body.innerHTML = '<p class="candidates-empty">No framing snapshot available.</p>';
+      return;
+    }
+    const e = payload.episode || {};
+    const f = payload.framing || {};
+    const list = (arr) => (arr || []).map((x) => '<li>' + esc(x) + '</li>').join('');
+
+    body.innerHTML = `
+      <div class="brief-grid">
+        <div class="brief-block hero">
+          <h4>Mission</h4>
+          <p>${esc(e.mission)}</p>
+        </div>
+        <div class="brief-block">
+          <h4>Why now</h4>
+          <p>${esc(e.whyNow)}</p>
+        </div>
+        <div class="brief-block">
+          <h4>Listener payoff</h4>
+          <p>${esc(e.listenerPayoff || '(not stated)')}</p>
+        </div>
+        <div class="brief-block">
+          <h4>Core themes</h4>
+          <ul>${list(f.coreThemes)}</ul>
+        </div>
+        <div class="brief-block">
+          <h4>Key questions</h4>
+          <ul>${list(f.keyQuestions)}</ul>
+        </div>
+        <div class="brief-block">
+          <h4>Tensions</h4>
+          <ul>${list(f.tensions)}</ul>
+        </div>
+        <div class="brief-block">
+          <h4>Opposing views</h4>
+          <ul>${list(f.opposingViews)}</ul>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── Section 2: Guest Strategy ─────────────────────────
+  function renderStrategy(s) {
+    const body = $('strategy-body');
+    if (!s) {
+      body.innerHTML = '<p class="candidates-empty">Strategy not yet generated.</p>';
+      return;
+    }
+    const chips = (arr, cls) => (arr || []).map((x) => `<span class="chip${cls ? ' ' + cls : ''}">${esc(x)}</span>`).join('');
+    const list = (arr) => (arr || []).map((x) => `<li>${esc(x)}</li>`).join('');
+    const tm = s.targetMix || {};
+    const w = s.scoringWeights || {};
+    const o = s.outreachFraming || {};
+
+    body.innerHTML = `
+      <div class="strategy-grid">
+        <div>
+          <div class="strategy-block">
+            <h4>Ideal guest archetypes</h4>
+            <div class="strategy-chips">${chips(s.idealGuestArchetypes)}</div>
+          </div>
+          <div class="strategy-block">
+            <h4>Weak archetypes (avoid)</h4>
+            <div class="strategy-chips">${chips(s.weakGuestArchetypes, 'weak')}</div>
+          </div>
+          <div class="strategy-block">
+            <h4>Best angles for the conversation</h4>
+            <ul class="strategy-list">${list(s.bestAngles)}</ul>
+          </div>
+          <div class="strategy-block">
+            <h4>Missing perspectives to look for</h4>
+            <ul class="strategy-list">${list(s.missingPerspectives)}</ul>
+          </div>
+        </div>
+        <div>
+          <div class="strategy-block">
+            <h4>Target mix</h4>
+            <div class="target-mix">
+              <div class="cell"><div class="n">${esc(tm.primaryTargets || 0)}</div><div class="l">Primary</div></div>
+              <div class="cell"><div class="n">${esc(tm.secondaryTargets || 0)}</div><div class="l">Secondary</div></div>
+              <div class="cell"><div class="n">${esc(tm.wildcardTargets || 0)}</div><div class="l">Wildcard</div></div>
+              <div class="cell"><div class="n">${esc(tm.backupTargets || 0)}</div><div class="l">Backup</div></div>
+            </div>
+          </div>
+          <div class="strategy-block">
+            <h4>Scoring weights</h4>
+            <div class="weights-table">
+              <div class="weights-row"><div class="k">Topical fit</div><div class="v">${esc(w.topicalFit)}</div></div>
+              <div class="weights-row"><div class="k">Authority</div><div class="v">${esc(w.authority)}</div></div>
+              <div class="weights-row"><div class="k">Conversation value</div><div class="v">${esc(w.conversationValue)}</div></div>
+              <div class="weights-row"><div class="k">Attainability</div><div class="v">${esc(w.attainability)}</div></div>
+              <div class="weights-row"><div class="k">Freshness</div><div class="v">${esc(w.freshness)}</div></div>
+              <div class="weights-row"><div class="k">Reach</div><div class="v">${esc(w.reach)}</div></div>
+            </div>
+          </div>
+          <div class="strategy-block">
+            <h4>Outreach framing (used by drafts)</h4>
+            <p style="font-family:var(--serif);font-size:var(--body-md-size);line-height:1.6;color:var(--ink-2);font-variation-settings:'SOFT' 100,'WONK' 0,'opsz' 32;">
+              ${esc(o.episodeAngle || '')}
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── Section 3: Candidate Pipeline ─────────────────────
+  function renderCandidates(rows) {
+    const body = $('candidates-body');
+    const count = $('cand-count');
+    count.textContent = rows.length === 0
+      ? 'Empty'
+      : rows.length + (rows.length === 1 ? ' candidate' : ' candidates');
+
+    if (rows.length === 0) {
+      body.innerHTML = `
+        <div class="candidates-empty">
+          No candidates yet. Click <strong>Add candidate</strong> to begin staffing this episode.
+        </div>
+      `;
+      return;
+    }
+
+    const html = rows.map((c) => {
+      const active = state.activeCandidateId === c.episode_candidate_id ? ' is-active' : '';
+      const pill = statusPillClass(c.status);
+      const statusLabel = STATUS_LABELS[c.status] || c.status;
+      return `
+        <div class="cand-row${active}" data-id="${c.episode_candidate_id}">
+          <div class="cand-score">${esc(c.overall_score)}<em> /100</em></div>
+          <div>
+            <div class="cand-name">${esc(c.full_name)}</div>
+            <div class="cand-title">${esc(c.title || '')}</div>
+            <div class="cand-org">${esc(c.organization || '')}</div>
+          </div>
+          <span class="status-pill ${pill}">${esc(statusLabel)}</span>
+          <div class="cand-org">${esc(c.best_angle || '').slice(0, 60)}</div>
+          <div class="cand-org">${esc(formatDateTime(c.attached_at))}</div>
+        </div>
+      `;
+    }).join('');
+    body.innerHTML = html;
+
+    body.querySelectorAll('.cand-row').forEach((row) => {
+      row.addEventListener('click', () => {
+        const id = Number(row.getAttribute('data-id'));
+        toggleCandidateDetail(id);
+      });
+    });
+
+    // Re-render detail panel if we have an active candidate
+    if (state.activeCandidateId) renderCandidateDetail();
+  }
+
+  function toggleCandidateDetail(episodeCandidateId) {
+    if (state.activeCandidateId === episodeCandidateId) {
+      state.activeCandidateId = null;
+      $('cand-detail').classList.remove('is-open');
+    } else {
+      state.activeCandidateId = episodeCandidateId;
+      state.activeDraftKey = null;
+      renderCandidateDetail();
+    }
+    // Re-render list to update is-active highlighting
+    renderCandidates(state.data.candidates || []);
+  }
+
+  function renderCandidateDetail() {
+    const id = state.activeCandidateId;
+    if (!id) { $('cand-detail').classList.remove('is-open'); return; }
+    const rows = (state.data && state.data.candidates) || [];
+    const c = rows.find((x) => x.episode_candidate_id === id);
+    if (!c) { $('cand-detail').classList.remove('is-open'); state.activeCandidateId = null; return; }
+
+    const detail = $('cand-detail');
+    detail.classList.add('is-open');
+
+    const scores = c.scores || {};
+    const drafts = c.drafts || [];
+
+    const statusOptions = STATUS_KEYS.map((s) =>
+      `<option value="${s}" ${s === c.status ? 'selected' : ''}>${esc(STATUS_LABELS[s])}</option>`
+    ).join('');
+
+    const draftKey = state.activeDraftKey || (drafts[0] && (drafts[0].channel + ':' + drafts[0].variant));
+    const activeDraft = drafts.find((d) => (d.channel + ':' + d.variant) === draftKey);
+
+    const draftTabsHtml = drafts.map((d) => {
+      const k = d.channel + ':' + d.variant;
+      const label = VARIANT_LABELS[d.variant] || d.variant;
+      const active = k === draftKey ? ' is-active' : '';
+      return `<button type="button" class="draft-tab${active}" data-key="${esc(k)}">${esc(label)}</button>`;
+    }).join('');
+
+    const draftBodyHtml = activeDraft
+      ? `<div class="draft-body">
+           ${activeDraft.subject ? `<div class="draft-subject"><span class="k">Subject</span>${esc(activeDraft.subject)}</div>` : ''}
+           <div class="draft-text">${esc(activeDraft.body)}</div>
+         </div>
+         <div class="cand-detail-actions">
+           <button type="button" class="btn btn-small" id="copy-draft-btn">Copy draft</button>
+           <button type="button" class="btn btn-small ghost" id="regen-drafts-btn">Regenerate all drafts</button>
+         </div>`
+      : `<div class="candidates-empty">No drafts yet. Click "Generate outreach drafts" below.</div>`;
+
+    detail.innerHTML = `
+      <div class="cand-detail-head">
+        <div>
+          <div class="cand-detail-name">${esc(c.full_name)}</div>
+          <div class="cand-detail-meta">${esc(c.title || '')} ${c.organization ? '· ' + esc(c.organization) : ''}</div>
+        </div>
+        <div>
+          <span class="status-pill ${statusPillClass(c.status)}">Status: ${esc(STATUS_LABELS[c.status] || c.status)}</span>
+        </div>
+      </div>
+
+      <div class="cand-detail-grid">
+        <div class="cand-detail-block">
+          <h4>Bio</h4>
+          <p>${esc(c.short_bio || '(none provided)')}</p>
+          ${c.tags && c.tags.length ? '<div class="strategy-chips" style="margin-top:14px;">' + c.tags.map((t) => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>' : ''}
+          ${c.source_url ? '<p style="margin-top:12px;"><span style="color:var(--muted);font-size:var(--label-size);text-transform:uppercase;letter-spacing:var(--label-ls);">Source:</span> <a href="' + esc(c.source_url) + '" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;">' + esc(c.source_url) + '</a></p>' : ''}
+        </div>
+
+        <div class="cand-detail-block">
+          <h4>Episode-specific scoring</h4>
+          <div class="cand-scores">
+            <div class="row"><span class="l">Topical fit</span><span class="v">${esc(scores.topicalFit ?? '—')}</span></div>
+            <div class="row"><span class="l">Authority</span><span class="v">${esc(scores.authority ?? '—')}</span></div>
+            <div class="row"><span class="l">Conversation value</span><span class="v">${esc(scores.conversationValue ?? '—')}</span></div>
+            <div class="row"><span class="l">Attainability</span><span class="v">${esc(scores.attainability ?? '—')}</span></div>
+            <div class="row"><span class="l">Freshness</span><span class="v">${esc(scores.freshness ?? '—')}</span></div>
+            <div class="row"><span class="l">Reach</span><span class="v">${esc(scores.reach ?? '—')}</span></div>
+            <div class="row" style="grid-column:1/-1;border-top:1px solid var(--ink);margin-top:8px;padding-top:8px;"><span class="l"><strong>Overall</strong></span><span class="v"><strong>${esc(c.overall_score)} / 100</strong></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cand-detail-grid" style="margin-top:26px;">
+        <div class="cand-detail-block">
+          <h4>Editorial memo</h4>
+          <p><strong style="color:var(--red);font-weight:500;">Why they fit:</strong> ${esc(c.fit_reason || '')}</p>
+          <p style="margin-top:10px;"><strong style="color:var(--red);font-weight:500;">Best angle:</strong> ${esc(c.best_angle || '')}</p>
+          <p style="margin-top:10px;"><strong style="color:var(--red);font-weight:500;">Recommended role:</strong> ${esc(c.recommended_role || '')}</p>
+          ${c.risks ? `<p style="margin-top:10px;"><strong style="color:var(--red);font-weight:500;">Risks:</strong> ${esc(c.risks)}</p>` : ''}
+          <p style="margin-top:10px;"><strong style="color:var(--red);font-weight:500;">Recommendation:</strong> ${esc(c.recommendation || '')}</p>
+        </div>
+        <div class="cand-detail-block">
+          <h4>Contact</h4>
+          ${c.contact_email ? `<p><span style="color:var(--muted);">Email:</span> ${esc(c.contact_email)}</p>` : ''}
+          ${c.contact_linkedin ? `<p><span style="color:var(--muted);">LinkedIn:</span> ${esc(c.contact_linkedin)}</p>` : ''}
+          ${c.contact_x ? `<p><span style="color:var(--muted);">X:</span> ${esc(c.contact_x)}</p>` : ''}
+          ${c.contact_other ? `<p><span style="color:var(--muted);">Other:</span> ${esc(c.contact_other)}</p>` : ''}
+          ${(!c.contact_email && !c.contact_linkedin && !c.contact_x && !c.contact_other) ? '<p class="candidates-empty">No contact methods recorded.</p>' : ''}
+          ${c.notes ? `<h4 style="margin-top:18px;">Notes</h4><p>${esc(c.notes)}</p>` : ''}
+        </div>
+      </div>
+
+      <div class="drafts">
+        <div class="drafts-head">
+          <h4>Outreach drafts</h4>
+          ${drafts.length === 0 ? '<button type="button" class="btn btn-small primary" id="gen-drafts-btn">Generate outreach drafts</button>' : ''}
+        </div>
+        ${drafts.length > 0 ? `<div class="draft-tabs">${draftTabsHtml}</div>` : ''}
+        ${draftBodyHtml}
+      </div>
+
+      <div class="cand-detail-actions">
+        <label class="form-label" for="status-select" style="margin-right:8px;align-self:center;">Status</label>
+        <select class="status-select" id="status-select">${statusOptions}</select>
+        <button type="button" class="btn btn-small ghost" id="remove-cand-btn">Remove from episode</button>
+      </div>
+    `;
+
+    // Wire up
+    const statusSelect = document.getElementById('status-select');
+    if (statusSelect) {
+      statusSelect.addEventListener('change', () => updateStatus(id, statusSelect.value));
+    }
+    const removeBtn = document.getElementById('remove-cand-btn');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', () => removeCandidate(id));
+    }
+    const genBtn = document.getElementById('gen-drafts-btn');
+    if (genBtn) genBtn.addEventListener('click', () => generateDrafts(id));
+    const regenBtn = document.getElementById('regen-drafts-btn');
+    if (regenBtn) regenBtn.addEventListener('click', () => generateDrafts(id));
+    const copyBtn = document.getElementById('copy-draft-btn');
+    if (copyBtn && activeDraft) copyBtn.addEventListener('click', () => copyDraft(activeDraft));
+    detail.querySelectorAll('.draft-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        state.activeDraftKey = tab.getAttribute('data-key');
+        renderCandidateDetail();
+      });
+    });
+  }
+
+  // ── Add candidate form ────────────────────────────────
+  function showAddCandidateForm() {
+    if (state.showingAddForm) return;
+    state.showingAddForm = true;
+    const wrap = $('add-candidate-wrap');
+    wrap.classList.remove('hidden');
+    wrap.innerHTML = `
+      <div class="add-candidate">
+        <h4>New candidate</h4>
+        <div class="form-grid">
+          <div class="form-input full" style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-full-name">Full name (required)</label>
+            <input type="text" class="form-input" id="cand-full-name" />
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-title">Title</label>
+            <input type="text" class="form-input" id="cand-title" />
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-org">Organization</label>
+            <input type="text" class="form-input" id="cand-org" />
+          </div>
+          <div class="form-input full" style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-bio">Short bio</label>
+            <textarea class="form-textarea" id="cand-bio" placeholder="What they do, recent work, why they matter."></textarea>
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-tags">Tags (comma-separated)</label>
+            <input type="text" class="form-input" id="cand-tags" placeholder="e.g. industrial policy, manufacturing" />
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-source">Source URL</label>
+            <input type="text" class="form-input" id="cand-source" placeholder="Link to bio, profile, or article" />
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-email">Contact: email</label>
+            <input type="text" class="form-input" id="cand-email" />
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-linkedin">Contact: LinkedIn</label>
+            <input type="text" class="form-input" id="cand-linkedin" />
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-x">Contact: X</label>
+            <input type="text" class="form-input" id="cand-x" />
+          </div>
+          <div style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-other">Contact: other</label>
+            <input type="text" class="form-input" id="cand-other" />
+          </div>
+          <div class="form-input full" style="border:none;padding:0;background:none;">
+            <label class="form-label" for="cand-notes">Notes</label>
+            <textarea class="form-textarea" id="cand-notes"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn primary" id="save-cand-btn">Save candidate</button>
+          <button type="button" class="btn ghost" id="cancel-cand-btn">Cancel</button>
+        </div>
+      </div>
+    `;
+    $('save-cand-btn').addEventListener('click', saveCandidate);
+    $('cancel-cand-btn').addEventListener('click', hideAddCandidateForm);
+    $('cand-full-name').focus();
+  }
+  function hideAddCandidateForm() {
+    state.showingAddForm = false;
+    $('add-candidate-wrap').classList.add('hidden');
+    $('add-candidate-wrap').innerHTML = '';
+  }
+  async function saveCandidate() {
+    const candidate = {
+      full_name: $('cand-full-name').value.trim(),
+      title: $('cand-title').value.trim(),
+      organization: $('cand-org').value.trim(),
+      short_bio: $('cand-bio').value.trim(),
+      tags: ($('cand-tags').value || '').split(',').map((s) => s.trim()).filter(Boolean),
+      source_url: $('cand-source').value.trim(),
+      contact_email: $('cand-email').value.trim(),
+      contact_linkedin: $('cand-linkedin').value.trim(),
+      contact_x: $('cand-x').value.trim(),
+      contact_other: $('cand-other').value.trim(),
+      notes: $('cand-notes').value.trim(),
+    };
+    if (!candidate.full_name) { toast('Full name is required'); return; }
+    const btn = $('save-cand-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      const res = await fetch('/api/guest-desk-candidate', {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ episode_id: state.episodeId, candidate }),
+      });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      if (!data.ok) {
+        toast('Save failed: ' + (data.error || 'unknown'));
+        btn.disabled = false; btn.textContent = 'Save candidate';
+        return;
+      }
+      hideAddCandidateForm();
+      await loadDesk();
+      toast('Candidate added');
+    } catch (err) {
+      toast('Save failed: ' + ((err && err.message) || 'network error'));
+      btn.disabled = false; btn.textContent = 'Save candidate';
+    }
+  }
+
+  // ── Status update / delete / drafts ───────────────────
+  async function updateStatus(episodeCandidateId, newStatus) {
+    try {
+      const res = await fetch('/api/guest-desk-candidate?episode_candidate_id=' + episodeCandidateId, {
+        method: 'PATCH',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      if (!data.ok) { toast('Status update failed'); return; }
+      // Update local state and re-render.
+      const c = (state.data.candidates || []).find((x) => x.episode_candidate_id === episodeCandidateId);
+      if (c) c.status = newStatus;
+      renderCandidates(state.data.candidates || []);
+      toast('Status updated');
+    } catch (err) {
+      toast('Network error');
+    }
+  }
+
+  async function removeCandidate(episodeCandidateId) {
+    if (!confirm('Remove this candidate from the episode? The candidate record itself is preserved.')) return;
+    try {
+      const res = await fetch('/api/guest-desk-candidate?episode_candidate_id=' + episodeCandidateId, {
+        method: 'DELETE',
+        headers: authHeaders(),
+      });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      if (!data.ok) { toast('Remove failed'); return; }
+      state.activeCandidateId = null;
+      $('cand-detail').classList.remove('is-open');
+      await loadDesk();
+      toast('Candidate removed');
+    } catch (err) {
+      toast('Network error');
+    }
+  }
+
+  async function generateDrafts(episodeCandidateId) {
+    const btn = document.getElementById('gen-drafts-btn') || document.getElementById('regen-drafts-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Generating…'; }
+    try {
+      const res = await fetch('/api/guest-desk-outreach', {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ episode_candidate_id: episodeCandidateId }),
+      });
+      if (res.status === 401) return handleUnauthorized();
+      const data = await res.json();
+      if (!data.ok) {
+        toast('Draft generation failed: ' + (data.error || 'unknown'));
+        if (btn) { btn.disabled = false; btn.textContent = 'Generate outreach drafts'; }
+        return;
+      }
+      // Update local state with new drafts and re-render.
+      const c = (state.data.candidates || []).find((x) => x.episode_candidate_id === episodeCandidateId);
+      if (c) c.drafts = data.drafts;
+      state.activeDraftKey = null;
+      renderCandidateDetail();
+      toast('Drafts generated');
+    } catch (err) {
+      toast('Generation failed: ' + ((err && err.message) || 'network error'));
+      if (btn) { btn.disabled = false; btn.textContent = 'Generate outreach drafts'; }
+    }
+  }
+
+  async function copyDraft(draft) {
+    const text = (draft.subject ? 'Subject: ' + draft.subject + '\n\n' : '') + (draft.body || '');
+    try {
+      await navigator.clipboard.writeText(text);
+      toast('Draft copied');
+    } catch {
+      toast('Copy failed');
+    }
+  }
+
+  // Refresh strategy: re-trigger build-guest-list (idempotent), then reload.
+  async function refreshStrategy() {
+    const btn = $('refresh-strategy-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Refreshing…'; }
+    try {
+      // Re-running build-guest-list is idempotent for the same framing
+      // evaluation id. To force a strategy refresh from a NEW snapshot we
+      // would need a separate endpoint; for v1 the user re-runs the framing
+      // (creating a new evaluation) and clicks Build Guest List from that.
+      // Here we just reload the desk to surface any DB-side updates.
+      await loadDesk();
+      toast('Refreshed');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Refresh strategy'; }
+    }
+  }
+
+  // ── Wire up ───────────────────────────────────────────
+  $('login-btn').addEventListener('click', attemptLogin);
+  $('token-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') attemptLogin(); });
+  $('show-add-candidate-btn').addEventListener('click', showAddCandidateForm);
+  $('refresh-strategy-btn').addEventListener('click', refreshStrategy);
+
+  (async function init() {
+    if (state.token) {
+      const r = await verifyPassword(state.token);
+      if (r.ok) {
+        showWorkbench();
+        loadDesk();
+        return;
+      }
+      sessionStorage.removeItem('oc_framing_password');
+      state.token = '';
+    }
+    showLoginGate();
+  })();
+</script>
+
+</body>
+</html>

@@ -2,6 +2,7 @@
   "outputDirectory": "public",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/framing-engine", "destination": "/framing-engine.html" }
+    { "source": "/framing-engine", "destination": "/framing-engine.html" },
+    { "source": "/guest-desk", "destination": "/guest-desk.html" }
   ]
 }
