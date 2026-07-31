@@ -500,7 +500,8 @@
 
   /* ═════════════════════════════════════ EPISODES ═════════════════════════════════════ */
   .transmissions {
-    border-top: 1.5px solid var(--ink);
+    /* No top rule: the full-bleed featured block below is its own boundary,
+       and a hairline at padded width above a full-width block reads as a bug. */
   }
   .tx-row {
     display: grid;
@@ -575,17 +576,22 @@
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .episodes-lede em { font-style: italic; color: var(--muted); }
+  /* ── The one inversion between the hero and the dispatch ──
+     Full-bleed dark block. Its job is to break the ledger rhythm: without it
+     the page runs ~25 near-identical hairline rows and the eye stops
+     registering section boundaries. Negative margins cancel the .section
+     padding exactly, so it spans the viewport without 100vw (which would
+     overflow by the scrollbar width). Keep these paired with .section padding
+     at every breakpoint. */
   .tx-featured {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 60px;
     align-items: end;
-    padding: 50px 0 46px;
-    border-top: 2.5px solid var(--ink);
-    border-bottom: 2.5px solid var(--ink);
-    background: var(--paper-2);
-    padding-left: 32px;
-    padding-right: 32px;
+    background: var(--ink);
+    color: var(--paper);
+    margin: 0 -40px;
+    padding: 84px 40px 78px;
   }
   .tx-featured-label {
     font-family: var(--mono);
@@ -606,12 +612,12 @@
     margin-bottom: 22px;
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
-  .tx-featured-title em { font-style: italic; font-weight: 300; }
+  .tx-featured-title em { font-style: italic; font-weight: 300; color: #c9c4b3; }
   .tx-featured-desc {
     font-family: var(--mono);
     font-size: var(--body-sm-size);
     line-height: var(--body-sm-lh);
-    color: var(--ink-2);
+    color: var(--paper);
     max-width: 60ch;
     margin-bottom: 28px;
   }
@@ -623,11 +629,11 @@
     line-height: var(--label-lh);
     text-transform: uppercase;
     letter-spacing: var(--label-ls);
-    color: var(--muted);
+    color: #c9c4b3;
     font-weight: 500;
     flex-wrap: wrap;
   }
-  .tx-featured-meta .sep { color: var(--muted-2); }
+  .tx-featured-meta .sep { color: #8d8878; }
   .tx-featured-right { align-self: end; }
   /* Coming-soon state indicator (not a button) */
   .tx-featured-state {
@@ -639,7 +645,7 @@
     line-height: var(--label-lh);
     text-transform: uppercase;
     letter-spacing: var(--label-ls);
-    color: var(--muted);
+    color: #c9c4b3;
     font-weight: 600;
     padding: 0;
     background: transparent;
@@ -649,7 +655,7 @@
     content: '';
     width: 8px;
     height: 8px;
-    background: var(--muted-2);
+    background: #8d8878;
   }
 
   .tx-upcoming-label {
@@ -1058,7 +1064,7 @@
 
     /* Episodes */
     .episodes-lede { margin-bottom: 40px; }
-    .tx-featured { grid-template-columns: 1fr; gap: 30px; padding: 36px 20px; }
+    .tx-featured { grid-template-columns: 1fr; gap: 30px; margin: 0 -24px; padding: 60px 24px 56px; }
     .tx-featured-right { align-self: start; }
     .tx-row { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 20px; }
     .tx-title { text-wrap: balance; }
@@ -1112,7 +1118,7 @@
     .connect-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
     .connect-row .arrow { display: none; }
     .connect-row .v { word-break: break-all; }
-    .tx-featured { padding: 30px 18px; }
+    .tx-featured { margin: 0 -20px; padding: 48px 20px 44px; }
     /* Buys the email label ~8px of headroom so it stays on one line at 375px
        instead of sitting exactly on the wrap boundary. */
     .pitch-card { padding: 28px 18px; }
