@@ -28,7 +28,7 @@ This is **NOT** a Next.js / Tailwind project. Prior prompts and drafts sometimes
 | Markup | Static HTML. `public/index.html` (the site), plus internal tools: `public/admin.html`, `public/framing-engine.html`, `public/guest-desk.html` |
 | Styling | Inline `<style>` block in each HTML file. No external CSS. No framework. |
 | JavaScript | Vanilla JS at the bottom of each HTML file. No framework. No build step. |
-| Hosting | Vercel. **Git auto-deploy is broken, see Deploy below. Every deploy is manual.** |
+| Hosting | Vercel, auto-deploying from `master` via the Vercel GitHub App (reconnected 2026-07-31, see Deploy) |
 | Serverless API | Vercel Functions in `api/` — `subscribe.js`, `subscribers.js`, `schema.sql` |
 | Database | Neon Postgres via `@neondatabase/serverless` (HTTP driver) |
 | Analytics | Vercel Web Analytics (script in HTML head, data in Vercel dashboard) |
@@ -299,7 +299,7 @@ Three systems, all in `public/index.html`:
 
 ### Branches
 
-- `master` — production source of truth. **Pushing does not deploy, see Deploy below.**
+- `master` — production. Pushing deploys via the Vercel GitHub App. Verify the live site after every push, see Deploy.
 - `vN-edits` — iterative design phases (v2, v3, v4, v5, ...). Create as needed for major passes.
 
 ### Tags
@@ -316,20 +316,19 @@ Three systems, all in `public/index.html`:
 
 ### Deploy
 
-**Git auto-deploy is broken. Pushing to `master` does NOT update the live site.**
+**History:** Git auto-deploy silently stopped working between **2026-04-16** (commit `4ada121`, the last push-triggered deployment) and **2026-07-30**. Every push in that window produced no deployment, no commit status, and no GitHub deployment record, and production kept serving the April build while pushes appeared to succeed. The Git integration was disconnected and reconnected in the Vercel dashboard on **2026-07-31**.
 
-Discovered 2026-07-30. The last deployment triggered by a GitHub push was commit `4ada121` on **2026-04-16**; every push after that produced no deployment, no commit status, and no GitHub deployment record. Production silently kept serving the April build.
-
-Until the integration is repaired, **every deploy is manual**:
+Manual deploy, still valid at any time and the fallback if auto-deploy stops again:
 
 ```bash
 vercel deploy --prod
 ```
 
-- Takes ~10 seconds. The push to `master` still matters (it is the source of truth), it just does not deploy.
-- **Always verify the live site after deploying.** `curl -s "https://opencivilization.fm/?cb=$RANDOM" | grep <something-new>`. The CDN serves `x-vercel-cache: HIT` from the previous build until the new deployment replaces it, so "the push succeeded" is not evidence that anything shipped.
-- To repair the integration: Vercel dashboard → Project → Settings → Git → reconnect the GitHub repository. This is a dashboard action and needs the account owner. Once reconnected, verify with a trivial commit before trusting it again, and update this section.
-- If Vercel Analytics is ever re-enabled, a fresh deploy is also required so `/_vercel/insights/script.js` is injected. The existing deploy won't retroactively serve it.
+- **Always verify the live site after any deploy.** `curl -s "https://opencivilization.fm/?cb=$RANDOM" | grep <something-new>`. The CDN serves `x-vercel-cache: HIT` from the previous build until a new deployment replaces it, so "the push succeeded" is never evidence that anything shipped. That is exactly how the three-month outage went unnoticed.
+- **There is no repo webhook, and there should not be one.** Vercel connects through a **GitHub App**, not a repository webhook. GitHub Apps never appear under repo Settings → Webhooks; they are under Settings → GitHub Apps. An empty Webhooks page is normal and is *not* a diagnosis.
+- **To check whether auto-deploy is actually working:** push a commit and do **not** run `vercel deploy`. Then `gh api repos/mehdinayebi/open-civilization-site/deployments --jq '.[0].sha'` and confirm it matches the new commit. A manual CLI deploy also creates a deployment record, so records alone prove nothing unless the push was the only trigger.
+- To repair it: Vercel dashboard → Project → Settings → Git → disconnect, then reconnect. Dashboard action, needs the account owner.
+- If Vercel Analytics is ever re-enabled, a fresh deploy is required so `/_vercel/insights/script.js` is injected. The existing deploy won't retroactively serve it.
 
 ---
 
