@@ -32,7 +32,7 @@ This is **NOT** a Next.js / Tailwind project. Prior prompts and drafts sometimes
 | Serverless API | Vercel Functions in `api/` — `subscribe.js`, `subscribers.js`, `schema.sql` |
 | Database | Neon Postgres via `@neondatabase/serverless` (HTTP driver) |
 | Analytics | Vercel Web Analytics (script in HTML head, data in Vercel dashboard) |
-| Redirects | `vercel.json` 301s `/principles.html` and `/principles` to `/#doctrine` |
+| Redirects | `vercel.json` permanent-redirects `/principles.html` and `/principles` to `/#doctrine` (Vercel emits 308) |
 | Search | Google Search Console (domain-verified via DNS TXT) |
 | Fonts | Google Fonts — Fraunces (variable serif) + IBM Plex Mono |
 | Favicon | Path-based SVG monogram, generated via `sharp` + `png-to-ico` from `scripts/generate-favicons.mjs` |
@@ -386,7 +386,7 @@ Hosted on Neon (`open-civilization` project, AWS US East 1).
 2. **Platform links are placeholders.** Apple Podcasts, Spotify, YouTube URLs don't resolve to real listings yet. The Listen section presents them as live.
 3. **RSS feed.** `/rss` is a placeholder; no actual feed is generated.
 4. **Hero `riseIn` and status-dot `pulse`** are not explicitly disabled under `prefers-reduced-motion`. Scroll-triggered animations and masthead shrink are properly guarded.
-5. **`/principles.html` no longer exists.** It was deleted on 2026-07-31 and `vercel.json` 301-redirects both `/principles.html` and `/principles` to `/#doctrine`. Keep the redirect: the URL was live and indexed in Google Search Console.
+5. **`/principles.html` no longer exists.** It was deleted on 2026-07-31 and `vercel.json` permanently redirects both `/principles.html` and `/principles` to `/#doctrine` (308, verified live). Keep the redirect: the URL was live and indexed in Google Search Console.
 6. **`admin.html` same as above** — separate styles, not token-driven.
 7. **Post-launch CTA swap.** When EP 01 ships, swap the hero primary to a red-filled `LISTEN TO EP. 01 →`. Search for `TODO: when EP 01 ships` in `public/index.html`.
 8. **Next.js migration** is deferred until EP 01 is real. When it happens, port the type scale, color palette, and component patterns from this document verbatim.
