@@ -140,18 +140,6 @@ Fraunces is variable along `SOFT` (0–100), `WONK` (0–1), and `opsz` (9–144
 4. **Italic secondary words** (the "`Ten <em>principles.</em>`" pattern) are mandatory. Every display/serif title uses `<em>` for its second word.
 5. **Mobile cap:** `display-xl` at 60px mobile fits "Civilization." on all iPhones ≥375px. On 320px iPhone SE it will be snug but acceptable.
 
-### The full-bleed featured block
-
-`.tx-featured` (EP 01) is the page's **one inversion** between the hero and the dispatch: `--ink` background, `--paper` text, spanning the full viewport. Its job is structural, not decorative. Without it the page runs roughly 25 near-identical hairline rows (doctrine, episodes, contact, platforms) and the eye stops registering where one section ends and the next begins.
-
-- It bleeds via **negative margins that cancel `.section` padding exactly** (`-40px` desktop, `-24px` ≤1000px, `-20px` ≤600px). **If you change `.section` padding at a breakpoint, change these to match** or the block stops aligning.
-- Do **not** switch this to `width: 100vw` — `100vw` includes the scrollbar, so it overflows by ~15px on desktop, hidden by `body { overflow-x: hidden }` and therefore easy to miss.
-- Inner padding equals the section padding, so the text inside still aligns with every other section's left edge while the background runs edge to edge.
-- On-dark tones are the two already used by the dispatch block: `var(--paper)` for body text and `#c9c4b3` for muted/italic. `#8d8878` for the faintest marks. Don't introduce new ones.
-- `.transmissions` has no top rule. A hairline at padded width sitting directly above a full-width block reads as a rendering bug.
-
-**Keep it to one.** A second full-bleed inversion would restore the monotony it exists to break.
-
 ### Mobile overflow — the trap in this layout
 
 The page is full of fixed-px grid columns and long unbreakable strings (email addresses, URLs). A plain `1fr` track **cannot shrink below its content's min-content width**, so one long token silently pushes a section wider than the viewport. `body { overflow-x: hidden }` hides the symptom, which is why two of these survived unnoticed until 2026-07-31.
