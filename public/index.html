@@ -298,7 +298,7 @@
   }
   .section-title em { font-style: italic; font-weight: 300; }
 
-  /* ═════════════════════════════════════ § I — PREMISE ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ PREMISE ═════════════════════════════════════ */
   .section-premise {
     padding-top: 70px;
     padding-bottom: 110px;
@@ -316,15 +316,34 @@
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
 
-  /* ═════════════════════════════════════ § II — DOCTRINE ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ DOCTRINE ═════════════════════════════════════ */
   .doctrine-table {
     border-top: 1.5px solid var(--ink);
   }
+  /* Column header above the ten. Mirrors .doctrine-row so the labels line up. */
+  .doctrine-head {
+    display: grid;
+    grid-template-columns: 72px 1.2fr 2fr 1.4fr;
+    gap: 36px;
+    padding-bottom: 14px;
+  }
+  .doctrine-head > div {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .doctrine-head .dh-left  { grid-column: 1 / 4; }
+  .doctrine-head .dh-right { grid-column: 4; }
+
   .doctrine-row {
     display: grid;
-    grid-template-columns: 80px 1.2fr 2fr 120px;
-    gap: 40px;
-    padding: 30px 0 28px;
+    grid-template-columns: 72px 1.2fr 2fr 1.4fr;
+    gap: 36px;
+    padding: 20px 0 18px;
     border-bottom: 1px solid var(--ink);
     align-items: baseline;
     transition: background .25s;
@@ -352,16 +371,14 @@
     line-height: var(--body-sm-lh);
     color: var(--ink-2);
   }
-  .doctrine-tag {
+  /* The tension line. Red italic is the whole distinction on mobile, where
+     the column header is hidden. */
+  .doctrine-hard {
     font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    text-align: right;
-    color: var(--muted);
-    font-weight: 500;
-    padding-top: 6px;
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
+    font-style: italic;
+    color: var(--red-ink);
   }
   .doctrine-lede {
     font-family: var(--serif);
@@ -374,36 +391,7 @@
     margin-bottom: 40px;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
-  .doctrine-footer {
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid var(--ink);
-    display: flex;
-    justify-content: flex-end;
-  }
-  .doctrine-link {
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    font-weight: 600;
-    color: var(--ink);
-    padding: 14px 24px;
-    border: 1.5px solid var(--ink);
-    transition: background .2s, color .2s, transform .2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .doctrine-link:hover {
-    background: var(--ink);
-    color: var(--paper);
-    transform: translateX(4px);
-  }
-  .doctrine-link .arrow { font-size: var(--label-size); }
-
-  /* ═════════════════════════════════════ § III — HOST ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ HOST ═════════════════════════════════════ */
   .host-wrap {
     display: grid;
     grid-template-columns: 1fr;
@@ -500,7 +488,7 @@
     transition: transform .2s, color .2s;
   }
 
-  /* ═════════════════════════════════════ § IV — EPISODES ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ EPISODES ═════════════════════════════════════ */
   .transmissions {
     border-top: 1.5px solid var(--ink);
   }
@@ -690,7 +678,7 @@
     color: var(--red);
   }
 
-  /* ═════════════════════════════════════ § V — GUEST PITCH ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ GUEST PITCH ═════════════════════════════════════ */
   .guest-pitch {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
@@ -765,7 +753,7 @@
   .pitch-btn:hover { background: var(--red); border-color: var(--red); }
   .pitch-btn .pitch-arrow { font-size: var(--label-size); }
 
-  /* ═════════════════════════════════════ § VI — SUBSCRIBE ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ SUBSCRIBE ═════════════════════════════════════ */
   .platforms {
     border-top: 1.5px solid var(--ink);
   }
@@ -811,7 +799,7 @@
     color: var(--red);
   }
 
-  /* ═════════════════════════════════════ § VII — DISPATCH / NEWSLETTER ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ DISPATCH / NEWSLETTER ═════════════════════════════════════ */
   .dispatch {
     padding: 120px 40px;
     background: var(--ink);
@@ -1062,12 +1050,14 @@
     .section-premise { padding-top: 60px; padding-bottom: 80px; }
     .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 44px; }
 
-    /* Doctrine */
+    /* Doctrine — stack: number + title, then the sentence, then the hard part
+       indented. The header row goes away; red carries the distinction. */
     .doctrine-lede { margin-top: -10px; margin-bottom: 30px; }
-    .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 28px 0 26px; }
-    .doctrine-gloss, .doctrine-tag { grid-column: 2; }
-    .doctrine-tag { text-align: left; margin-top: 10px; }
+    .doctrine-head { display: none; }
+    .doctrine-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 19px 0 17px; }
+    .doctrine-gloss, .doctrine-hard { grid-column: 2; }
     .doctrine-gloss { margin-top: 4px; }
+    .doctrine-hard { margin-top: 10px; padding-left: 16px; }
 
     /* Host */
     .host-sub-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -1121,7 +1111,7 @@
     .hero { padding: 60px 20px 50px; }
     .section { padding: 56px 20px; }
     .section-premise { padding-top: 46px; padding-bottom: 64px; }
-    .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; gap: 14px; }
+    .doctrine-row { grid-template-columns: 50px 1fr; padding: 17px 0 15px; gap: 14px; }
     .connect-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
     .connect-row .arrow { display: none; }
     .connect-row .v { word-break: break-all; }
@@ -1137,12 +1127,12 @@
 <div class="masthead-bar">
   <div><strong>OPEN CIVILIZATION</strong></div>
   <div class="spacer"></div>
-  <a class="mast-link" href="#question">§ Premise</a>
-  <a class="mast-link" href="#doctrine">§ Doctrine</a>
-  <a class="mast-link" href="#host">§ Host</a>
-  <a class="mast-link" href="#episodes">§ Episodes</a>
-  <a class="mast-link" href="#guest">§ Guests</a>
-  <a class="mast-link" href="#dispatch">§ Dispatch</a>
+  <a class="mast-link" href="#question">Premise</a>
+  <a class="mast-link" href="#doctrine">Doctrine</a>
+  <a class="mast-link" href="#host">Host</a>
+  <a class="mast-link" href="#episodes">Episodes</a>
+  <a class="mast-link" href="#guest">Guests</a>
+  <a class="mast-link" href="#dispatch">Dispatch</a>
 </div>
 
 <!-- ════════ HERO ════════ -->
@@ -1153,7 +1143,7 @@
   </h1>
 
   <p class="hero-promise">
-    A show by Mehdi Nayebi on the forces shaping the future of the free world, and on whether open societies can stay strong enough to <em>build, innovate, and defend</em> the freedoms, prosperity, and stability they depend on.
+    A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change, and on whether open societies can stay strong enough to <em>build, innovate, and defend</em> the freedoms, prosperity, and stability they depend on.
   </p>
 
   <!-- TODO: when EP 01 ships, swap primary to red-filled "Listen to EP 01 →" linking to #episodes -->
@@ -1165,10 +1155,10 @@
   </div>
 </section>
 
-<!-- ════════ § I — PREMISE ════════ -->
+<!-- ════════ PREMISE ════════ -->
 <section class="section section-premise reveal" id="question">
   <div class="section-head">
-    <div class="section-num">§ I &nbsp;/ &nbsp;Premise</div>
+    <div class="section-num">Premise</div>
     <h2 class="section-title">Free, and <em>fragile.</em></h2>
   </div>
   <div class="premise-wrap">
@@ -1177,87 +1167,88 @@
 </section>
 
 
-<!-- ════════ § II — THE DOCTRINE ════════ -->
+<!-- ════════ THE DOCTRINE ════════ -->
 <section class="section reveal" id="doctrine">
   <div class="section-head">
-    <div class="section-num">§ II &nbsp;/ &nbsp;Doctrine</div>
+    <div class="section-num">Doctrine</div>
     <h2 class="section-title">Ten <em>principles.</em></h2>
   </div>
 
   <p class="doctrine-lede">A compact statement of the principles beneath the project, including the conditions that allow open societies to govern themselves, generate new knowledge, build new technologies, and defend what they have built.</p>
 
+  <div class="doctrine-head">
+    <div class="dh-left">Principle</div>
+    <div class="dh-right">The hard part</div>
+  </div>
+
   <div class="doctrine-table">
     <div class="doctrine-row">
       <div class="doctrine-num">01</div>
       <div class="doctrine-name">Rare, <em>not default.</em></div>
-      <div class="doctrine-gloss">Most societies in history have been closed, hierarchical, and unfree. The free society is a historical exception. It doesn't sustain itself by inertia, and it doesn't return on its own once lost.</div>
-      <div class="doctrine-tag">Exception</div>
+      <div class="doctrine-gloss">Most societies in history have been closed, hierarchical, and unfree, and the free society is a historical exception that does not sustain itself by inertia.</div>
+      <div class="doctrine-hard">Most people alive have never lived in one, and the people who do assume it is the default.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">02</div>
       <div class="doctrine-name">Dispersed <em>power.</em></div>
-      <div class="doctrine-gloss">No person, class, or institution can be trusted with unchecked authority. Checks and balances, federalism, judicial independence, free press, and the rule of law exist to stop any single actor from dominating the others.</div>
-      <div class="doctrine-tag">Checks</div>
+      <div class="doctrine-gloss">No person, class, or institution can be trusted with unchecked authority, which is why checks and balances, judicial independence, a free press, and the rule of law exist.</div>
+      <div class="doctrine-hard">The same checks that stop tyranny can stop you building anything.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">03</div>
       <div class="doctrine-name">Liberty as <em>foundation.</em></div>
-      <div class="doctrine-gloss">Freedom of conscience, speech, association, movement, and economic activity are not one value among many. They are the condition that makes every other value genuinely chosen rather than imposed.</div>
-      <div class="doctrine-tag">Freedom</div>
+      <div class="doctrine-gloss">Freedom of conscience, speech, association, movement, and economic activity are not one value among many; they are the condition that makes every other value genuinely chosen.</div>
+      <div class="doctrine-hard">Every one of those freedoms is cheaper to erode now than it was to win.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">04</div>
       <div class="doctrine-name">Revisable <em>belief.</em></div>
-      <div class="doctrine-gloss">Truth is discovered through inquiry, criticism, and experimentation. Dogma, whether religious, ideological, or scientific, is the enemy of the free society's ability to correct its own mistakes. The same openness that makes self-correction possible also makes scientific discovery and technological advance possible. A society that cannot update its beliefs eventually cannot innovate, compete, or survive its own errors.</div>
-      <div class="doctrine-tag">Inquiry</div>
+      <div class="doctrine-gloss">Truth is discovered through inquiry and criticism, and a society that cannot update its beliefs eventually cannot innovate, compete, or survive its own errors.</div>
+      <div class="doctrine-hard">The institutions that produce knowledge are increasingly managed by people with an interest in the answer.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">05</div>
       <div class="doctrine-name">Moral <em>universalism.</em></div>
-      <div class="doctrine-gloss">Some human rights and moral claims hold across cultures and eras. Slavery was wrong when everyone accepted it. Torture is wrong wherever it happens. Cultural relativism is not a license for cruelty.</div>
-      <div class="doctrine-tag">Universal</div>
+      <div class="doctrine-gloss">Some moral claims hold across cultures and eras: slavery was wrong when everyone accepted it, and torture is wrong wherever it happens.</div>
+      <div class="doctrine-hard">Universal claims are also how powerful countries have justified a great deal.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">06</div>
       <div class="doctrine-name">Markets <em>with rules.</em></div>
-      <div class="doctrine-gloss">Voluntary exchange, competition, and dispersed economic power produce more prosperity, more innovation, and more freedom than central planning. But markets require rules, courts, and sometimes correction. The free society is not the same as laissez-faire. It is a structured order that rewards enterprise, experimentation, and building without allowing economic power to become politically unaccountable.</div>
-      <div class="doctrine-tag">Markets</div>
+      <div class="doctrine-gloss">Voluntary exchange and dispersed economic power produce more prosperity and freedom than central planning, but markets require rules, courts, and sometimes correction.</div>
+      <div class="doctrine-hard">The rule-makers are routinely outspent by the people they are meant to be regulating.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">07</div>
       <div class="doctrine-name">Reform institutions, <em>don't destroy them.</em></div>
-      <div class="doctrine-gloss">Free societies depend on institutions that can govern, execute, and endure. Institutions can fail, become corrupt, or be captured. But the answer is usually to reform them, not tear them down. A society that loses the ability to repair its institutions also loses the ability to build, deliver, and turn ideas into durable national strength.</div>
-      <div class="doctrine-tag">Institutions</div>
+      <div class="doctrine-gloss">Institutions fail, become corrupt, and get captured, but the answer is usually to repair them rather than tear them down.</div>
+      <div class="doctrine-hard">Reform is slower than decay, and voters can tell the difference.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">08</div>
       <div class="doctrine-name">Universal values, <em>national communities.</em></div>
-      <div class="doctrine-gloss">Moral concern extends beyond borders, but free societies are governed through bounded political communities. Rights may be universal, but solidarity, citizenship, and self-government still live mainly within nations. Nations are not obstacles to free societies. They are the main political form through which free societies exist.</div>
-      <div class="doctrine-tag">Nations</div>
+      <div class="doctrine-gloss">Rights may be universal, but solidarity, citizenship, and self-government still live mainly within nations, which remain the main political form through which free societies exist.</div>
+      <div class="doctrine-hard">Almost nothing that now determines a country's future is decided inside its borders.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">09</div>
       <div class="doctrine-name">Tolerance that <em>defends itself.</em></div>
-      <div class="doctrine-gloss">The free society protects views it finds repugnant. It does not extend that protection to movements whose explicit goal is to end the free society itself.</div>
-      <div class="doctrine-tag">Defense</div>
+      <div class="doctrine-gloss">The free society protects views it finds repugnant, but does not extend that protection to movements whose explicit goal is to end it.</div>
+      <div class="doctrine-hard">Someone has to decide which is which, and that someone can be wrong.</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">10</div>
       <div class="doctrine-name">Historically <em>conscious.</em></div>
-      <div class="doctrine-gloss">Free societies know where they came from, know how they have been lost before, and know that each generation has to defend them anew. Progress is not automatic. Reversal is possible and has happened.</div>
-      <div class="doctrine-tag">History</div>
+      <div class="doctrine-gloss">Free societies know how they were built, know they have been lost before, and know that progress is not automatic.</div>
+      <div class="doctrine-hard">History is a poor guide to a situation with no precedent.</div>
     </div>
-  </div>
-
-  <div class="doctrine-footer">
-    <a href="/principles.html" class="doctrine-link">Read the full statement <span class="arrow">→</span></a>
   </div>
 </section>
 
-<!-- ════════ § III — THE HOST ════════ -->
+<!-- ════════ THE HOST ════════ -->
 <section class="section reveal" id="host">
   <div class="section-head">
-    <div class="section-num">§ III &nbsp;/ &nbsp;Host</div>
+    <div class="section-num">Host</div>
     <h2 class="section-title">About the <em>host.</em></h2>
   </div>
 
@@ -1274,9 +1265,9 @@
       </div>
 
       <div class="host-bio">
-        <p>Born in Tehran, raised in France, and shaped by building across Europe, the Middle East, and North America, Mehdi Nayebi has spent much of his life thinking about power, institutions, and why some societies stay free while others decay, are captured from within, or come under pressure from abroad.</p>
-        <p>He co-founded Alopeyk, one of Iran's largest tech platforms, and built inside a sanctioned authoritarian system before leaving Iran for safety reasons. That experience gave him a direct view of coercion, institutional failure, corruption, and what a closed society actually looks like.</p>
-        <p>His work sits at the intersection of geopolitics, institutions, technology, finance, power, and civilizational renewal. Open Civilization grows out of that perspective.</p>
+        <p>Born in Tehran, raised in France, and shaped by building companies across Europe, the Middle East, and North America, Mehdi Nayebi has spent much of his life thinking about power, institutions, and why some societies stay free while others decay from within, come under pressure from abroad, or fail to keep pace with technological change.</p>
+        <p>He began in structured products and derivatives at Deutsche Bank and Bank of America in London, then co-founded Alopeyk, one of Iran's largest tech platforms, and built it inside a sanctioned authoritarian system before leaving Iran for safety reasons. That experience gave him a direct view of coercion, institutional failure, corruption, and what a closed society actually looks like.</p>
+        <p>Open Civilization grows out of that experience.</p>
       </div>
     </div>
 
@@ -1300,10 +1291,10 @@
   </div>
 </section>
 
-<!-- ════════ § IV — EPISODES ════════ -->
+<!-- ════════ EPISODES ════════ -->
 <section class="section reveal" id="episodes">
   <div class="section-head">
-    <div class="section-num">§ IV &nbsp;/ &nbsp;Episodes</div>
+    <div class="section-num">Episodes</div>
     <h2 class="section-title">Episodes.</h2>
   </div>
 
@@ -1388,16 +1379,16 @@
   </div>
 </section>
 
-<!-- ════════ § V — BE A GUEST ════════ -->
+<!-- ════════ BE A GUEST ════════ -->
 <section class="section reveal" id="guest">
   <div class="section-head">
-    <div class="section-num">§ V &nbsp;/ &nbsp;Guests</div>
+    <div class="section-num">Guests</div>
     <h2 class="section-title">Come on the <em>show.</em></h2>
   </div>
 
   <div class="guest-pitch">
     <div class="guest-pitch-left">
-      <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders. The show is not organized by sector. It is organized by relevance. If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
+      <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders. If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
     </div>
 
     <div class="guest-pitch-right">
@@ -1415,10 +1406,10 @@
   </div>
 </section>
 
-<!-- ════════ § VI — LISTEN ════════ -->
+<!-- ════════ LISTEN ════════ -->
 <section class="section reveal" id="listen">
   <div class="section-head">
-    <div class="section-num">§ VI &nbsp;/ &nbsp;Listen</div>
+    <div class="section-num">Listen</div>
     <h2 class="section-title">Listen <em>anywhere.</em></h2>
   </div>
 
@@ -1456,12 +1447,12 @@
   </div>
 </section>
 
-<!-- ════════ § VII — DISPATCH / NEWSLETTER ════════ -->
+<!-- ════════ DISPATCH / NEWSLETTER ════════ -->
 <section class="dispatch reveal" id="dispatch">
   <div class="dispatch-inner">
-    <div class="dispatch-eyebrow">Dispatch · The newsletter</div>
-    <h2>A weekly <em>dispatch</em> for people who want a deeper map of the forces shaping the future of the free world.</h2>
-    <p>Essays, notes, and occasional dispatches on what the show is watching. No marketing noise. Just signal.</p>
+    <div class="dispatch-eyebrow">Dispatch · The monthly</div>
+    <h2>A monthly <em>dispatch</em> for people who want a deeper map of the forces shaping the future of the free world.</h2>
+    <p>Essays, notes, and occasional dispatches on what the show is watching.</p>
 
     <form class="dispatch-form" id="dispatch-form">
       <input type="email" placeholder="Your email address" required />
@@ -1479,14 +1470,13 @@
     </div>
     <div class="colophon-about">
       <div class="colophon-label">About</div>
-      <p>Open Civilization is hosted by Mehdi Nayebi. The show examines power, institutions, technology, finance, security, and civilizational renewal through the question of what keeps free societies strong, innovative, and able to defend what they have built.</p>
+      <p>Open Civilization is hosted by Mehdi Nayebi. Interviews on technology, power, and whether open societies can adapt fast enough to stay free, prosperous, and secure.</p>
     </div>
     <div class="colophon-nav">
       <div class="colophon-label">Navigate</div>
       <ul>
         <li><a href="#question">The Premise</a></li>
-        <li><a href="#doctrine">The Doctrine</a></li>
-        <li><a href="/principles.html">Ten Principles</a></li>
+        <li><a href="#doctrine">Ten Principles</a></li>
         <li><a href="#host">The Host</a></li>
         <li><a href="#episodes">Episodes</a></li>
         <li><a href="#guest">Be a Guest</a></li>
