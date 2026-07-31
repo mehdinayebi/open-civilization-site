@@ -1,5 +1,9 @@
 {
   "outputDirectory": "public",
+  "redirects": [
+    { "source": "/principles.html", "destination": "/#doctrine", "permanent": true },
+    { "source": "/principles", "destination": "/#doctrine", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/framing-engine", "destination": "/framing-engine.html" },

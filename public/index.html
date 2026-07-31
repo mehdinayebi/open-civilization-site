@@ -1073,11 +1073,20 @@
     .tx-title { text-wrap: balance; }
     .tx-pillar, .tx-status { grid-column: 1; }
     .tx-status { justify-content: flex-start; margin-top: 6px; }
+    /* The note had no mobile rule: the fixed 180px label column squeezed the
+       text into a ~78px ribbon, and below ~360px it pushed past the viewport. */
+    .tx-note { grid-template-columns: 1fr; gap: 10px; padding: 24px 20px; }
 
     /* Guests */
-    .guest-pitch { grid-template-columns: 1fr; gap: 50px; }
+    /* minmax(0,1fr) not 1fr: a plain 1fr track cannot shrink below its
+       min-content, and the pitch button's email is one unbreakable token,
+       so the card pushed itself wider than the viewport. */
+    .guest-pitch { grid-template-columns: minmax(0, 1fr); gap: 50px; }
     .guest-lede { max-width: none; }
     .pitch-card { position: static; padding: 32px 24px; }
+    .pitch-btn { padding: 18px 18px; gap: 12px; }
+    /* Safety net on very narrow screens: break the address rather than the page. */
+    .pitch-btn span { min-width: 0; overflow-wrap: anywhere; }
 
     /* Listen — explicit stack so long URLs like youtube.com/@opencivilization don't collide with the CTA */
     .platform-row {
@@ -1116,6 +1125,10 @@
     .connect-row .arrow { display: none; }
     .connect-row .v { word-break: break-all; }
     .tx-featured { padding: 30px 18px; }
+    /* Buys the email label ~8px of headroom so it stays on one line at 375px
+       instead of sitting exactly on the wrap boundary. */
+    .pitch-card { padding: 28px 18px; }
+    .pitch-btn { padding: 18px 14px; }
     .dispatch { padding: 70px 20px; }
     .footer-colophon { grid-template-columns: 1fr; gap: 36px; }
   }

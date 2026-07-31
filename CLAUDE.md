@@ -15,6 +15,8 @@ Project-scoped Claude instructions for `opencivilization.fm`. Read this at the s
 
 **The organizing line of the site:** *the forces shaping the future of the free world.* Every section of the homepage serves that umbrella sentence.
 
+**Tagline:** *How open societies endure, and how they decay.* Rejected alternatives are recorded at the end of this file.
+
 ---
 
 ## Tech stack (what this is and isn't)
@@ -23,13 +25,14 @@ This is **NOT** a Next.js / Tailwind project. Prior prompts and drafts sometimes
 
 | Layer | Choice |
 |-------|--------|
-| Markup | Static HTML. Three files only: `public/index.html`, `public/principles.html`, `public/admin.html` |
+| Markup | Static HTML. `public/index.html` (the site), plus internal tools: `public/admin.html`, `public/framing-engine.html`, `public/guest-desk.html` |
 | Styling | Inline `<style>` block in each HTML file. No external CSS. No framework. |
 | JavaScript | Vanilla JS at the bottom of each HTML file. No framework. No build step. |
-| Hosting | Vercel (auto-deploys from `master` branch on GitHub) |
+| Hosting | Vercel. **Git auto-deploy is broken, see Deploy below. Every deploy is manual.** |
 | Serverless API | Vercel Functions in `api/` — `subscribe.js`, `subscribers.js`, `schema.sql` |
 | Database | Neon Postgres via `@neondatabase/serverless` (HTTP driver) |
 | Analytics | Vercel Web Analytics (script in HTML head, data in Vercel dashboard) |
+| Redirects | `vercel.json` 301s `/principles.html` and `/principles` to `/#doctrine` |
 | Search | Google Search Console (domain-verified via DNS TXT) |
 | Fonts | Google Fonts — Fraunces (variable serif) + IBM Plex Mono |
 | Favicon | Path-based SVG monogram, generated via `sharp` + `png-to-ico` from `scripts/generate-favicons.mjs` |
@@ -44,7 +47,6 @@ A future Next.js migration is deferred until EP 01 is real. Do not migrate preem
 open-civilization-site/
 ├── public/
 │   ├── index.html         ← homepage, all CSS + JS inline
-│   ├── principles.html    ← full editorial statement, independent styles
 │   ├── admin.html         ← token-protected subscriber viewer
 │   ├── favicon.ico / icon.svg / icon.png / apple-touch-icon.png
 ├── api/
@@ -138,6 +140,23 @@ Fraunces is variable along `SOFT` (0–100), `WONK` (0–1), and `opsz` (9–144
 4. **Italic secondary words** (the "`Ten <em>principles.</em>`" pattern) are mandatory. Every display/serif title uses `<em>` for its second word.
 5. **Mobile cap:** `display-xl` at 60px mobile fits "Civilization." on all iPhones ≥375px. On 320px iPhone SE it will be snug but acceptable.
 
+### Mobile overflow — the trap in this layout
+
+The page is full of fixed-px grid columns and long unbreakable strings (email addresses, URLs). A plain `1fr` track **cannot shrink below its content's min-content width**, so one long token silently pushes a section wider than the viewport. `body { overflow-x: hidden }` hides the symptom, which is why two of these survived unnoticed until 2026-07-31.
+
+Rules when touching any grid:
+
+- Use `minmax(0, 1fr)` rather than `1fr` wherever a track holds an email, a URL, or a fixed-px sibling column.
+- Long unbreakable strings need `overflow-wrap: anywhere` (or `word-break: break-all`) as a safety net.
+- Any grid with a fixed-px column (`180px 1fr`, `80px 1fr …`) **must** have a mobile rule that stacks it. `.tx-note` had none and squeezed its text into a 78px ribbon on every phone.
+- Test at **320px**, not just 375px. Several issues only appear on iPhone SE width.
+
+Check with:
+
+```js
+document.documentElement.scrollWidth > document.documentElement.clientWidth
+```
+
 ### Vertical rhythm
 
 - Section padding: `70px 24px` mobile / `90px 40px` desktop (default `.section` rule).
@@ -171,44 +190,56 @@ Files live in both `app/` (for future Next.js migration) and `public/` (for curr
 - **Voice test:** would this sentence appear in *Foreign Affairs* or *Noema*? If not, rewrite.
 - **No emojis** in any production copy. Emojis are fine in dev notes and commit messages.
 - **Preserve the italic secondary-word pattern** in every display title.
+- **No Roman numerals** anywhere in rendered copy: not in section markers, not as a masthead date, not in the copyright line.
+- **No six-noun intersections.** Lists of abstract nouns ("geopolitics, institutions, technology, finance, power, and civilizational renewal") are how people signal seriousness when they haven't said anything yet. Removed 2026-07-31; don't write them back.
 
 ---
 
 ## The ten principles (canonical)
 
-The show's editorial position. These are fixed — do not rewrite the names or reorder without explicit approval. Both `public/index.html` (compressed glosses) and `public/principles.html` (full statement) must list these in this order.
+The show's editorial position, and the only place it now lives (the standalone full-statement page was deleted). These are fixed — do not rewrite the names or reorder without explicit approval.
 
-| # | Name | Tag |
-|---|------|-----|
-| 01 | Rare, *not default.* | Exception |
-| 02 | Dispersed *power.* | Checks |
-| 03 | Liberty as *foundation.* | Freedom |
-| 04 | Revisable *belief.* | Inquiry |
-| 05 | Moral *universalism.* | Universal |
-| 06 | Markets *with rules.* | Markets |
-| 07 | Reform institutions, *don't destroy them.* | Institutions |
-| 08 | Universal values, *national communities.* | Nations |
-| 09 | Tolerance that *defends itself.* | Defense |
-| 10 | Historically *conscious.* | History |
+| # | Name | Hard part (the tension) |
+|---|------|--------------------------|
+| 01 | Rare, *not default.* | Most people alive have never lived in one. |
+| 02 | Dispersed *power.* | The same checks that stop tyranny can stop you building. |
+| 03 | Liberty as *foundation.* | Cheaper to erode now than it was to win. |
+| 04 | Revisable *belief.* | Knowledge institutions run by people with an interest in the answer. |
+| 05 | Moral *universalism.* | Universal claims have justified a great deal. |
+| 06 | Markets *with rules.* | Rule-makers are outspent by the regulated. |
+| 07 | Reform institutions, *don't destroy them.* | Reform is slower than decay. |
+| 08 | Universal values, *national communities.* | Little that decides a country's future is decided inside it. |
+| 09 | Tolerance that *defends itself.* | Someone decides which is which, and can be wrong. |
+| 10 | Historically *conscious.* | History is a poor guide to a situation with no precedent. |
 
-**The homepage and `/principles.html` must stay in lockstep on names, order, and tags.** Body text can differ (short form vs long form) but conceptually they must agree.
+### Structure of the doctrine table (reworked 2026-07-31)
+
+Each row is now **number · name · one-sentence body · tension line**, under a `PRINCIPLE` / `THE HARD PART` column header. The section reads as ten arguments rather than ten declarations, and dropped from roughly 600 words to 300.
+
+- **The old right-hand keyword column is gone** (EXCEPTION, CHECKS, FREEDOM, INQUIRY, UNIVERSAL, MARKETS, INSTITUTIONS, NATIONS, DEFENSE, HISTORY). Do not reinstate it.
+- `.doctrine-hard` is the tension line: mono, `--body-sm`, italic, `--red-ink`. Red is not decorative — on mobile the column header is hidden, so **colour alone carries the distinction**. Never render the hard part in ink.
+- Grid is `72px 1.2fr 2fr 1.4fr` on `.doctrine-row` **and** `.doctrine-head`. If you change one, change both or the header labels stop aligning with their columns.
+- Bodies are one sentence. Row padding (`20px 0 18px`) is sized for that. If a body grows back to a paragraph, the padding is wrong.
+- Mobile stacks to number + title, then the sentence, then the hard part indented 16px. The header row is `display: none`.
 
 ---
 
 ## Homepage section order (fixed)
 
-1. **Masthead** — brand + year strip, sticky; nav hidden on mobile
+1. **Masthead** — brand + nav, sticky; nav hidden below 1000px
 2. **Hero** — "Open / Civilization." + single serif paragraph + primary CTA
-3. **§ I / Premise** — thesis paragraph
-4. **§ II / Doctrine** — "Ten principles." table (10 rows) + "Read the full statement" CTA
-5. **§ III / Host** — "About the host." + huge "Mehdi / Nayebi" + bio + contact links
-6. **§ IV / Episodes** — intro lede + featured EP 01 (marked UPCOMING with "Coming soon" state indicator) + 9 upcoming episodes + schedule note
-7. **§ V / Guests** — "Come on the show." + lede + pitch card (sticky)
-8. **§ VI / Listen** — "Listen anywhere." + 5 platform rows
-9. **§ VII / Dispatch** — newsletter section (dark background) + form
+3. **Premise** (`#question`) — thesis paragraph
+4. **Doctrine** (`#doctrine`) — "Ten principles." + `PRINCIPLE` / `THE HARD PART` header + 10 rows
+5. **Host** (`#host`) — "About the host." + huge "Mehdi / Nayebi" + 3-paragraph bio + contact links
+6. **Episodes** (`#episodes`) — lede + featured EP 01 ("Coming soon") + 9 upcoming + schedule note
+7. **Guests** (`#guest`) — "Come on the show." + lede + pitch card (sticky on desktop)
+8. **Listen** (`#listen`) — "Listen anywhere." + 5 platform rows
+9. **Dispatch** (`#dispatch`) — monthly newsletter, dark background + form
 10. **Footer** — 4-column colophon + copyright strip
 
-Section numbers and labels are part of the editorial grammar. Do not reorder or renumber.
+Do not reorder sections.
+
+**No Roman numerals, no `§`.** Section markers are plain uppercase mono words: `PREMISE`, `DOCTRINE`, `HOST`, `EPISODES`, `GUESTS`, `LISTEN`, `DISPATCH`. The `§ I` / `§ II` notation and the `MMXXVI` masthead date were removed on 2026-07-31 and must not come back. The same applies to the footer copyright, which uses a plain year.
 
 ---
 
@@ -244,7 +275,7 @@ Three systems, all in `public/index.html`:
 
 ### Branches
 
-- `master` — production. Vercel auto-deploys on push.
+- `master` — production source of truth. **Pushing does not deploy, see Deploy below.**
 - `vN-edits` — iterative design phases (v2, v3, v4, v5, ...). Create as needed for major passes.
 
 ### Tags
@@ -261,8 +292,20 @@ Three systems, all in `public/index.html`:
 
 ### Deploy
 
-- Push to `master` → Vercel auto-deploys in ~8-15 seconds.
-- If Vercel Analytics was just enabled, **manually trigger a new deploy** (`vercel deploy --prod`) so the `/_vercel/insights/script.js` endpoint gets injected. The existing deploy won't retroactively serve it.
+**Git auto-deploy is broken. Pushing to `master` does NOT update the live site.**
+
+Discovered 2026-07-30. The last deployment triggered by a GitHub push was commit `4ada121` on **2026-04-16**; every push after that produced no deployment, no commit status, and no GitHub deployment record. Production silently kept serving the April build.
+
+Until the integration is repaired, **every deploy is manual**:
+
+```bash
+vercel deploy --prod
+```
+
+- Takes ~10 seconds. The push to `master` still matters (it is the source of truth), it just does not deploy.
+- **Always verify the live site after deploying.** `curl -s "https://opencivilization.fm/?cb=$RANDOM" | grep <something-new>`. The CDN serves `x-vercel-cache: HIT` from the previous build until the new deployment replaces it, so "the push succeeded" is not evidence that anything shipped.
+- To repair the integration: Vercel dashboard → Project → Settings → Git → reconnect the GitHub repository. This is a dashboard action and needs the account owner. Once reconnected, verify with a trivial commit before trusting it again, and update this section.
+- If Vercel Analytics is ever re-enabled, a fresh deploy is also required so `/_vercel/insights/script.js` is injected. The existing deploy won't retroactively serve it.
 
 ---
 
@@ -283,7 +326,7 @@ Three systems, all in `public/index.html`:
 - Do not introduce Tailwind, Next.js, React, or any framework while this is still a static HTML site.
 - Do not delete files outside `/public`, `/api`, `/app`, or `/scripts`.
 - Do not generate Lorem ipsum copy in production files. Use real or clearly-marked draft copy.
-- Do not touch `principles.html`, `admin.html`, or any section the user didn't mention when working on homepage-only asks. Scope matters.
+- Do not touch `admin.html`, `framing-engine.html`, `guest-desk.html`, or any section the user didn't mention when working on homepage-only asks. Scope matters.
 
 ---
 
@@ -326,7 +369,7 @@ Hosted on Neon (`open-civilization` project, AWS US East 1).
 
 ## Analytics & SEO
 
-- **Vercel Web Analytics** — script tag in `<head>` of `index.html` and `principles.html`. Must be enabled in the Vercel dashboard (Project → Analytics → Enable). Script won't fire until enabled AND the project is redeployed after enabling.
+- **Vercel Web Analytics** — script tag in `<head>` of `index.html`. Must be enabled in the Vercel dashboard (Project → Analytics → Enable). Script won't fire until enabled AND the project is redeployed after enabling.
 - **Google Search Console** — domain-verified via DNS TXT record on `opencivilization.fm`. Processing takes 24-72 hours after verification.
 - **Meta tags** — `<title>`, `<meta name="description">`, and Open Graph / Twitter Card tags are set in `<head>` of `index.html`. Keep aligned with the umbrella sentence.
 
@@ -334,11 +377,16 @@ Hosted on Neon (`open-civilization` project, AWS US East 1).
 
 ## Known gaps / TODOs
 
+**0. The two open content decisions (raised 2026-07-31, not yet actioned):**
+
+- **The ten episode titles are stale.** They predate the season work and no longer match the intended slate. They are abstract categories ("When Institutions Stop Working") where they should be a specific country plus a specific fact ("Why Britain Can't Build a Railway Anymore"). The show's name does no discovery work, so episode titles carry that entire job.
+- **The schedule note promises "New episodes every week. Full archive available on all major podcast platforms."** Both halves are false pre-launch: nothing is recorded and there is no archive. It sits in `.tx-note` at the bottom of the Episodes section. The Dispatch newsletter was changed to monthly on 2026-07-31, so a weekly episode promise is also now inconsistent with it.
+
 1. **Episode pages don't exist.** Featured EP 01 and upcoming rows are not clickable (no `href`).
-2. **Platform links are placeholders.** Apple Podcasts, Spotify, YouTube URLs don't resolve to real listings yet.
+2. **Platform links are placeholders.** Apple Podcasts, Spotify, YouTube URLs don't resolve to real listings yet. The Listen section presents them as live.
 3. **RSS feed.** `/rss` is a placeholder; no actual feed is generated.
 4. **Hero `riseIn` and status-dot `pulse`** are not explicitly disabled under `prefers-reduced-motion`. Scroll-triggered animations and masthead shrink are properly guarded.
-5. **`principles.html` uses its own inline `<style>` block** and does not consume the homepage's 9-token type scale. If consistency matters, the same tokens should be ported there (or both files should share a stylesheet).
+5. **`/principles.html` no longer exists.** It was deleted on 2026-07-31 and `vercel.json` 301-redirects both `/principles.html` and `/principles` to `/#doctrine`. Keep the redirect: the URL was live and indexed in Google Search Console.
 6. **`admin.html` same as above** — separate styles, not token-driven.
 7. **Post-launch CTA swap.** When EP 01 ships, swap the hero primary to a red-filled `LISTEN TO EP. 01 →`. Search for `TODO: when EP 01 ships` in `public/index.html`.
 8. **Next.js migration** is deferred until EP 01 is real. When it happens, port the type scale, color palette, and component patterns from this document verbatim.
@@ -370,8 +418,13 @@ grep -n '—' public/index.html | grep -v '/\*\|<!--'  # expect empty
 # 3. Every font-size consumes a token (body default is the only hardcoded exception)
 grep 'font-size:\s*[0-9]' public/index.html | grep -v 'body\|var('  # expect empty
 
-# 4. Ten principles present on homepage
-grep -c 'class="doctrine-row"' public/index.html  # expect 10
+# 4. Ten principles present, each with a tension line
+grep -c 'class="doctrine-row"' public/index.html   # expect 10
+grep -c 'class="doctrine-hard"' public/index.html  # expect 10
+grep -c 'class="doctrine-tag"' public/index.html   # expect 0 (old keyword column)
+
+# 4b. No Roman numerals or section signs in rendered copy
+grep -c '§\|MMXXVI' public/index.html              # expect 0
 
 # 5. Analytics script present
 grep -q '/_vercel/insights/script.js' public/index.html && echo "analytics: OK"
@@ -408,3 +461,20 @@ curl -s -o /dev/null -w "HTTP %{http_code}\n" \
 3. Ask the user before making architectural changes.
 4. Prefer smaller, reversible changes over big rewrites.
 5. The visual language is premium, restrained, editorial, and intentional. **If a change would make the site busier, noisier, or more "startup-y", do not ship it.**
+
+---
+
+## Rejected in review (recorded so they are not reintroduced)
+
+Proposed in the 2026-07-30 rework, built, then reverted at the host's direction on 2026-07-31. The work is preserved in git at commit `f300454` and can be restored with `git revert --no-commit 4e9b3ce` if any of it is revisited.
+
+- Renaming the show. **Open Civilization stays.**
+- Replacing the tagline. **"How open societies endure, and how they decay" stays.**
+- Cutting the ten principles to five.
+- Renaming the doctrine section to "assumptions".
+- Linking each principle to the episode that tests it.
+- Reducing six sections to four (deleting Premise, Guests, Listen).
+- A second email capture beneath the hero.
+- A host attribution line in the hero.
+
+Do not re-propose these as improvements. They were considered and declined.
