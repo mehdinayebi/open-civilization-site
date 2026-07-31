@@ -249,12 +249,12 @@ Each row is now **number · name · one-sentence body · tension line**, under a
 
 ## Homepage section order (fixed)
 
-1. **Masthead** — brand + nav, sticky; nav hidden below 1000px
+1. **Masthead** — brand + nav, sticky. Below 1000px the nav links are replaced by a single `LISTEN →` action and the bar height drops by about a third.
 2. **Hero** — "Open / Civilization." + single serif paragraph + primary CTA
 3. **Premise** (`#question`) — thesis paragraph
 4. **Doctrine** (`#doctrine`) — "Ten principles." + `PRINCIPLE` / `THE HARD PART` header + 10 rows
-5. **Host** (`#host`) — "About the host." + huge "Mehdi / Nayebi" + 3-paragraph bio + contact links
-6. **Episodes** (`#episodes`) — lede + featured EP 01 ("Coming soon") + 9 upcoming
+5. **Host** (`#host`) — "Mehdi Nayebi." + 3-paragraph bio + one inline contact line
+6. **Episodes** (`#episodes`) — lede + featured EP 01 ("Coming soon") + `EPISODE` / `THE QUESTION` header + 9 rows
 7. **Guests** (`#guest`) — "Come on the show." + lede + pitch card (sticky on desktop)
 8. **Listen** (`#listen`) — "Listen anywhere." + 5 platform rows
 9. **Dispatch** (`#dispatch`) — monthly newsletter, dark background + form
@@ -484,6 +484,65 @@ curl -s -o /dev/null -w "HTTP %{http_code}\n" \
 3. Ask the user before making architectural changes.
 4. Prefer smaller, reversible changes over big rewrites.
 5. The visual language is premium, restrained, editorial, and intentional. **If a change would make the site busier, noisier, or more "startup-y", do not ship it.**
+
+---
+
+## Episode slate (canonical)
+
+Set in the round-two spec, 2026-07-31. Nothing from the earlier list survives.
+
+| # | Title | Summary | The question |
+|---|-------|---------|--------------|
+| 01 | The Grid Can't Take It | AI's power demand has collided with grids nobody can expand fast enough. | Can a democracy still build power at the scale this needs? |
+| 02 | Three Companies Own the Frontier | The critical capacity of the age sits with a handful of firms and their capital partners. | What does dispersed power mean when the capacity sits with three companies? |
+| 03 | The Training Data Wars | The largest uncompensated transfer of privately created value in commercial history. | Can property rights be reasserted through code when law is too slow? |
+| 04 | Why Rich Democracies Can't Build | Permitting, veto points, and the protections that stop tyranny and also stop construction. | What would a democracy have to give up to build at speed again? |
+| 05 | The Drone War Changed Everything | Cheap precision has inverted the economics of defence, and every military is studying it. | Can procurement adapt as fast as the technology now demands? |
+| 06 | The Chokepoints Nobody Planned For | Chips are the famous one. Gallium, helium and rare earths are the ones nobody priced. | Can an open society build redundancy without becoming a command economy? |
+| 07 | When Impersonation Is Free | Detection is losing to generation, and the first elections inside that environment are underway. | Can verification be rebuilt, or do societies simply adapt their epistemics? |
+| 08 | Open Weights, Open Risk | Freedom to build against the strength required to stay safe, argued by both sides. | Is openness a value or a strategy? |
+| 09 | Science Under Political Management | Funding, publication and international collaboration are all being reshaped at once. | Can the open scientific system survive politicisation? |
+| 10 | Does Financial Statecraft Still Work? | Evasion architecture is maturing faster than enforcement. | Is the main instrument short of war already spent? |
+
+**The order is deliberate, do not resequence.** It opens on the most concrete and most currently argued story, which is where a new show gets its first traction. Episodes 1 to 4 are researchers, founders, lawyers and executives who will take a call from a show with nothing published. Episode 5 is the first hard booking and lands only once there are four conversations to send. Six through ten widen the range across supply chains, information, safety, science and finance, so anyone arriving at any single episode finds a show rather than a hobbyhorse. **Nothing is historical, everything is live.**
+
+### Display rules for the episodes block
+
+- **No taxonomy tags.** DECAY, TRUTH, POWER, CAPACITY and the rest are gone. They carried no information.
+- **No `UPCOMING` marker.** Repeated ten times it was pure visual noise.
+- Every row carries a **one-line summary** under the title, so a stranger knows what the episode is.
+- Every row carries the **central question** in the right column, accent red italic, the same treatment as `.doctrine-hard`. The block reuses the doctrine grid on purpose, so the site develops one visual language.
+- The right edge is **deliberately blank**. The spec calls for a month per row; no months are committed yet, and its own instruction is that empty reads better than the same word ten times. **To add them:** widen `.tx-row` / `.tx-head` to four columns and append a right-aligned `.tx-month` cell. Do not invent months.
+- EP 01 keeps the featured card treatment with the same summary-and-question structure inside it.
+
+---
+
+## Positioning language (not site copy)
+
+What to say when someone asks why the show matters now. Reference for writing copy; do not paste onto the site.
+
+**Ten seconds.** The decisions being made right now about compute, energy, biology and surveillance are constitutional decisions. Nobody is treating them that way, and nobody voted on any of them.
+
+**Thirty seconds.** There are excellent shows about AI, and excellent shows about politics. The AI people do not think about institutions and the institutions people do not understand the technology. This show sits in the gap. And almost everyone working in that gap is a journalist or an academic. I built a company inside a country that had already stopped needing its builders, and I left because of it. I am asking whether the free ones are heading somewhere similar, and what would stop it.
+
+**The three differentiators.**
+
+1. An operator rather than a commentator.
+2. Connects the technology layer to the institutional layer, where almost nobody works.
+3. Asks a capability question with a possible yes, rather than running the decline genre everyone else is running.
+
+---
+
+## Host section
+
+Compacted 2026-07-31. It was the tallest low-value block on the page and carried four headers before a word of content.
+
+- Section header is **"Mehdi Nayebi."** — one header, not two. The giant `Mehdi / Nayebi` display lockup below it is gone; it duplicated the header.
+- The `HOST & CREATOR` label and "Entrepreneur, operator, and host of Open Civilization" are gone; they restated the section name.
+- Contact is **one inline line** (`contact@opencivilization.fm · X · LinkedIn`), small mono caps, no arrows, no rules. Not three full-width rows.
+- **The bio text itself is unchanged and must stay that way.**
+- **Open:** the spec's preferred layout (Option A) is a portrait in a left column beside the bio. It is blocked on a photograph. The site has no human face anywhere, which is the cheapest available fix for its coldness. Until a photo exists the bio runs at a comfortable measure (Option B). Search `TODO: Option A` in `public/index.html`.
+
 
 ---
 
