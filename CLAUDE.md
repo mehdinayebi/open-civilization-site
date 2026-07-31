@@ -162,6 +162,16 @@ Add `tinted` to a `.section` to tint it. The pattern lands the statement section
 
 **Hover inverts on tinted ground.** `--paper-2` is also the hover colour for `.doctrine-row`, `.tx-row`, `.platform-row` and `.connect-row`, so on a tinted section a hover would resolve to the section's own background and disappear. `.section.tinted` overrides send hover and card surfaces to `--paper` instead. **If you tint another section, check every hover and card inside it.**
 
+### Listen section
+
+One centred inline line (`.listen-block`), not a table. Collapsed in round three from five full-width rows, which made it the tallest block on the page for the least content.
+
+- Platform names in the existing serif, middot separated, accent red on hover, thin rule above and below.
+- **Deleted deliberately:** row numbers, displayed URLs, and per-row action labels (SUBSCRIBE, FOLLOW, WATCH, COPY, ADD). A visitor infers the destination from the name.
+- Names stay live links. Overcast and Pocket Casts point at the RSS feed, as they did before.
+- "Listen anywhere." stays as the section header. Only the rows beneath it changed.
+
+
 ### Mobile overflow — the trap in this layout
 
 The page is full of fixed-px grid columns and long unbreakable strings (email addresses, URLs). A plain `1fr` track **cannot shrink below its content's min-content width**, so one long token silently pushes a section wider than the viewport. `body { overflow-x: hidden }` hides the symptom, which is why two of these survived unnoticed until 2026-07-31.
@@ -172,6 +182,7 @@ Rules when touching any grid:
 - Long unbreakable strings need `overflow-wrap: anywhere` (or `word-break: break-all`) as a safety net.
 - Any grid with a fixed-px column (`180px 1fr`, `80px 1fr …`) **must** have a mobile rule that stacks it. `.tx-note` had none and squeezed its text into a 78px ribbon on every phone.
 - Test at **320px**, not just 375px. Several issues only appear on iPhone SE width.
+- **Never bulk-edit this stylesheet with a regex that spans rules.** A `re.sub` with `re.S` over the responsive block silently ate the Guests, Dispatch and Footer mobile rules in round three, including the `minmax(0,1fr)` overflow fix, and left an unclosed media query. Edit rules by exact match, and after any scripted edit check `{` and `}` counts inside `<style>` balance.
 - **Fixed-px columns must fit their longest content.** `.platform-row` held URLs in a 200px column while `youtube.com/@opencivilization` needs 296px, so three of five rows ran under the CTA at full desktop width. Each row is its own grid, so these columns cannot be `max-content`; they must be a fixed value wide enough for the longest string. It is now 320px.
 
 Check with:
@@ -254,9 +265,9 @@ Each row is now **number · name · one-sentence body · tension line**, under a
 3. **Premise** (`#question`) — thesis paragraph
 4. **Doctrine** (`#doctrine`) — "Ten principles." + `PRINCIPLE` / `THE HARD PART` header + 10 rows
 5. **Host** (`#host`) — "Mehdi Nayebi." + 3-paragraph bio + one inline contact line
-6. **Episodes** (`#episodes`) — lede + featured EP 01 ("Coming soon") + `EPISODE` / `THE QUESTION` header + 9 rows
+6. **Episodes** (`#episodes`) — red label reads `WHAT'S COMING`, header "Episodes." + `EPISODE` / `THE QUESTION` header row + 10 identical rows. No lede, no featured card.
 7. **Guests** (`#guest`) — "Come on the show." + lede + pitch card (sticky on desktop)
-8. **Listen** (`#listen`) — "Listen anywhere." + 5 platform rows
+8. **Listen** (`#listen`) — "Listen anywhere." + one centred inline line of platform names
 9. **Dispatch** (`#dispatch`) — monthly newsletter, dark background + form
 10. **Footer** — 4-column colophon + copyright strip
 
@@ -513,7 +524,8 @@ Set in the round-two spec, 2026-07-31. Nothing from the earlier list survives.
 - Every row carries a **one-line summary** under the title, so a stranger knows what the episode is.
 - Every row carries the **central question** in the right column, accent red italic, the same treatment as `.doctrine-hard`. The block reuses the doctrine grid on purpose, so the site develops one visual language.
 - The right edge is **deliberately blank**. The spec calls for a month per row; no months are committed yet, and its own instruction is that empty reads better than the same word ten times. **To add them:** widen `.tx-row` / `.tx-head` to four columns and append a right-aligned `.tx-month` cell. Do not invent months.
-- EP 01 keeps the featured card treatment with the same summary-and-question structure inside it.
+- **No featured card.** EP 01 is row 01, formatted identically to 02-10. The shaded block, the `FEATURED · EPISODE 01` label and the `COMING SOON` marker were all removed in round three: singling out one episode made it read as a different kind of thing. The `EPISODE` / `THE QUESTION` header sits *above* row 01.
+- **Column headers align with the title column, not the number.** `.dh-left` and `.th-left` both start at grid column 2. The number is an index and needs no header; the title and the description together are the principle (or the episode). Do not add a third header word for the description column.
 
 ---
 

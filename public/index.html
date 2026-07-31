@@ -3,7 +3,7 @@
   @keyframes pulse — .status-dot red glow. 2.2s ease-out infinite. Load trigger, repeats.
 
   Hover transitions: .mast-link (border 0.15s), .mast-listen (color 0.15s),
-    .doctrine-row (bg 0.25s), .tx-row (bg/padding 0.2s/0.25s), .platform-row (bg 0.2s),
+    .doctrine-row (bg 0.25s), .tx-row (bg/padding 0.2s/0.25s), .listen-line a (color 0.15s),
     .host-connect a (color/border 0.15s), .pitch-btn (bg/color 0.2s),
     .dispatch-form button (bg 0.2s), .colophon-nav/contact/about a (border/color 0.15s),
     .footer-bottom a (color/border-color).
@@ -65,7 +65,7 @@
     --display-md-size: 34px;
     --display-md-lh: 1.15;
     --display-md-ls: -0.01em;
-    /* display-sm — upcoming episode titles, principle names, platform names */
+    /* display-sm — episode titles, principle names, listen line */
     --display-sm-size: 28px;
     --display-sm-lh: 1.2;
     --display-sm-ls: -0.005em;
@@ -368,7 +368,9 @@
     font-weight: 600;
     color: var(--muted);
   }
-  .doctrine-head .dh-left  { grid-column: 1 / 4; }
+  /* Starts at the title column, not the number: the number is an index, and
+     the title and description together are the principle. */
+  .doctrine-head .dh-left  { grid-column: 2 / 4; }
   .doctrine-head .dh-right { grid-column: 4; }
 
   .doctrine-row {
@@ -469,7 +471,6 @@
   /* Column header above the ten, mirroring .doctrine-head so the two list
      sections read as one visual language. */
   .tx-head {
-    margin-top: 60px;
     display: grid;
     grid-template-columns: 72px 2.4fr 1fr;
     gap: 36px;
@@ -484,7 +485,7 @@
     font-weight: 600;
     color: var(--muted);
   }
-  .tx-head .th-left  { grid-column: 1 / 3; }
+  .tx-head .th-left  { grid-column: 2 / 3; }
   .tx-head .th-right { grid-column: 3; }
 
   .tx-row {
@@ -533,89 +534,6 @@
     color: var(--red-ink);
   }
 
-  .episodes-lede {
-    font-family: var(--serif);
-    font-size: var(--body-lg-size);
-    line-height: var(--body-lg-lh);
-    font-weight: 400;
-    color: var(--ink-2);
-    max-width: 60ch;
-    margin-bottom: 50px;
-    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
-  }
-  .episodes-lede em { font-style: italic; color: var(--muted); }
-  .tx-featured {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 60px;
-    align-items: end;
-    padding: 50px 0 46px;
-    border-top: 2.5px solid var(--ink);
-    border-bottom: 2.5px solid var(--ink);
-    background: var(--paper-2);
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-  .tx-featured-label {
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    color: var(--red);
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
-  .tx-featured-title {
-    font-family: var(--serif);
-    font-size: var(--display-md-size);
-    font-weight: 500;
-    line-height: var(--display-md-lh);
-    letter-spacing: var(--display-md-ls);
-    margin-bottom: 22px;
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
-  }
-  .tx-featured-title em { font-style: italic; font-weight: 300; }
-  .tx-featured-desc {
-    font-family: var(--mono);
-    font-size: var(--body-sm-size);
-    line-height: var(--body-sm-lh);
-    color: var(--ink-2);
-    max-width: 60ch;
-    margin-bottom: 28px;
-  }
-  /* Same question treatment as the rows and .doctrine-hard. */
-  .tx-featured-question {
-    font-family: var(--mono);
-    font-size: var(--body-sm-size);
-    line-height: var(--body-sm-lh);
-    font-style: italic;
-    color: var(--red-ink);
-    max-width: 60ch;
-  }
-  .tx-featured-right { align-self: end; }
-  /* Coming-soon state indicator (not a button) */
-  .tx-featured-state {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    color: var(--muted);
-    font-weight: 600;
-    padding: 0;
-    background: transparent;
-    border: none;
-  }
-  .tx-featured-state::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: var(--muted-2);
-  }
 
   /* ═════════════════════════════════════ GUEST PITCH ═════════════════════════════════════ */
   .guest-pitch {
@@ -692,54 +610,37 @@
   .pitch-btn:hover { background: var(--red); border-color: var(--red); }
   .pitch-btn .pitch-arrow { font-size: var(--label-size); }
 
-  /* ═════════════════════════════════════ SUBSCRIBE ═════════════════════════════════════ */
-  .platforms {
-    border-top: 1.5px solid var(--ink);
-  }
-  .platform-row {
-    display: grid;
-    /* URL column is 320px, not 200px: youtube.com/@opencivilization needs 296px
-       and was running under the CTA. Each row is its own grid, so this has to be
-       a fixed value or the columns stop aligning row to row. */
-    grid-template-columns: 40px 1fr 320px 120px;
-    gap: 30px;
-    padding: 28px 0;
+  /* ═════════════════════════════════════ LISTEN ═════════════════════════════════════ */
+  /* One centred line, not five full-width rows. It was the tallest block on the
+     page for the least content: row numbers, URLs and per-row CTAs that a
+     visitor infers from the platform name anyway. */
+  .listen-block {
+    border-top: 1px solid var(--ink);
     border-bottom: 1px solid var(--ink);
-    align-items: center;
-    transition: background .2s;
+    padding: 34px 0 36px;
+    text-align: center;
   }
-  .platform-row:hover { background: var(--paper-2); }
-  .platform-num {
+  .listen-label {
     font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    color: var(--muted);
-    font-weight: 600;
-    letter-spacing: var(--label-ls);
-  }
-  .platform-name {
-    font-family: var(--serif);
-    font-size: var(--display-sm-size);
-    font-weight: 500;
-    line-height: var(--display-sm-lh);
-    letter-spacing: var(--display-sm-ls);
-  }
-  .platform-url {
-    font-family: var(--mono);
-    font-size: var(--body-sm-size);
-    line-height: var(--body-sm-lh);
-    color: var(--muted);
-  }
-  .platform-status {
-    font-family: var(--mono);
-    text-align: right;
     font-size: var(--label-size);
     line-height: var(--label-lh);
     text-transform: uppercase;
     letter-spacing: var(--label-ls);
     font-weight: 600;
-    color: var(--red);
+    color: var(--muted);
+    margin-bottom: 18px;
   }
+  .listen-line {
+    font-family: var(--serif);
+    font-size: var(--display-sm-size);
+    line-height: 1.4;
+    letter-spacing: var(--display-sm-ls);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+  .listen-line a { transition: color .15s; }
+  .listen-line a:hover { color: var(--red); }
+  .listen-line .dot { color: var(--muted-2); margin: 0 6px; }
 
   /* ═════════════════════════════════════ DISPATCH / NEWSLETTER ═════════════════════════════════════ */
   .dispatch {
@@ -978,8 +879,7 @@
      @media (min-width: 768px) override. These breakpoints handle LAYOUT ONLY. */
 
   @media (max-width: 1000px) {
-    /* Masthead: hide nav links, keep brand + year as a clean strip */
-    /* Height cut by roughly a third now the bar carries one short action. */
+    /* Masthead: nav links out, one LISTEN action in, height cut by about a third */
     .masthead-bar { padding: 9px 20px; gap: 12px; overflow: visible; }
     .masthead-bar.is-scrolled { padding: 7px 20px; }
     .masthead-bar .mast-link { display: none; }
@@ -1006,12 +906,7 @@
     .host-connect { gap: 10px; }
     .host-connect a { overflow-wrap: anywhere; }
 
-    /* Episodes */
-    .episodes-lede { margin-bottom: 40px; }
-    .tx-featured { grid-template-columns: 1fr; gap: 30px; padding: 36px 20px; }
-    .tx-featured-right { align-self: start; }
-    /* Stack like the doctrine rows: number + title, then the summary, then the
-       question indented. The header row goes; red carries the distinction. */
+    /* Episodes — same stack as the doctrine rows. */
     .tx-head { display: none; }
     .tx-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 24px 0 22px; }
     .tx-title { text-wrap: balance; }
@@ -1029,22 +924,9 @@
     /* Safety net on very narrow screens: break the address rather than the page. */
     .pitch-btn span { min-width: 0; overflow-wrap: anywhere; }
 
-    /* Listen — explicit stack so long URLs like youtube.com/@opencivilization don't collide with the CTA */
-    .platform-row {
-      grid-template-columns: 30px 1fr;
-      grid-template-areas:
-        "num  name"
-        ".    url"
-        ".    status";
-      row-gap: 6px;
-      column-gap: 16px;
-      padding: 22px 0 20px;
-      align-items: start;
-    }
-    .platform-num { grid-area: num; }
-    .platform-name { grid-area: name; }
-    .platform-url { grid-area: url; word-break: break-all; }
-    .platform-status { grid-area: status; text-align: left; margin-top: 6px; }
+    /* Listen — the single line wraps to two or three lines and still reads as
+       one element rather than five stacked rows. */
+    .listen-block { padding: 28px 0 30px; }
 
     /* Dispatch */
     .dispatch { padding: 90px 24px; }
@@ -1062,7 +944,6 @@
     .section { padding: 56px 20px; }
     .section-premise { padding-top: 46px; padding-bottom: 64px; }
     .doctrine-row { grid-template-columns: 50px 1fr; padding: 17px 0 15px; gap: 14px; }
-    .tx-featured { padding: 30px 18px; }
     /* Buys the email label ~8px of headroom so it stays on one line at 375px
        instead of sitting exactly on the wrap boundary. */
     .pitch-card { padding: 28px 18px; }
@@ -1123,7 +1004,7 @@
     <h2 class="section-title">Ten <em>principles.</em></h2>
   </div>
 
-  <p class="doctrine-lede">A compact statement of the principles beneath the project, including the conditions that allow open societies to govern themselves, generate new knowledge, build new technologies, and defend what they have built.</p>
+  <p class="doctrine-lede">The principles beneath the project, including the conditions that allow open societies to govern themselves, generate new knowledge, build new technologies, and defend what they have built.</p>
 
   <div class="doctrine-head">
     <div class="dh-left">Principle</div>
@@ -1224,30 +1105,24 @@
 <!-- ════════ EPISODES ════════ -->
 <section class="section reveal" id="episodes">
   <div class="section-head">
-    <div class="section-num">Episodes</div>
+    <div class="section-num">What's coming</div>
     <h2 class="section-title">Episodes.</h2>
   </div>
 
-  <p class="episodes-lede">The first ten. Nothing historical, everything still being decided.</p>
+  <div class="tx-head">
+    <div class="th-left">Episode</div>
+    <div class="th-right">The question</div>
+  </div>
 
   <div class="transmissions">
-    <div class="tx-featured">
-      <div class="tx-featured-left">
-        <div class="tx-featured-label">Featured &nbsp;•&nbsp; Episode 01</div>
-        <h3 class="tx-featured-title">The Grid Can't <em>Take It</em></h3>
-        <p class="tx-featured-desc">AI's power demand has collided with grids nobody can expand fast enough.</p>
-        <p class="tx-featured-question">Can a democracy still build power at the scale this needs?</p>
+    <div class="tx-row">
+      <div class="tx-num">01</div>
+      <div class="tx-main">
+        <div class="tx-title">The Grid Can't <em>Take It</em></div>
+        <p class="tx-desc">AI's power demand has collided with grids nobody can expand fast enough.</p>
       </div>
-      <div class="tx-featured-right">
-        <div class="tx-featured-state">Coming soon</div>
-      </div>
+      <div class="tx-question">Can a democracy still build power at the scale this needs?</div>
     </div>
-
-    <div class="tx-head">
-      <div class="th-left">Episode</div>
-      <div class="th-right">The question</div>
-    </div>
-
     <div class="tx-row">
       <div class="tx-num">02</div>
       <div class="tx-main">
@@ -1357,37 +1232,21 @@
     <h2 class="section-title">Listen <em>anywhere.</em></h2>
   </div>
 
-  <div class="platforms">
-    <a class="platform-row" href="https://podcasts.apple.com/podcast/open-civilization" target="_blank" rel="noopener">
-      <div class="platform-num">01</div>
-      <div class="platform-name">Apple Podcasts</div>
-      <div class="platform-url">podcasts.apple.com</div>
-      <div class="platform-status">Subscribe →</div>
-    </a>
-    <a class="platform-row" href="https://open.spotify.com/show/opencivilization" target="_blank" rel="noopener">
-      <div class="platform-num">02</div>
-      <div class="platform-name">Spotify</div>
-      <div class="platform-url">open.spotify.com</div>
-      <div class="platform-status">Follow →</div>
-    </a>
-    <a class="platform-row" href="https://youtube.com/@opencivilization" target="_blank" rel="noopener">
-      <div class="platform-num">03</div>
-      <div class="platform-name">YouTube</div>
-      <div class="platform-url">youtube.com/@opencivilization</div>
-      <div class="platform-status">Watch →</div>
-    </a>
-    <a class="platform-row" href="https://opencivilization.fm/rss" target="_blank" rel="noopener">
-      <div class="platform-num">04</div>
-      <div class="platform-name">RSS Feed</div>
-      <div class="platform-url">opencivilization.fm/rss</div>
-      <div class="platform-status">Copy →</div>
-    </a>
-    <a class="platform-row" href="https://opencivilization.fm/rss" target="_blank" rel="noopener">
-      <div class="platform-num">05</div>
-      <div class="platform-name">Overcast · Pocket Casts · Fountain</div>
-      <div class="platform-url">Any podcast client via RSS</div>
-      <div class="platform-status">Add →</div>
-    </a>
+  <div class="listen-block">
+    <div class="listen-label">Listen on</div>
+    <div class="listen-line">
+      <a href="https://podcasts.apple.com/podcast/open-civilization" target="_blank" rel="noopener">Apple Podcasts</a>
+      <span class="dot">·</span>
+      <a href="https://open.spotify.com/show/opencivilization" target="_blank" rel="noopener">Spotify</a>
+      <span class="dot">·</span>
+      <a href="https://youtube.com/@opencivilization" target="_blank" rel="noopener">YouTube</a>
+      <span class="dot">·</span>
+      <a href="https://opencivilization.fm/rss" target="_blank" rel="noopener">RSS</a>
+      <span class="dot">·</span>
+      <a href="https://opencivilization.fm/rss" target="_blank" rel="noopener">Overcast</a>
+      <span class="dot">·</span>
+      <a href="https://opencivilization.fm/rss" target="_blank" rel="noopener">Pocket Casts</a>
+    </div>
   </div>
 </section>
 
