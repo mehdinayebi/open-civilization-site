@@ -115,6 +115,16 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--paper); color: var(--ink); }
+  /* Smooth in-page navigation from the masthead links.
+     scroll-padding-top clears the 52px sticky masthead so the target
+     section's top rule isn't hidden underneath it on arrival. */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 84px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
   body {
     font-family: var(--mono);
     font-size: 16px;
@@ -656,28 +666,6 @@
     border-bottom: 1px solid var(--ink);
   }
 
-  .tx-note {
-    margin-top: 50px;
-    padding: 30px;
-    border: 1.5px solid var(--ink);
-    background: var(--paper-2);
-    font-family: var(--mono);
-    font-size: var(--micro-size);
-    line-height: var(--micro-lh);
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 30px;
-  }
-  .tx-note .lbl {
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    font-weight: 600;
-    color: var(--red);
-  }
-
   /* ═════════════════════════════════════ GUEST PITCH ═════════════════════════════════════ */
   .guest-pitch {
     display: grid;
@@ -759,7 +747,10 @@
   }
   .platform-row {
     display: grid;
-    grid-template-columns: 40px 1fr 200px 120px;
+    /* URL column is 320px, not 200px: youtube.com/@opencivilization needs 296px
+       and was running under the CTA. Each row is its own grid, so this has to be
+       a fixed value or the columns stop aligning row to row. */
+    grid-template-columns: 40px 1fr 320px 120px;
     gap: 30px;
     padding: 28px 0;
     border-bottom: 1px solid var(--ink);
@@ -1073,9 +1064,6 @@
     .tx-title { text-wrap: balance; }
     .tx-pillar, .tx-status { grid-column: 1; }
     .tx-status { justify-content: flex-start; margin-top: 6px; }
-    /* The note had no mobile rule: the fixed 180px label column squeezed the
-       text into a ~78px ribbon, and below ~360px it pushed past the viewport. */
-    .tx-note { grid-template-columns: 1fr; gap: 10px; padding: 24px 20px; }
 
     /* Guests */
     /* minmax(0,1fr) not 1fr: a plain 1fr track cannot shrink below its
@@ -1159,13 +1147,8 @@
     A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change, and on whether open societies can stay strong enough to <em>build, innovate, and defend</em> the freedoms, prosperity, and stability they depend on.
   </p>
 
-  <!-- TODO: when EP 01 ships, swap primary to red-filled "Listen to EP 01 →" linking to #episodes -->
-  <div class="hero-ctas">
-    <a href="#question" class="hero-cta primary">
-      <span>Read the premise</span>
-      <span class="arrow">→</span>
-    </a>
-  </div>
+  <!-- TODO: when EP 01 ships, add a red-filled "Listen to EP 01 →" here linking to
+       the episode. The .hero-ctas / .hero-cta styles are kept for that. -->
 </section>
 
 <!-- ════════ PREMISE ════════ -->
@@ -1386,10 +1369,6 @@
     </div>
   </div>
 
-  <div class="tx-note">
-    <div class="lbl">Schedule</div>
-    <div>New episodes every week. Full archive available on all major podcast platforms.</div>
-  </div>
 </section>
 
 <!-- ════════ BE A GUEST ════════ -->

@@ -150,6 +150,7 @@ Rules when touching any grid:
 - Long unbreakable strings need `overflow-wrap: anywhere` (or `word-break: break-all`) as a safety net.
 - Any grid with a fixed-px column (`180px 1fr`, `80px 1fr …`) **must** have a mobile rule that stacks it. `.tx-note` had none and squeezed its text into a 78px ribbon on every phone.
 - Test at **320px**, not just 375px. Several issues only appear on iPhone SE width.
+- **Fixed-px columns must fit their longest content.** `.platform-row` held URLs in a 200px column while `youtube.com/@opencivilization` needs 296px, so three of five rows ran under the CTA at full desktop width. Each row is its own grid, so these columns cannot be `max-content`; they must be a fixed value wide enough for the longest string. It is now 320px.
 
 Check with:
 
@@ -231,7 +232,7 @@ Each row is now **number · name · one-sentence body · tension line**, under a
 3. **Premise** (`#question`) — thesis paragraph
 4. **Doctrine** (`#doctrine`) — "Ten principles." + `PRINCIPLE` / `THE HARD PART` header + 10 rows
 5. **Host** (`#host`) — "About the host." + huge "Mehdi / Nayebi" + 3-paragraph bio + contact links
-6. **Episodes** (`#episodes`) — lede + featured EP 01 ("Coming soon") + 9 upcoming + schedule note
+6. **Episodes** (`#episodes`) — lede + featured EP 01 ("Coming soon") + 9 upcoming
 7. **Guests** (`#guest`) — "Come on the show." + lede + pitch card (sticky on desktop)
 8. **Listen** (`#listen`) — "Listen anywhere." + 5 platform rows
 9. **Dispatch** (`#dispatch`) — monthly newsletter, dark background + form
@@ -245,7 +246,7 @@ Do not reorder sections.
 
 ## Hero CTA state
 
-**Pre-launch (current):** Single outlined primary CTA, `READ THE PREMISE →`, anchors to `#question`. No secondary CTA. Nothing red-filled.
+**Pre-launch (current):** No hero CTA. The `READ THE PREMISE` button was removed on 2026-07-31. The `.hero-ctas` / `.hero-cta` styles are deliberately kept for the post-launch button.
 
 **Post-launch (when EP 01 ships):** Reintroduce a red-filled primary `LISTEN TO EP. 01 →` linking to the episode page. The TODO is marked in `public/index.html` above the `.hero-ctas` div AND in the `.hero-cta` CSS. Search for `TODO: when EP 01 ships` to find it.
 
@@ -257,9 +258,10 @@ Three systems, all in `public/index.html`:
 
 1. **Hero rise-in** — `@keyframes riseIn` on `.hero-title .line`, `.hero-promise`, `.hero-ctas`. Runs once on page load, staggered 0.1s → 0.25s → 0.45s → 0.6s.
 2. **Status dot pulse** — `@keyframes pulse` on `.status-dot`. Red glow expansion, 2.2s infinite.
-3. **Scroll reveal** — IntersectionObserver adds `.is-visible` to every `.reveal` section. Observer settings: `threshold: 0`, `rootMargin: '0px 0px 20% 0px'` (triggers 20% BEFORE the section hits the viewport). Transition: 0.5s, translateY 14px → 0. Critical: the rootMargin must have a positive bottom value so reveals fire preemptively, not laggy.
-4. **Doctrine stagger** — When `.doctrine-table` enters viewport, 10 rows fade in at 50ms intervals. Same IntersectionObserver settings.
-5. **Masthead shrink** — Scroll listener + rAF. When `scrollY > hero bottom - 100px`, adds `.is-scrolled` to `.masthead-bar`. Tightens padding, border, font-size.
+3. **Smooth anchor scrolling** — `html { scroll-behavior: smooth; scroll-padding-top: 84px; }`. The padding clears the 52px sticky masthead so a target section's top rule is not hidden on arrival; without it, sections land flush under the bar. Disabled under `prefers-reduced-motion`.
+4. **Scroll reveal** — IntersectionObserver adds `.is-visible` to every `.reveal` section. Observer settings: `threshold: 0`, `rootMargin: '0px 0px 20% 0px'` (triggers 20% BEFORE the section hits the viewport). Transition: 0.5s, translateY 14px → 0. Critical: the rootMargin must have a positive bottom value so reveals fire preemptively, not laggy.
+5. **Doctrine stagger** — When `.doctrine-table` enters viewport, 10 rows fade in at 50ms intervals. Same IntersectionObserver settings.
+6. **Masthead shrink** — Scroll listener + rAF. When `scrollY > hero bottom - 100px`, adds `.is-scrolled` to `.masthead-bar`. Tightens padding, border, font-size.
 
 **All animations respect `@media (prefers-reduced-motion: reduce)`:**
 - Reveals render at full opacity immediately (no transition).
@@ -380,7 +382,7 @@ Hosted on Neon (`open-civilization` project, AWS US East 1).
 **0. The two open content decisions (raised 2026-07-31, not yet actioned):**
 
 - **The ten episode titles are stale.** They predate the season work and no longer match the intended slate. They are abstract categories ("When Institutions Stop Working") where they should be a specific country plus a specific fact ("Why Britain Can't Build a Railway Anymore"). The show's name does no discovery work, so episode titles carry that entire job.
-- **The schedule note promises "New episodes every week. Full archive available on all major podcast platforms."** Both halves are false pre-launch: nothing is recorded and there is no archive. It sits in `.tx-note` at the bottom of the Episodes section. The Dispatch newsletter was changed to monthly on 2026-07-31, so a weekly episode promise is also now inconsistent with it.
+- ~~The schedule note~~ **Resolved 2026-07-31:** deleted. It claimed "New episodes every week. Full archive available on all major podcast platforms," both false pre-launch.
 
 1. **Episode pages don't exist.** Featured EP 01 and upcoming rows are not clickable (no `href`).
 2. **Platform links are placeholders.** Apple Podcasts, Spotify, YouTube URLs don't resolve to real listings yet. The Listen section presents them as live.
