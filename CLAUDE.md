@@ -140,6 +140,28 @@ Fraunces is variable along `SOFT` (0–100), `WONK` (0–1), and `opsz` (9–144
 4. **Italic secondary words** (the "`Ten <em>principles.</em>`" pattern) are mandatory. Every display/serif title uses `<em>` for its second word.
 5. **Mobile cap:** `display-xl` at 60px mobile fits "Civilization." on all iPhones ≥375px. On 320px iPhone SE it will be snug but acceptable.
 
+### Section tone (the page rhythm)
+
+Sections alternate between the two paper tones so each topic reads as its own plate. Without it the page is one continuous cream field from masthead to footer, with the only tonal break being the dispatch at the very bottom, and seven sections repeating identical furniture (small red label, serif title, hairline rule) at the same scale and the same left edge.
+
+| Section | Tone |
+|---------|------|
+| Hero | `--paper` |
+| Premise | `--paper-2` (`.tinted`) |
+| Doctrine | `--paper` |
+| Host | `--paper-2` (`.tinted`) |
+| Episodes | `--paper` |
+| Guests | `--paper-2` (`.tinted`) |
+| Listen | `--paper` |
+| Dispatch | `--ink` |
+| Footer | `--paper` |
+
+Add `tinted` to a `.section` to tint it. The pattern lands the statement sections on tint and the list sections on plain, and ends on the ink dispatch.
+
+**Tone goes on whole sections, never on one item inside a list.** Tinting a single row says "this item is different"; tinting a section says "this topic is different", which is the true statement. A full-bleed inverted featured episode was built and reverted for exactly this reason: it made EP 01 look like a different kind of thing from the rest of the slate. Don't repeat it.
+
+**Hover inverts on tinted ground.** `--paper-2` is also the hover colour for `.doctrine-row`, `.tx-row`, `.platform-row` and `.connect-row`, so on a tinted section a hover would resolve to the section's own background and disappear. `.section.tinted` overrides send hover and card surfaces to `--paper` instead. **If you tint another section, check every hover and card inside it.**
+
 ### Mobile overflow — the trap in this layout
 
 The page is full of fixed-px grid columns and long unbreakable strings (email addresses, URLs). A plain `1fr` track **cannot shrink below its content's min-content width**, so one long token silently pushes a section wider than the viewport. `body { overflow-x: hidden }` hides the symptom, which is why two of these survived unnoticed until 2026-07-31.

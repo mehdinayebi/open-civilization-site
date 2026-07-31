@@ -308,6 +308,25 @@
   }
   .section-title em { font-style: italic; font-weight: 300; }
 
+  /* ══════════════════════════════ SECTION TONE ══════════════════════════════
+     The page ran one continuous cream field from masthead to footer, with the
+     only tonal break being the dispatch at the very bottom. Alternating the two
+     paper tones gives each topic its own plate.
+
+     Applied at SECTION level, never to an item inside a list. Tinting one row
+     of a list reads as "this item is different"; tinting a whole section reads
+     as "this topic is different", which is the true statement. A tinted
+     featured episode was tried and reverted for exactly this reason.
+
+     Order is paper / tint / paper / tint ... ending on the ink dispatch, so the
+     tinted sections are the statement sections (premise, host, guests) and the
+     plain ones are the lists (doctrine, episodes, listen). */
+  .section.tinted { background: var(--paper-2); }
+  /* On tinted ground, interactive surfaces go lighter rather than darker,
+     otherwise hover resolves to the same colour as the section behind it. */
+  .section.tinted .connect-row:hover { background: var(--paper); }
+  .section.tinted .pitch-card { background: var(--paper); }
+
   /* ═════════════════════════════════════ PREMISE ═════════════════════════════════════ */
   .section-premise {
     padding-top: 70px;
@@ -1152,7 +1171,7 @@
 </section>
 
 <!-- ════════ PREMISE ════════ -->
-<section class="section section-premise reveal" id="question">
+<section class="section section-premise reveal tinted" id="question">
   <div class="section-head">
     <div class="section-num">Premise</div>
     <h2 class="section-title">Free, and <em>fragile.</em></h2>
@@ -1242,7 +1261,7 @@
 </section>
 
 <!-- ════════ THE HOST ════════ -->
-<section class="section reveal" id="host">
+<section class="section reveal tinted" id="host">
   <div class="section-head">
     <div class="section-num">Host</div>
     <h2 class="section-title">About the <em>host.</em></h2>
@@ -1372,7 +1391,7 @@
 </section>
 
 <!-- ════════ BE A GUEST ════════ -->
-<section class="section reveal" id="guest">
+<section class="section reveal tinted" id="guest">
   <div class="section-head">
     <div class="section-num">Guests</div>
     <h2 class="section-title">Come on the <em>show.</em></h2>
