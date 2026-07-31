@@ -13,13 +13,7 @@ Project-scoped Claude instructions for `opencivilization.fm`. Read this at the s
 - **Parent project:** Gravitas Society — an intellectual community fighting tribal epistemics.
 - **Status:** Pre-launch. EP 01 is not recorded or published yet. Nothing is subscribable as audio; only the Dispatch newsletter collects real subscribers today.
 
-**The tagline:** *How open societies endure, and how they decay.*
-
-**The spine question:** *why can some societies still do hard things, and why do others forget how?* Every section of the homepage serves that question.
-
-**The editorial frame is capability, not decline.** Failure episodes exist to explain why success is rare, not to form the spine. The published slate runs six capability stories to five failures, with wins in the first three.
-
-**The name will never do discovery work.** A stranger scrolling learns nothing from "Open Civilization." That job falls entirely on episode titles and clips, which is why every episode title names a specific country and a specific fact. Never retitle an episode into an abstraction ("When Institutions Stop Working" is a category; "Why Britain Can't Build a Railway Anymore" is an argument someone will click).
+**The organizing line of the site:** *the forces shaping the future of the free world.* Every section of the homepage serves that umbrella sentence.
 
 ---
 
@@ -128,11 +122,11 @@ Fraunces is variable along `SOFT` (0–100), `WONK` (0–1), and `opsz` (9–144
 |-------|------|--------|------------------|-------------|----------------|
 | `display-xl` | Hero wordmark ONLY | 60px | 144px | 0.95 / 0.92 | -0.02em |
 | `display-lg` | Section titles, host name, dispatch headline | 44px | 80px | 1.05 / 1.0 | -0.015em |
-| `display-md` | Featured ep title, principle numbers, colophon wordmark | 34px | 56px | 1.15 / 1.1 | -0.01em |
-| `display-sm` | Hero tagline, upcoming episode titles, principle names | 28px | 34px | 1.2 | -0.005em |
-| `body-lg` | Hero promise paragraphs, section ledes | 24px | 32px | 1.5 / 1.45 | 0 |
-| `body-md` | Host bio, dispatch paragraph, footer links | 18px | 20px | 1.6 / 1.6 | 0 |
-| `body-sm` | Principle glosses (mono), featured ep desc, upcoming ep desc | 16px | 17px | 1.65 / 1.6 | 0 |
+| `display-md` | Featured ep title, pitch card title, principle numbers, colophon wordmark | 34px | 56px | 1.15 / 1.1 | -0.01em |
+| `display-sm` | Upcoming episode titles, principle names, platform names | 28px | 34px | 1.2 | -0.005em |
+| `body-lg` | Hero promise, premise, ledes, guest lede | 24px | 32px | 1.5 / 1.45 | 0 |
+| `body-md` | Host bio, dispatch paragraph, pitch body, footer links | 18px | 20px | 1.6 / 1.6 | 0 |
+| `body-sm` | Principle glosses (mono), featured ep desc, platform URL | 16px | 17px | 1.65 / 1.6 | 0 |
 | `label` | Section markers, tags, captions, masthead, all CTAs | 13px | 14px | 1.4 | 0.08em uppercase |
 | `micro` | Footer legal, schedule block | 13px | 14px | 1.5 | 0.02em |
 
@@ -177,104 +171,52 @@ Files live in both `app/` (for future Next.js migration) and `public/` (for curr
 - **Voice test:** would this sentence appear in *Foreign Affairs* or *Noema*? If not, rewrite.
 - **No emojis** in any production copy. Emojis are fine in dev notes and commit messages.
 - **Preserve the italic secondary-word pattern** in every display title.
-- **No Roman numerals.** No `MMXXVI`, no `§ I` section markers. Removed in the rework, do not reintroduce.
-
-### Kill list (removed in the rework — do not write these again)
-
-These exact lines were cut, and so was the family of phrasing each one belongs to:
-
-- "A compact statement of the principles beneath the project."
-- "The show is not organized by sector. It is organized by relevance."
-- "No marketing noise. Just signal."
-- "a deeper map of the forces shaping the future of the free world"
-- "His work sits at the intersection of geopolitics, institutions, technology, finance, power, and civilizational renewal."
-
-The old umbrella sentence, *the forces shaping the future of the free world*, is retired everywhere: title, meta, OG tags, colophon tagline, episode lede. The tagline replaces it.
 
 ---
 
-## The five principles (canonical)
+## The ten principles (canonical)
 
-The show's editorial position, cut from ten to five in the 2026 rework. These are fixed — do not rewrite the names or reorder without explicit approval. Both `public/index.html` (name + gloss) and `public/principles.html` (full statement) must list these in this order.
+The show's editorial position. These are fixed — do not rewrite the names or reorder without explicit approval. Both `public/index.html` (compressed glosses) and `public/principles.html` (full statement) must list these in this order.
 
-Read down the list: what you measure, what you need, what it costs, how you hold it, who does the work.
+| # | Name | Tag |
+|---|------|-----|
+| 01 | Rare, *not default.* | Exception |
+| 02 | Dispersed *power.* | Checks |
+| 03 | Liberty as *foundation.* | Freedom |
+| 04 | Revisable *belief.* | Inquiry |
+| 05 | Moral *universalism.* | Universal |
+| 06 | Markets *with rules.* | Markets |
+| 07 | Reform institutions, *don't destroy them.* | Institutions |
+| 08 | Universal values, *national communities.* | Nations |
+| 09 | Tolerance that *defends itself.* | Defense |
+| 10 | Historically *conscious.* | History |
 
-| # | Name | Gloss |
-|---|------|-------|
-| 01 | A country is what it *can build.* | Not what it declares. |
-| 02 | A country that lies to itself *can't fix itself.* | Bad information is a tax on everything downstream. |
-| 03 | Only strong countries can *afford to be open.* | Generosity is something you pay for. |
-| 04 | Nobody can be trusted with *all of it.* | Courts, press, states, opposition: the point of dividing power is that no one has to be virtuous. |
-| 05 | Countries get fixed by builders, *not commentators.* | (none — the closer runs as a single line) |
-
-**There is no tag column anymore.** The five carry a name and a gloss, nothing else. Principle 05 has no gloss by design; its homepage row uses `.doctrine-row.solo`.
-
-**The homepage and `/principles.html` must stay in lockstep on names, order, and glosses.** The full statement page adds one explanatory paragraph per principle; the homepage does not.
-
-### What was dropped, and why (do not reinstate without asking)
-
-- **Belonging / membership ("Universal values, national communities").** Cut at the host's call. It was the pillar most likely to get the show sorted into a tribe before anyone heard the argument.
-- **Merit.** Folded into 01. Capacity is the observable result, merit is the mechanism, and only the observable one is worth stating. "Merit" is also heavily coded right now.
-- **"Freedom as a discipline, not a mood."** Best line of the old set, worst pillar: it colors episodes rather than generating them. Keep it as recurring language in monologues, not as a principle.
-
-Alternate for slot 04 if a more contrarian framing is ever wanted: *reform institutions, don't burn them*, which cuts against the tear-it-down instinct on both left and right.
+**The homepage and `/principles.html` must stay in lockstep on names, order, and tags.** Body text can differ (short form vs long form) but conceptually they must agree.
 
 ---
 
 ## Homepage section order (fixed)
 
-Four sections, down from six. The old page asked a stranger to read roughly 900 words of doctrine before reaching a single episode title, and almost nobody got there.
+1. **Masthead** — brand + year strip, sticky; nav hidden on mobile
+2. **Hero** — "Open / Civilization." + single serif paragraph + primary CTA
+3. **§ I / Premise** — thesis paragraph
+4. **§ II / Doctrine** — "Ten principles." table (10 rows) + "Read the full statement" CTA
+5. **§ III / Host** — "About the host." + huge "Mehdi / Nayebi" + bio + contact links
+6. **§ IV / Episodes** — intro lede + featured EP 01 (marked UPCOMING with "Coming soon" state indicator) + 9 upcoming episodes + schedule note
+7. **§ V / Guests** — "Come on the show." + lede + pitch card (sticky)
+8. **§ VI / Listen** — "Listen anywhere." + 5 platform rows
+9. **§ VII / Dispatch** — newsletter section (dark background) + form
+10. **Footer** — 4-column colophon + copyright strip
 
-1. **Masthead** — brand + nav, sticky; nav hidden below 1000px
-2. **Hero** — "Open / Civilization." + tagline + two-paragraph promise + primary CTA
-3. **Doctrine** (`#doctrine`) — "Five principles." table (5 rows) + "Read the full statement" CTA
-4. **Host** (`#host`) — "About the host." + huge "Mehdi / Nayebi" + 3-paragraph bio + contact links
-5. **Episodes** (`#episodes`) — lede + featured EP 01 ("Coming soon" state) + 10 upcoming episodes, each with a description
-6. **Dispatch** (`#dispatch`) — newsletter block, dark background, two lines of copy + form
-7. **Footer** — 4-column colophon (brand / come on the show / navigate / contact) + copyright strip
-
-**No Roman numerals anywhere.** The `§ I`, `§ II` section markers and the `MMXXVI` masthead date were removed in the rework — they were the loudest pomposity signal on the page. Section markers are now plain words (`Doctrine`, `Host`, `Episodes`) in the red mono label style. Do not reintroduce numerals or `§`.
-
-### Sections that were removed (do not reinstate without asking)
-
-- **Premise (`#question`).** Its work is now done by the hero.
-- **Guests (`#guest`).** Folded into the footer as one line plus the contact email.
-- **Listen (`#listen`).** Five platform rows pointing at listings that do not exist yet. Bring it back when EP 01 ships and the URLs resolve.
-- **The episodes schedule note.** It claimed a full archive on all major platforms, which is not true pre-launch.
+Section numbers and labels are part of the editorial grammar. Do not reorder or renumber.
 
 ---
 
 ## Hero CTA state
 
-**Pre-launch (current):** Single outlined primary CTA, `SEE THE EPISODES →`, anchors to `#episodes`. No secondary CTA. Nothing red-filled. It points at the episodes deliberately: the titles are what do the discovery work, so the fastest path to them is the point.
+**Pre-launch (current):** Single outlined primary CTA, `READ THE PREMISE →`, anchors to `#question`. No secondary CTA. Nothing red-filled.
 
 **Post-launch (when EP 01 ships):** Reintroduce a red-filled primary `LISTEN TO EP. 01 →` linking to the episode page. The TODO is marked in `public/index.html` above the `.hero-ctas` div AND in the `.hero-cta` CSS. Search for `TODO: when EP 01 ships` to find it.
-
----
-
-## Episode slate (canonical)
-
-Six capability stories to five failures, wins in the first three. That ratio is what makes the tagline honest rather than decorative. Every title names a specific country and a specific fact.
-
-| Ep | Title | Tag | Hard thing | Principles |
-|----|-------|-----|-----------|------------|
-| 01 | I Built a Company in Iran. Here's What the State Did. | Iran · Capacity | Build a company under a hostile state | 4, 5 |
-| 02 | South Korea Was Poorer Than Ghana | Korea · Capacity | Industrialise from nothing in one lifetime | 1 |
-| 03 | France Built 56 Reactors in 15 Years | Energy · Capacity | Decarbonise a grid at scale | 1 |
-| 04 | Poland Went From Warsaw Pact to Building Again | Poland · Renewal | Rebuild a country and rearm it | 5, 3 |
-| 05 | Argentina Was Richer Than France. What Happened? | Decline · Institutions | Stay rich | 2 |
-| 06 | Why Britain Can't Build a Railway Anymore | Britain · Capacity | Lay track | 1, cost of 4 |
-| 07 | How a Country Learns to Lie to Itself | Truth · Power | Keep an accurate picture of reality | 2 |
-| 08 | Ukraine Gave Up Its Nuclear Weapons in 1994 | Strength · Security | Defend yourself | 3 |
-| 09 | Norway Turned Oil Into a Sovereign Fund. Nigeria Didn't. | Resources · Governance | Turn a windfall into an endowment | 4, 1 |
-| 10 | Who Actually Controls the Chips | AI · Compute | Manufacture at the frontier | 1, 3 |
-| 11 | Singapore Houses 80% of Its People. Why Can't Anyone Copy It? | Housing · Capacity | House your own population | 1 |
-
-**Keep episodes 03, 06 and 11 — they put the show's own principles in tension.** 03 and 06 are the same argument from both sides: dispersed power protects you from tyranny and can also leave you unable to build. 11 is a state that houses everyone and therefore holds a lot of power over them. A show where the doctrine wins every week is a sermon, and listeners can smell it by episode four. Naming the price of your own position is what earns the rest of the argument.
-
-**Cut, with reasons:** the standalone China episode (absorbed into 10, where it is concrete rather than thematic); the sanctions episode (it was about how open societies act outward rather than what they can do at home, it duplicated Episode 01, and putting the host on the receiving end twice reads as grievance rather than analysis). If sanctions is ever revived, the angle is sanctions as a capability test: can open societies still make their main non-military instrument work?
-
-**Uncovered hero promise:** the hero names four tests — railway, clean election, housing, disease. The slate delivers railway (06) and housing (11). For the disease test, the candidate is *Smallpox Is Gone. Nothing Like It Has Happened Since.*
 
 ---
 
@@ -282,17 +224,17 @@ Six capability stories to five failures, wins in the first three. That ratio is 
 
 Three systems, all in `public/index.html`:
 
-1. **Hero rise-in** — `@keyframes riseIn` on `.hero-title .line`, `.hero-tagline`, `.hero-promise` (x2), `.hero-ctas`. Runs once on page load, staggered 0.1s → 0.25s → 0.4s → 0.55s → 0.7s → 0.85s.
-2. **Status dot pulse** — `@keyframes pulse` on `.status-dot`. Red glow expansion, 2.2s infinite. Currently defined but unused: no element on the page carries `.status-dot`. Kept for the launch-state indicator.
+1. **Hero rise-in** — `@keyframes riseIn` on `.hero-title .line`, `.hero-promise`, `.hero-ctas`. Runs once on page load, staggered 0.1s → 0.25s → 0.45s → 0.6s.
+2. **Status dot pulse** — `@keyframes pulse` on `.status-dot`. Red glow expansion, 2.2s infinite.
 3. **Scroll reveal** — IntersectionObserver adds `.is-visible` to every `.reveal` section. Observer settings: `threshold: 0`, `rootMargin: '0px 0px 20% 0px'` (triggers 20% BEFORE the section hits the viewport). Transition: 0.5s, translateY 14px → 0. Critical: the rootMargin must have a positive bottom value so reveals fire preemptively, not laggy.
-4. **Doctrine stagger** — When `.doctrine-table` enters viewport, 5 rows fade in at 70ms intervals. Same IntersectionObserver settings.
+4. **Doctrine stagger** — When `.doctrine-table` enters viewport, 10 rows fade in at 50ms intervals. Same IntersectionObserver settings.
 5. **Masthead shrink** — Scroll listener + rAF. When `scrollY > hero bottom - 100px`, adds `.is-scrolled` to `.masthead-bar`. Tightens padding, border, font-size.
 
 **All animations respect `@media (prefers-reduced-motion: reduce)`:**
 - Reveals render at full opacity immediately (no transition).
 - Doctrine stagger disabled.
 - Masthead transition disabled.
-- `riseIn` and `pulse` disabled, with every affected element forced to `opacity: 1`. This matters: each `riseIn` element starts at `opacity: 0`, so if a browser suppresses animations without that guard the whole hero renders blank. Any new element you attach `riseIn` to must be added to that guard list.
+- `riseIn` and `pulse` keyframes currently NOT explicitly disabled under reduced-motion (known gap).
 
 **Do not introduce new animations without a clear editorial reason.** The site uses motion sparingly and deliberately.
 
@@ -392,9 +334,8 @@ Hosted on Neon (`open-civilization` project, AWS US East 1).
 
 ## Known gaps / TODOs
 
-0. **Nothing is recorded.** This is the only item that matters. The concept has been in development since early 2025 with zero published episodes. Renaming, restructuring and retitling cost rework right now rather than audience, which will never be true again after launch. One published episode will say more about whether the frame lands than another month of refining it.
 1. **Episode pages don't exist.** Featured EP 01 and upcoming rows are not clickable (no `href`).
-2. **Platform links are gone, not fixed.** The Listen section was removed in the rework because none of the Apple/Spotify/YouTube URLs resolved. Rebuild it when the listings are real.
+2. **Platform links are placeholders.** Apple Podcasts, Spotify, YouTube URLs don't resolve to real listings yet.
 3. **RSS feed.** `/rss` is a placeholder; no actual feed is generated.
 4. **Hero `riseIn` and status-dot `pulse`** are not explicitly disabled under `prefers-reduced-motion`. Scroll-triggered animations and masthead shrink are properly guarded.
 5. **`principles.html` uses its own inline `<style>` block** and does not consume the homepage's 9-token type scale. If consistency matters, the same tokens should be ported there (or both files should share a stylesheet).
@@ -409,10 +350,10 @@ Hosted on Neon (`open-civilization` project, AWS US East 1).
 Mehdi Nayebi — French national, Canadian permanent resident, host of Open Civilization. Founder/CEO of LifeShield Technologies, founder of Gravitas Society, co-founder of Alopeyk (one of Iran's largest tech platforms). Background spans investment banking at Deutsche Bank and Bank of America (London), on-demand logistics in Iran, and health tech in North America. Currently in Toronto, relocating to Miami end of 2026.
 
 **Framing guidance for bio/host copy:**
-- Lean on: builder across cultures, someone who ran a real company against a hostile state.
+- Lean on: convener, builder across cultures, concerned with how free societies sustain themselves.
 - Do NOT frame him as an "Iranian entrepreneur." He is French and Canadian. Iran is a subject of his work, not his nationality.
-- Closed-society credibility is the unique asset, and the line that carries it is: *he has seen what it looks like when a state works against the people trying to build.* That is the whole reason someone should listen to him rather than to a professor. Keep it in the bio.
-- **No six-noun intersections.** "His work sits at the intersection of geopolitics, institutions, technology, finance, power, and civilizational renewal" was cut in the rework. Lists of abstract nouns are how people signal seriousness when they haven't said anything yet.
+- Closed-society credibility is the unique asset: he built inside a sanctioned authoritarian system and left Iran for safety reasons. That perspective is non-reproducible by hosts who've never lived inside one.
+- Work sits at the intersection of geopolitics, institutions, technology, finance, power, and civilizational renewal.
 
 ---
 
@@ -429,12 +370,8 @@ grep -n '—' public/index.html | grep -v '/\*\|<!--'  # expect empty
 # 3. Every font-size consumes a token (body default is the only hardcoded exception)
 grep 'font-size:\s*[0-9]' public/index.html | grep -v 'body\|var('  # expect empty
 
-# 4. Five principles present on homepage, eleven episodes in the slate
-grep -c 'class="doctrine-row' public/index.html   # expect 5
-grep -c 'class="tx-row"' public/index.html        # expect 10 (EP 02-11; EP 01 is .tx-featured)
-
-# 4b. No Roman numerals in rendered copy
-grep -n 'MMXXVI\|§' public/index.html public/principles.html  # expect empty
+# 4. Ten principles present on homepage
+grep -c 'class="doctrine-row"' public/index.html  # expect 10
 
 # 5. Analytics script present
 grep -q '/_vercel/insights/script.js' public/index.html && echo "analytics: OK"

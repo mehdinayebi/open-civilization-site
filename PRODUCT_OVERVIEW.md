@@ -2,15 +2,6 @@
 
 **Last updated:** 2026-04-12 · v5
 
-> **STALE AS OF THE 2026-07-30 SHOW AND SITE REWORK. `CLAUDE.md` is the source of truth.**
->
-> This document still describes the pre-rework site. Superseded sections: the ten principles,
-> the seven-section homepage order (`§ I` through `§ VII`), the Premise / Guests / Listen
-> sections, the `MMXXVI` masthead date, the old episode slate, and the
-> "forces shaping the future of the free world" umbrella sentence. The design system,
-> API contracts, infrastructure, and deployment notes below are still accurate.
-> Rewrite this file the next time a full reference pass is worth the time.
-
 ---
 
 ## Project Summary
@@ -23,7 +14,7 @@
 - **Host social:** [@mehdinayebi](https://x.com/mehdinayebi) (X), [LinkedIn](https://linkedin.com/in/mehdinayebi)
 - **Parent project:** Gravitas Society — an intellectual community whose mission is fighting tribal epistemics
 
-**Tagline:** *How open societies endure, and how they decay.*
+**Tagline:** *How open societies endure — and how they decay.*
 
 ---
 

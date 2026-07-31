@@ -1,30 +1,30 @@
-<!-- MOTION INVENTORY
-  @keyframes riseIn: hero title lines, hero-tagline, hero-promise x2, hero-ctas.
-    1s cubic-bezier, staggered 0.1s to 0.85s. Load trigger, runs once.
-  @keyframes pulse: .status-dot red glow. 2.2s ease-out infinite.
-  Scroll reveal: IntersectionObserver adds .is-visible to every .reveal section.
-  Doctrine stagger: 5 rows fade in at 70ms intervals when .doctrine-table enters view.
-  Masthead shrink: scroll listener + rAF, fires past the hero.
+<!-- AUDIT: Existing animations and transitions (v2 baseline, pre-v3)
+  @keyframes riseIn: hero title lines, hero-promise, hero-ctas. 1s cubic-bezier, staggered delays 0.1-0.6s. Load trigger, runs once.
+  @keyframes pulse — .status-dot red glow. 2.2s ease-out infinite. Load trigger, repeats.
 
-  Hover transitions: .mast-link (border 0.15s), .hero-cta (bg/color/transform 0.2s),
+  Hover transitions: .mast-link (border 0.15s), .hero-cta (bg/color/border/transform 0.2s),
     .doctrine-row (bg 0.25s), .connect-row (bg/padding 0.2s/0.25s), .tx-row (bg/padding 0.2s/0.25s),
-    .dispatch-form button (bg 0.2s), colophon links (border/color 0.15s), .footer-bottom a.
-  All scroll-triggered motion is guarded by prefers-reduced-motion.
+    .tx-featured (bg 0.2s), .tx-featured-cta (bg/transform 0.2s), .pitch-btn (bg/color 0.2s),
+    .platform-row (bg 0.2s), .dispatch-form button (bg 0.2s), .colophon-nav/contact a (border/color 0.15s),
+    .footer-bottom a (color/border-color).
+  No IntersectionObserver, no scroll listeners, no prefers-reduced-motion query.
+  JS: only inline form handler (onsubmit on dispatch-form).
+  PRESERVE: riseIn, pulse keyframes. All hover transitions unchanged.
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Open Civilization | How open societies endure, and how they decay</title>
-<meta name="description" content="Some countries can still build a railway, run a clean election, house their own people, or cure a disease. Others have forgotten how. Mehdi Nayebi on what the difference actually is." />
-<meta property="og:title" content="Open Civilization | How open societies endure, and how they decay" />
-<meta property="og:description" content="Some countries can still build a railway, run a clean election, house their own people, or cure a disease. Others have forgotten how. Mehdi Nayebi on what the difference actually is." />
+<title>Open Civilization | The forces shaping the future of the free world</title>
+<meta name="description" content="Open Civilization explores what keeps societies free, functional, cohesive, and capable of building, innovating, and defending themselves — and what causes them to decay, fragment, hollow out, or become dependent on others." />
+<meta property="og:title" content="Open Civilization | The forces shaping the future of the free world" />
+<meta property="og:description" content="Open Civilization explores what keeps societies free, functional, cohesive, and capable of building, innovating, and defending themselves — and what causes them to decay, fragment, hollow out, or become dependent on others." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://opencivilization.fm" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Open Civilization | How open societies endure, and how they decay" />
-<meta name="twitter:description" content="Some countries can still build a railway, run a clean election, house their own people, or cure a disease. Others have forgotten how. Mehdi Nayebi on what the difference actually is." />
+<meta name="twitter:title" content="Open Civilization | The forces shaping the future of the free world" />
+<meta name="twitter:description" content="Open Civilization explores what keeps societies free, functional, cohesive, and capable of building, innovating, and defending themselves — and what causes them to decay, fragment, hollow out, or become dependent on others." />
 
 <link rel="icon" href="/favicon.ico" sizes="48x48" />
 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -70,7 +70,7 @@
     --display-sm-size: 28px;
     --display-sm-lh: 1.2;
     --display-sm-ls: -0.005em;
-    /* body-lg — hero promise paragraphs, section ledes */
+    /* body-lg — hero paragraph, premise, guest lede, section ledes */
     --body-lg-size: 24px;
     --body-lg-lh: 1.5;
     --body-lg-ls: 0;
@@ -205,22 +205,6 @@
   .hero-title .line:nth-child(2) { animation-delay: 0.25s; font-style: italic; font-weight: 300; }
   @keyframes riseIn { to { opacity: 1; transform: translateY(0); } }
 
-  /* The tagline. Sits directly under the wordmark, above the promise. */
-  .hero-tagline {
-    margin-top: 30px;
-    font-family: var(--serif);
-    font-size: var(--display-sm-size);
-    line-height: var(--display-sm-lh);
-    letter-spacing: var(--display-sm-ls);
-    font-weight: 500;
-    color: var(--ink);
-    text-wrap: balance;
-    opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.4s forwards;
-    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
-  }
-  .hero-tagline em { font-style: italic; font-weight: 300; }
-
   .hero-promise {
     margin-top: 48px;
     max-width: 40ch;
@@ -231,19 +215,13 @@
     font-weight: 400;
     color: var(--ink);
     opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.55s forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.45s forwards;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
-  /* Second paragraph: the claim. Follows the first closely, not as a new block. */
-  .hero-promise-2 {
-    margin-top: 22px;
-    animation-delay: 0.7s;
-  }
 
   @media (min-width: 768px) {
     .hero-promise { max-width: 62ch; margin-top: 56px; }
-    .hero-promise-2 { margin-top: 26px; }
   }
 
   .hero-ctas {
@@ -252,7 +230,7 @@
     gap: 16px;
     flex-wrap: wrap;
     opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.85s forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.6s forwards;
   }
   .hero-cta {
     display: inline-flex;
@@ -320,21 +298,37 @@
   }
   .section-title em { font-style: italic; font-weight: 300; }
 
-  /* ═════════════════════════════════════ DOCTRINE ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § I — PREMISE ═════════════════════════════════════ */
+  .section-premise {
+    padding-top: 70px;
+    padding-bottom: 110px;
+  }
+  .premise-wrap {
+    max-width: 1400px;
+  }
+  .premise {
+    font-family: var(--serif);
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    letter-spacing: var(--body-lg-ls);
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+
+  /* ═════════════════════════════════════ § II — DOCTRINE ═════════════════════════════════════ */
   .doctrine-table {
     border-top: 1.5px solid var(--ink);
   }
   .doctrine-row {
     display: grid;
-    grid-template-columns: 80px 1.2fr 2fr;
+    grid-template-columns: 80px 1.2fr 2fr 120px;
     gap: 40px;
     padding: 30px 0 28px;
     border-bottom: 1px solid var(--ink);
     align-items: baseline;
     transition: background .25s;
   }
-  /* Principle 05 is a closing statement with no gloss. Let the name run wide. */
-  .doctrine-row.solo { grid-template-columns: 80px 1fr; }
   .doctrine-row:hover { background: var(--paper-2); }
   .doctrine-num {
     font-family: var(--serif);
@@ -357,6 +351,28 @@
     font-size: var(--body-sm-size);
     line-height: var(--body-sm-lh);
     color: var(--ink-2);
+  }
+  .doctrine-tag {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    text-align: right;
+    color: var(--muted);
+    font-weight: 500;
+    padding-top: 6px;
+  }
+  .doctrine-lede {
+    font-family: var(--serif);
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    font-weight: 400;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin-top: -30px;
+    margin-bottom: 40px;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .doctrine-footer {
     margin-top: 50px;
@@ -387,7 +403,7 @@
   }
   .doctrine-link .arrow { font-size: var(--label-size); }
 
-  /* ═════════════════════════════════════ HOST ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § III — HOST ═════════════════════════════════════ */
   .host-wrap {
     display: grid;
     grid-template-columns: 1fr;
@@ -484,7 +500,7 @@
     transition: transform .2s, color .2s;
   }
 
-  /* ═════════════════════════════════════ EPISODES ═════════════════════════════════════ */
+  /* ═════════════════════════════════════ § IV — EPISODES ═════════════════════════════════════ */
   .transmissions {
     border-top: 1.5px solid var(--ink);
   }
@@ -507,7 +523,6 @@
     letter-spacing: var(--label-ls);
     color: var(--muted);
   }
-  .tx-main { min-width: 0; }
   .tx-title {
     font-family: var(--serif);
     font-size: var(--display-sm-size);
@@ -516,14 +531,6 @@
     letter-spacing: var(--display-sm-ls);
   }
   .tx-title em { font-style: italic; font-weight: 300; }
-  .tx-desc {
-    margin-top: 12px;
-    font-family: var(--mono);
-    font-size: var(--body-sm-size);
-    line-height: var(--body-sm-lh);
-    color: var(--ink-2);
-    max-width: 62ch;
-  }
   .tx-pillar {
     font-family: var(--mono);
     font-size: var(--label-size);
@@ -661,7 +668,150 @@
     border-bottom: 1px solid var(--ink);
   }
 
-  /* ═════════════════════════════════════ DISPATCH / NEWSLETTER ═════════════════════════════════════ */
+  .tx-note {
+    margin-top: 50px;
+    padding: 30px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    font-family: var(--mono);
+    font-size: var(--micro-size);
+    line-height: var(--micro-lh);
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 30px;
+  }
+  .tx-note .lbl {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--red);
+  }
+
+  /* ═════════════════════════════════════ § V — GUEST PITCH ═════════════════════════════════════ */
+  .guest-pitch {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .guest-lede {
+    font-family: var(--serif);
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    font-weight: 400;
+    color: var(--ink);
+    max-width: 40ch;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .pitch-card {
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    padding: 40px 36px;
+    position: sticky;
+    top: 60px;
+  }
+  .pitch-card-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pitch-card-eyebrow::before {
+    content: ''; width: 28px; height: 1px; background: var(--red);
+  }
+  .pitch-card-title {
+    font-family: var(--serif);
+    font-size: var(--display-md-size);
+    font-weight: 400;
+    line-height: var(--display-md-lh);
+    letter-spacing: var(--display-md-ls);
+    margin-bottom: 20px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .pitch-card-body {
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
+    color: var(--ink-2);
+    margin-bottom: 32px;
+  }
+  .pitch-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1.5px solid var(--ink);
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    font-weight: 500;
+    letter-spacing: var(--label-ls);
+    text-transform: uppercase;
+    transition: background .2s, color .2s;
+  }
+  .pitch-btn:hover { background: var(--red); border-color: var(--red); }
+  .pitch-btn .pitch-arrow { font-size: var(--label-size); }
+
+  /* ═════════════════════════════════════ § VI — SUBSCRIBE ═════════════════════════════════════ */
+  .platforms {
+    border-top: 1.5px solid var(--ink);
+  }
+  .platform-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 200px 120px;
+    gap: 30px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--ink);
+    align-items: center;
+    transition: background .2s;
+  }
+  .platform-row:hover { background: var(--paper-2); }
+  .platform-num {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: var(--label-ls);
+  }
+  .platform-name {
+    font-family: var(--serif);
+    font-size: var(--display-sm-size);
+    font-weight: 500;
+    line-height: var(--display-sm-lh);
+    letter-spacing: var(--display-sm-ls);
+  }
+  .platform-url {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
+    color: var(--muted);
+  }
+  .platform-status {
+    font-family: var(--mono);
+    text-align: right;
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--red);
+  }
+
+  /* ═════════════════════════════════════ § VII — DISPATCH / NEWSLETTER ═════════════════════════════════════ */
   .dispatch {
     padding: 120px 40px;
     background: var(--ink);
@@ -810,19 +960,16 @@
     padding: 5px 0;
   }
   .colophon-nav a,
-  .colophon-contact a,
-  .colophon-about a {
+  .colophon-contact a {
     color: var(--ink-2);
     border-bottom: 1px solid transparent;
     transition: border-color .15s, color .15s;
   }
   .colophon-nav a:hover,
-  .colophon-contact a:hover,
-  .colophon-about a:hover {
+  .colophon-contact a:hover {
     color: var(--red);
     border-color: var(--red);
   }
-  .colophon-about a { border-bottom-color: var(--muted-2); }
   .footer-bottom {
     display: flex;
     justify-content: space-between;
@@ -845,21 +992,6 @@
     }
   }
 
-  /* ═════════════════════════════════════ HERO RISE-IN GUARD ═════════════════════════════════════ */
-  /* Every riseIn element starts at opacity 0. If a reduced-motion user's browser
-     also suppresses animations, the hero would render blank. Paint it directly. */
-  @media (prefers-reduced-motion: reduce) {
-    .hero-title .line,
-    .hero-tagline,
-    .hero-promise,
-    .hero-ctas,
-    .status-dot {
-      opacity: 1;
-      transform: none;
-      animation: none;
-    }
-  }
-
   /* ═════════════════════════════════════ DOCTRINE STAGGER ═════════════════════════════════════ */
   .doctrine-row {
     opacity: 0;
@@ -870,11 +1002,16 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .doctrine-table.is-revealed .doctrine-row:nth-child(1) { transition-delay: 0.00s; }
-  .doctrine-table.is-revealed .doctrine-row:nth-child(2) { transition-delay: 0.07s; }
-  .doctrine-table.is-revealed .doctrine-row:nth-child(3) { transition-delay: 0.14s; }
-  .doctrine-table.is-revealed .doctrine-row:nth-child(4) { transition-delay: 0.21s; }
-  .doctrine-table.is-revealed .doctrine-row:nth-child(5) { transition-delay: 0.28s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(1)  { transition-delay: 0.00s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(2)  { transition-delay: 0.05s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(3)  { transition-delay: 0.10s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(4)  { transition-delay: 0.15s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(5)  { transition-delay: 0.20s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(6)  { transition-delay: 0.25s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(7)  { transition-delay: 0.30s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(8)  { transition-delay: 0.35s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(9)  { transition-delay: 0.40s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(10) { transition-delay: 0.45s; }
 
   @media (prefers-reduced-motion: reduce) {
     .doctrine-row {
@@ -922,12 +1059,15 @@
 
     /* Sections */
     .section { padding: 70px 24px; }
+    .section-premise { padding-top: 60px; padding-bottom: 80px; }
     .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 44px; }
 
     /* Doctrine */
-    .doctrine-row,
-    .doctrine-row.solo { grid-template-columns: 60px 1fr; gap: 20px; padding: 28px 0 26px; }
-    .doctrine-gloss { grid-column: 2; margin-top: 8px; }
+    .doctrine-lede { margin-top: -10px; margin-bottom: 30px; }
+    .doctrine-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 28px 0 26px; }
+    .doctrine-gloss, .doctrine-tag { grid-column: 2; }
+    .doctrine-tag { text-align: left; margin-top: 10px; }
+    .doctrine-gloss { margin-top: 4px; }
 
     /* Host */
     .host-sub-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -939,11 +1079,32 @@
     .episodes-lede { margin-bottom: 40px; }
     .tx-featured { grid-template-columns: 1fr; gap: 30px; padding: 36px 20px; }
     .tx-featured-right { align-self: start; }
-    .tx-row { grid-template-columns: 1fr; gap: 10px; padding: 26px 0 22px; }
+    .tx-row { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 20px; }
     .tx-title { text-wrap: balance; }
-    .tx-desc { max-width: none; }
-    .tx-main, .tx-pillar, .tx-status { grid-column: 1; }
-    .tx-status { justify-content: flex-start; }
+    .tx-pillar, .tx-status { grid-column: 1; }
+    .tx-status { justify-content: flex-start; margin-top: 6px; }
+
+    /* Guests */
+    .guest-pitch { grid-template-columns: 1fr; gap: 50px; }
+    .guest-lede { max-width: none; }
+    .pitch-card { position: static; padding: 32px 24px; }
+
+    /* Listen — explicit stack so long URLs like youtube.com/@opencivilization don't collide with the CTA */
+    .platform-row {
+      grid-template-columns: 30px 1fr;
+      grid-template-areas:
+        "num  name"
+        ".    url"
+        ".    status";
+      row-gap: 6px;
+      column-gap: 16px;
+      padding: 22px 0 20px;
+      align-items: start;
+    }
+    .platform-num { grid-area: num; }
+    .platform-name { grid-area: name; }
+    .platform-url { grid-area: url; word-break: break-all; }
+    .platform-status { grid-area: status; text-align: left; margin-top: 6px; }
 
     /* Dispatch */
     .dispatch { padding: 90px 24px; }
@@ -959,8 +1120,8 @@
   @media (max-width: 600px) {
     .hero { padding: 60px 20px 50px; }
     .section { padding: 56px 20px; }
-    .doctrine-row,
-    .doctrine-row.solo { grid-template-columns: 50px 1fr; padding: 26px 0 22px; gap: 14px; }
+    .section-premise { padding-top: 46px; padding-bottom: 64px; }
+    .doctrine-row { grid-template-columns: 50px 1fr; padding: 26px 0 22px; gap: 14px; }
     .connect-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
     .connect-row .arrow { display: none; }
     .connect-row .v { word-break: break-all; }
@@ -975,11 +1136,15 @@
 <!-- ════════ MASTHEAD BAR ════════ -->
 <div class="masthead-bar">
   <div><strong>OPEN CIVILIZATION</strong></div>
+  <div class="sep"></div>
+  <div>MMXXVI</div>
   <div class="spacer"></div>
-  <a class="mast-link" href="#doctrine">Doctrine</a>
-  <a class="mast-link" href="#host">Host</a>
-  <a class="mast-link" href="#episodes">Episodes</a>
-  <a class="mast-link" href="#dispatch">Dispatch</a>
+  <a class="mast-link" href="#question">§ Premise</a>
+  <a class="mast-link" href="#doctrine">§ Doctrine</a>
+  <a class="mast-link" href="#host">§ Host</a>
+  <a class="mast-link" href="#episodes">§ Episodes</a>
+  <a class="mast-link" href="#guest">§ Guests</a>
+  <a class="mast-link" href="#dispatch">§ Dispatch</a>
 </div>
 
 <!-- ════════ HERO ════════ -->
@@ -989,56 +1154,100 @@
     <span class="line">Civilization.</span>
   </h1>
 
-  <p class="hero-tagline">How open societies endure, <em>and how they decay.</em></p>
-
   <p class="hero-promise">
-    Some countries can still build a railway, run a clean election, house their own people, or cure a disease. Others have forgotten how.
-  </p>
-
-  <p class="hero-promise hero-promise-2">
-    The difference isn't <em>money.</em> Mehdi Nayebi on what it actually is.
+    A show by Mehdi Nayebi on the forces shaping the future of the free world, and on whether open societies can stay strong enough to <em>build, innovate, and defend</em> the freedoms, prosperity, and stability they depend on.
   </p>
 
   <!-- TODO: when EP 01 ships, swap primary to red-filled "Listen to EP 01 →" linking to #episodes -->
   <div class="hero-ctas">
-    <a href="#episodes" class="hero-cta primary">
-      <span>See the episodes</span>
+    <a href="#question" class="hero-cta primary">
+      <span>Read the premise</span>
       <span class="arrow">→</span>
     </a>
   </div>
 </section>
 
-<!-- ════════ THE DOCTRINE ════════ -->
+<!-- ════════ § I — PREMISE ════════ -->
+<section class="section section-premise reveal" id="question">
+  <div class="section-head">
+    <div class="section-num">§ I &nbsp;/ &nbsp;Premise</div>
+    <h2 class="section-title">Free, and <em>fragile.</em></h2>
+  </div>
+  <div class="premise-wrap">
+    <p class="premise">Free societies are rare. Almost everything we take for granted depends on them: freedom, prosperity, security, the capacity to invent and build, and the rule of law. But those conditions do not sustain themselves. Societies can weaken from within, lose the ability to innovate and execute, and come under pressure from abroad. Open Civilization is about the forces shaping whether they stay strong, drift into decline, or lose the will and capacity to defend themselves.</p>
+  </div>
+</section>
+
+
+<!-- ════════ § II — THE DOCTRINE ════════ -->
 <section class="section reveal" id="doctrine">
   <div class="section-head">
-    <div class="section-num">Doctrine</div>
-    <h2 class="section-title">Five <em>principles.</em></h2>
+    <div class="section-num">§ II &nbsp;/ &nbsp;Doctrine</div>
+    <h2 class="section-title">Ten <em>principles.</em></h2>
   </div>
+
+  <p class="doctrine-lede">A compact statement of the principles beneath the project, including the conditions that allow open societies to govern themselves, generate new knowledge, build new technologies, and defend what they have built.</p>
 
   <div class="doctrine-table">
     <div class="doctrine-row">
       <div class="doctrine-num">01</div>
-      <div class="doctrine-name">A country is what it <em>can build.</em></div>
-      <div class="doctrine-gloss">Not what it declares.</div>
+      <div class="doctrine-name">Rare, <em>not default.</em></div>
+      <div class="doctrine-gloss">Most societies in history have been closed, hierarchical, and unfree. The free society is a historical exception. It doesn't sustain itself by inertia, and it doesn't return on its own once lost.</div>
+      <div class="doctrine-tag">Exception</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">02</div>
-      <div class="doctrine-name">A country that lies to itself <em>can't fix itself.</em></div>
-      <div class="doctrine-gloss">Bad information is a tax on everything downstream.</div>
+      <div class="doctrine-name">Dispersed <em>power.</em></div>
+      <div class="doctrine-gloss">No person, class, or institution can be trusted with unchecked authority. Checks and balances, federalism, judicial independence, free press, and the rule of law exist to stop any single actor from dominating the others.</div>
+      <div class="doctrine-tag">Checks</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">03</div>
-      <div class="doctrine-name">Only strong countries can <em>afford to be open.</em></div>
-      <div class="doctrine-gloss">Generosity is something you pay for.</div>
+      <div class="doctrine-name">Liberty as <em>foundation.</em></div>
+      <div class="doctrine-gloss">Freedom of conscience, speech, association, movement, and economic activity are not one value among many. They are the condition that makes every other value genuinely chosen rather than imposed.</div>
+      <div class="doctrine-tag">Freedom</div>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">04</div>
-      <div class="doctrine-name">Nobody can be trusted with <em>all of it.</em></div>
-      <div class="doctrine-gloss">Courts, press, states, opposition: the point of dividing power is that no one has to be virtuous.</div>
+      <div class="doctrine-name">Revisable <em>belief.</em></div>
+      <div class="doctrine-gloss">Truth is discovered through inquiry, criticism, and experimentation. Dogma, whether religious, ideological, or scientific, is the enemy of the free society's ability to correct its own mistakes. The same openness that makes self-correction possible also makes scientific discovery and technological advance possible. A society that cannot update its beliefs eventually cannot innovate, compete, or survive its own errors.</div>
+      <div class="doctrine-tag">Inquiry</div>
     </div>
-    <div class="doctrine-row solo">
+    <div class="doctrine-row">
       <div class="doctrine-num">05</div>
-      <div class="doctrine-name">Countries get fixed by builders, <em>not commentators.</em></div>
+      <div class="doctrine-name">Moral <em>universalism.</em></div>
+      <div class="doctrine-gloss">Some human rights and moral claims hold across cultures and eras. Slavery was wrong when everyone accepted it. Torture is wrong wherever it happens. Cultural relativism is not a license for cruelty.</div>
+      <div class="doctrine-tag">Universal</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">06</div>
+      <div class="doctrine-name">Markets <em>with rules.</em></div>
+      <div class="doctrine-gloss">Voluntary exchange, competition, and dispersed economic power produce more prosperity, more innovation, and more freedom than central planning. But markets require rules, courts, and sometimes correction. The free society is not the same as laissez-faire. It is a structured order that rewards enterprise, experimentation, and building without allowing economic power to become politically unaccountable.</div>
+      <div class="doctrine-tag">Markets</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">07</div>
+      <div class="doctrine-name">Reform institutions, <em>don't destroy them.</em></div>
+      <div class="doctrine-gloss">Free societies depend on institutions that can govern, execute, and endure. Institutions can fail, become corrupt, or be captured. But the answer is usually to reform them, not tear them down. A society that loses the ability to repair its institutions also loses the ability to build, deliver, and turn ideas into durable national strength.</div>
+      <div class="doctrine-tag">Institutions</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">08</div>
+      <div class="doctrine-name">Universal values, <em>national communities.</em></div>
+      <div class="doctrine-gloss">Moral concern extends beyond borders, but free societies are governed through bounded political communities. Rights may be universal, but solidarity, citizenship, and self-government still live mainly within nations. Nations are not obstacles to free societies. They are the main political form through which free societies exist.</div>
+      <div class="doctrine-tag">Nations</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">09</div>
+      <div class="doctrine-name">Tolerance that <em>defends itself.</em></div>
+      <div class="doctrine-gloss">The free society protects views it finds repugnant. It does not extend that protection to movements whose explicit goal is to end the free society itself.</div>
+      <div class="doctrine-tag">Defense</div>
+    </div>
+    <div class="doctrine-row">
+      <div class="doctrine-num">10</div>
+      <div class="doctrine-name">Historically <em>conscious.</em></div>
+      <div class="doctrine-gloss">Free societies know where they came from, know how they have been lost before, and know that each generation has to defend them anew. Progress is not automatic. Reversal is possible and has happened.</div>
+      <div class="doctrine-tag">History</div>
     </div>
   </div>
 
@@ -1047,10 +1256,10 @@
   </div>
 </section>
 
-<!-- ════════ THE HOST ════════ -->
+<!-- ════════ § III — THE HOST ════════ -->
 <section class="section reveal" id="host">
   <div class="section-head">
-    <div class="section-num">Host</div>
+    <div class="section-num">§ III &nbsp;/ &nbsp;Host</div>
     <h2 class="section-title">About the <em>host.</em></h2>
   </div>
 
@@ -1067,9 +1276,9 @@
       </div>
 
       <div class="host-bio">
-        <p>Born in Tehran, raised in France, and shaped by building companies across Europe, the Middle East, and North America.</p>
-        <p>He co-founded Alopeyk, one of Iran's largest tech platforms, and ran it inside a sanctioned authoritarian system before leaving the country for his safety.</p>
-        <p>That's where this show comes from. He has seen what it looks like when a state works against the people trying to build.</p>
+        <p>Born in Tehran, raised in France, and shaped by building across Europe, the Middle East, and North America, Mehdi Nayebi has spent much of his life thinking about power, institutions, and why some societies stay free while others decay, are captured from within, or come under pressure from abroad.</p>
+        <p>He co-founded Alopeyk, one of Iran's largest tech platforms, and built inside a sanctioned authoritarian system before leaving Iran for safety reasons. That experience gave him a direct view of coercion, institutional failure, corruption, and what a closed society actually looks like.</p>
+        <p>His work sits at the intersection of geopolitics, institutions, technology, finance, power, and civilizational renewal. Open Civilization grows out of that perspective.</p>
       </div>
     </div>
 
@@ -1093,23 +1302,23 @@
   </div>
 </section>
 
-<!-- ════════ EPISODES ════════ -->
+<!-- ════════ § IV — EPISODES ════════ -->
 <section class="section reveal" id="episodes">
   <div class="section-head">
-    <div class="section-num">Episodes</div>
+    <div class="section-num">§ IV &nbsp;/ &nbsp;Episodes</div>
     <h2 class="section-title">Episodes.</h2>
   </div>
 
-  <p class="episodes-lede">Each episode is one hard thing a country did, or stopped being able to do.</p>
+  <p class="episodes-lede">Conversations about the forces shaping the future of the free world.</p>
 
   <div class="transmissions">
     <div class="tx-featured">
       <div class="tx-featured-left">
         <div class="tx-featured-label">Featured &nbsp;•&nbsp; Episode 01</div>
-        <h3 class="tx-featured-title">I Built a Company in Iran. <em>Here's What the State Did.</em></h3>
-        <p class="tx-featured-desc">Three hundred people, a real business, and a government that treated builders as a threat. What a captured state does to the people trying to make something, and why that experience is the lens for everything that follows.</p>
+        <h3 class="tx-featured-title">What Keeps a Civilization <em>Open?</em></h3>
+        <p class="tx-featured-desc">The opening episode. A thesis-setting conversation on the forces that make free societies possible, the warning signs of decay, and why everything we take for granted depends on them.</p>
         <div class="tx-featured-meta">
-          <span>Iran · Capacity</span>
+          <span>Freedom · Defense</span>
         </div>
       </div>
       <div class="tx-featured-right">
@@ -1121,103 +1330,140 @@
 
     <div class="tx-row">
       <div class="tx-num">EP. 02</div>
-      <div class="tx-main">
-        <div class="tx-title">South Korea Was Poorer Than <em>Ghana</em></div>
-        <p class="tx-desc">In 1960 South Korean income per head sat below Ghana's. Sixty years later it builds ships, chips and cars. What actually changed, and how much of it transfers.</p>
-      </div>
-      <div class="tx-pillar">Korea · Capacity</div>
+      <div class="tx-title">Why Free Societies <em>Decay</em></div>
+      <div class="tx-pillar">Decay · Institutions</div>
       <div class="tx-status upcoming">Upcoming</div>
     </div>
     <div class="tx-row">
       <div class="tx-num">EP. 03</div>
-      <div class="tx-main">
-        <div class="tx-title">France Built 56 Reactors in <em>15 Years</em></div>
-        <p class="tx-desc">The fastest decarbonisation in history happened in the 1970s and 80s, and no rich country has come close since. What France had then that we don't have now.</p>
-      </div>
-      <div class="tx-pillar">Energy · Capacity</div>
-      <div class="tx-status upcoming">Upcoming</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">EP. 04</div>
-      <div class="tx-main">
-        <div class="tx-title">Poland Went From Warsaw Pact to <em>Building Again</em></div>
-        <p class="tx-desc">Thirty years from Soviet satellite to one of Europe's fastest growing economies and its most serious military build-up. A live case study in national reinvention.</p>
-      </div>
-      <div class="tx-pillar">Poland · Renewal</div>
-      <div class="tx-status upcoming">Upcoming</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">EP. 05</div>
-      <div class="tx-main">
-        <div class="tx-title">Argentina Was Richer Than France. <em>What Happened?</em></div>
-        <p class="tx-desc">A century of decline in a country with land, education, and no invasions. The cleanest natural experiment in how a wealthy country stops working.</p>
-      </div>
-      <div class="tx-pillar">Decline · Institutions</div>
-      <div class="tx-status upcoming">Upcoming</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">EP. 06</div>
-      <div class="tx-main">
-        <div class="tx-title">Why Britain Can't Build a <em>Railway Anymore</em></div>
-        <p class="tx-desc">HS2 cost more per mile than any comparable line on earth and was cut in half anyway. How the country that invented the railway lost the ability to lay track.</p>
-      </div>
-      <div class="tx-pillar">Britain · Capacity</div>
-      <div class="tx-status upcoming">Upcoming</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">EP. 07</div>
-      <div class="tx-main">
-        <div class="tx-title">How a Country Learns to <em>Lie to Itself</em></div>
-        <p class="tx-desc">Propaganda isn't only what a state tells its citizens. It's what the state ends up believing. From Soviet harvest figures to the numbers governments still can't say out loud.</p>
-      </div>
+      <div class="tx-title">Propaganda, Power, and the <em>War on Truth</em></div>
       <div class="tx-pillar">Truth · Power</div>
       <div class="tx-status upcoming">Upcoming</div>
     </div>
     <div class="tx-row">
-      <div class="tx-num">EP. 08</div>
-      <div class="tx-main">
-        <div class="tx-title">Ukraine Gave Up Its Nuclear Weapons in <em>1994</em></div>
-        <p class="tx-desc">The Budapest Memorandum traded the world's third largest arsenal for security guarantees on paper. What the last thirty years taught every other country watching.</p>
-      </div>
+      <div class="tx-num">EP. 04</div>
+      <div class="tx-title">When Institutions <em>Stop Working</em></div>
+      <div class="tx-pillar">Capacity · Governance</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </div>
+    <div class="tx-row">
+      <div class="tx-num">EP. 05</div>
+      <div class="tx-title">Why Weakness <em>Invites Aggression</em></div>
       <div class="tx-pillar">Strength · Security</div>
       <div class="tx-status upcoming">Upcoming</div>
     </div>
     <div class="tx-row">
-      <div class="tx-num">EP. 09</div>
-      <div class="tx-main">
-        <div class="tx-title">Norway Turned Oil Into a Sovereign Fund. <em>Nigeria Didn't.</em></div>
-        <p class="tx-desc">Two countries found oil within a decade of each other. One built the largest fund on earth. The difference was settled before the first barrel came up.</p>
-      </div>
-      <div class="tx-pillar">Resources · Governance</div>
+      <div class="tx-num">EP. 06</div>
+      <div class="tx-title">Iran and the <em>Capture of a Nation</em></div>
+      <div class="tx-pillar">Iran · Regime</div>
       <div class="tx-status upcoming">Upcoming</div>
     </div>
     <div class="tx-row">
-      <div class="tx-num">EP. 10</div>
-      <div class="tx-main">
-        <div class="tx-title">Who Actually <em>Controls the Chips</em></div>
-        <p class="tx-desc">One island makes the most advanced semiconductors in existence, and everyone's plans quietly depend on it. What it takes to build a fab, and why money alone hasn't worked.</p>
-      </div>
+      <div class="tx-num">EP. 07</div>
+      <div class="tx-title">China and the <em>New Age of Dependence</em></div>
+      <div class="tx-pillar">China · Dependence</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </div>
+    <div class="tx-row">
+      <div class="tx-num">EP. 08</div>
+      <div class="tx-title">Chips, AI, and the <em>New Hierarchy of Power</em></div>
       <div class="tx-pillar">AI · Compute</div>
       <div class="tx-status upcoming">Upcoming</div>
     </div>
     <div class="tx-row">
-      <div class="tx-num">EP. 11</div>
-      <div class="tx-main">
-        <div class="tx-title">Singapore Houses 80% of Its People. <em>Why Can't Anyone Copy It?</em></div>
-        <p class="tx-desc">The Housing Development Board put the great majority of citizens into state-built flats they own outright. Every rich country now has a housing crisis and none of them can do this. What Singapore had that others don't, and what the arrangement cost.</p>
-      </div>
-      <div class="tx-pillar">Housing · Capacity</div>
+      <div class="tx-num">EP. 09</div>
+      <div class="tx-title">The Dollar, Sanctions, and <em>Financial Statecraft</em></div>
+      <div class="tx-pillar">Finance · Sanctions</div>
       <div class="tx-status upcoming">Upcoming</div>
+    </div>
+    <div class="tx-row">
+      <div class="tx-num">EP. 10</div>
+      <div class="tx-title">Energy Realism and <em>Civilizational Strength</em></div>
+      <div class="tx-pillar">Energy · Strategy</div>
+      <div class="tx-status upcoming">Upcoming</div>
+    </div>
+  </div>
+
+  <div class="tx-note">
+    <div class="lbl">Schedule</div>
+    <div>New episodes every week. Full archive available on all major podcast platforms.</div>
+  </div>
+</section>
+
+<!-- ════════ § V — BE A GUEST ════════ -->
+<section class="section reveal" id="guest">
+  <div class="section-head">
+    <div class="section-num">§ V &nbsp;/ &nbsp;Guests</div>
+    <h2 class="section-title">Come on the <em>show.</em></h2>
+  </div>
+
+  <div class="guest-pitch">
+    <div class="guest-pitch-left">
+      <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders. The show is not organized by sector. It is organized by relevance. If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
+    </div>
+
+    <div class="guest-pitch-right">
+      <div class="pitch-card">
+        <div class="pitch-card-eyebrow">Guest Suggestion</div>
+        <h3 class="pitch-card-title">Suggest a guest</h3>
+        <p class="pitch-card-body">Send a short note explaining who they are, what they work on, and why their perspective matters. A paragraph is enough. Links welcome.</p>
+
+        <a href="mailto:contact@opencivilization.fm?subject=Guest%20Suggestion" class="pitch-btn">
+          <span>contact@opencivilization.fm</span>
+          <span class="pitch-arrow">→</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ════════ DISPATCH / NEWSLETTER ════════ -->
+<!-- ════════ § VI — LISTEN ════════ -->
+<section class="section reveal" id="listen">
+  <div class="section-head">
+    <div class="section-num">§ VI &nbsp;/ &nbsp;Listen</div>
+    <h2 class="section-title">Listen <em>anywhere.</em></h2>
+  </div>
+
+  <div class="platforms">
+    <a class="platform-row" href="https://podcasts.apple.com/podcast/open-civilization" target="_blank" rel="noopener">
+      <div class="platform-num">01</div>
+      <div class="platform-name">Apple Podcasts</div>
+      <div class="platform-url">podcasts.apple.com</div>
+      <div class="platform-status">Subscribe →</div>
+    </a>
+    <a class="platform-row" href="https://open.spotify.com/show/opencivilization" target="_blank" rel="noopener">
+      <div class="platform-num">02</div>
+      <div class="platform-name">Spotify</div>
+      <div class="platform-url">open.spotify.com</div>
+      <div class="platform-status">Follow →</div>
+    </a>
+    <a class="platform-row" href="https://youtube.com/@opencivilization" target="_blank" rel="noopener">
+      <div class="platform-num">03</div>
+      <div class="platform-name">YouTube</div>
+      <div class="platform-url">youtube.com/@opencivilization</div>
+      <div class="platform-status">Watch →</div>
+    </a>
+    <a class="platform-row" href="https://opencivilization.fm/rss" target="_blank" rel="noopener">
+      <div class="platform-num">04</div>
+      <div class="platform-name">RSS Feed</div>
+      <div class="platform-url">opencivilization.fm/rss</div>
+      <div class="platform-status">Copy →</div>
+    </a>
+    <a class="platform-row" href="https://opencivilization.fm/rss" target="_blank" rel="noopener">
+      <div class="platform-num">05</div>
+      <div class="platform-name">Overcast · Pocket Casts · Fountain</div>
+      <div class="platform-url">Any podcast client via RSS</div>
+      <div class="platform-status">Add →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ════════ § VII — DISPATCH / NEWSLETTER ════════ -->
 <section class="dispatch reveal" id="dispatch">
   <div class="dispatch-inner">
-    <div class="dispatch-eyebrow">The newsletter</div>
-    <h2>A weekly <em>dispatch.</em></h2>
-    <p>Notes on what the show is watching, and what the next episode is arguing.</p>
+    <div class="dispatch-eyebrow">Dispatch · The newsletter</div>
+    <h2>A weekly <em>dispatch</em> for people who want a deeper map of the forces shaping the future of the free world.</h2>
+    <p>Essays, notes, and occasional dispatches on what the show is watching. No marketing noise. Just signal.</p>
 
     <form class="dispatch-form" id="dispatch-form">
       <input type="email" placeholder="Your email address" required />
@@ -1231,19 +1477,22 @@
   <div class="footer-colophon">
     <div class="colophon-brand">
       <h4 class="colophon-wordmark">Open <em>Civilization</em></h4>
-      <p class="colophon-tagline">How open societies endure, and how they decay.</p>
+      <p class="colophon-tagline">The forces shaping the future of the free world.</p>
     </div>
     <div class="colophon-about">
-      <div class="colophon-label">Come on the show</div>
-      <p>If your work explains why some countries can still do hard things, write to <a href="mailto:contact@opencivilization.fm?subject=Guest%20Suggestion">contact@opencivilization.fm</a>.</p>
+      <div class="colophon-label">About</div>
+      <p>Open Civilization is hosted by Mehdi Nayebi. The show examines power, institutions, technology, finance, security, and civilizational renewal through the question of what keeps free societies strong, innovative, and able to defend what they have built.</p>
     </div>
     <div class="colophon-nav">
       <div class="colophon-label">Navigate</div>
       <ul>
+        <li><a href="#question">The Premise</a></li>
         <li><a href="#doctrine">The Doctrine</a></li>
-        <li><a href="/principles.html">Five Principles</a></li>
+        <li><a href="/principles.html">Ten Principles</a></li>
         <li><a href="#host">The Host</a></li>
         <li><a href="#episodes">Episodes</a></li>
+        <li><a href="#guest">Be a Guest</a></li>
+        <li><a href="#listen">Listen</a></li>
         <li><a href="#dispatch">Newsletter</a></li>
       </ul>
     </div>
@@ -1258,7 +1507,7 @@
   </div>
 
   <div class="footer-bottom">
-    <div>© 2026 Open Civilization · All rights reserved</div>
+    <div>© MMXXVI Open Civilization · All rights reserved</div>
     <div><a href="mailto:contact@opencivilization.fm">contact@opencivilization.fm</a></div>
   </div>
 </footer>
