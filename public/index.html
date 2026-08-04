@@ -16,16 +16,16 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Open Civilization | Technology, Power and the Future of the Free World</title>
-<meta name="description" content="A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process." />
+<meta name="description" content="A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change." />
 <link rel="canonical" href="https://opencivilization.fm/" />
 <meta property="og:title" content="Open Civilization | Technology, Power and the Future of the Free World" />
-<meta property="og:description" content="A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process." />
+<meta property="og:description" content="A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://opencivilization.fm/" />
 <meta property="og:site_name" content="Open Civilization" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Open Civilization | Technology, Power and the Future of the Free World" />
-<meta name="twitter:description" content="A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process." />
+<meta name="twitter:description" content="A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change." />
 
 <link rel="icon" href="/favicon.ico" sizes="48x48" />
 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -244,23 +244,9 @@
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
 
   @media (min-width: 768px) {
-    .hero-promise { max-width: 62ch; margin-top: 56px; }
+    .hero-promise { max-width: 66ch; margin-top: 56px; }
   }
 
-  /* Descriptor sits under the governing question, quieter than it. Serif, not
-     mono: mono read as detached metadata rather than part of the sentence. */
-  .hero-descriptor {
-    margin-top: 26px;
-    font-family: var(--serif);
-    font-size: var(--body-md-size);
-    line-height: 1.5;
-    letter-spacing: 0;
-    font-weight: 400;
-    color: var(--ink-2);
-    font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 24;
-    opacity: 0;
-    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.6s forwards;
-  }
   /* Editorial text links, not buttons. */
   .hero-actions {
     margin-top: 44px;
@@ -774,11 +760,12 @@
   }
   .footer-colophon {
     display: grid;
-    /* minmax(0,...) not bare fr: the contact column holds an unbreakable email
-       and a bare 1fr cannot shrink below its min-content, which pushed the
+    /* Three columns since the About block was removed: brand, navigate, contact.
+       minmax(0,...) not bare fr: the contact column holds an unbreakable email
+       and a bare fr cannot shrink below its min-content, which pushed the
        footer past the viewport between 1001px and roughly 1200px. */
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
-    gap: 60px;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.75fr) minmax(0, 0.9fr);
+    gap: 56px;
     padding-bottom: 60px;
     border-bottom: 1px solid var(--ink);
     margin-bottom: 30px;
@@ -811,13 +798,6 @@
     font-weight: 600;
     color: var(--red);
     margin-bottom: 20px;
-  }
-  .colophon-about p {
-    font-family: var(--mono);
-    font-size: var(--body-md-size);
-    line-height: var(--body-md-lh);
-    color: var(--ink-2);
-    max-width: 38ch;
   }
   .colophon-nav ul,
   .colophon-contact ul {
@@ -981,7 +961,8 @@
 
     /* Footer */
     footer { padding: 60px 24px 30px; }
-    .footer-colophon { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .footer-colophon { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; }
+    .colophon-brand { grid-column: 1 / -1; }
     .footer-bottom { flex-direction: column; gap: 14px; }
   }
 
@@ -996,7 +977,8 @@
     .pitch-card { padding: 28px 18px; }
     .pitch-btn { padding: 18px 14px; }
     .dispatch { padding: 70px 20px; }
-    .footer-colophon { grid-template-columns: 1fr; gap: 36px; }
+    .footer-colophon { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .colophon-brand { grid-column: auto; }
   }
 </style>
 
@@ -1006,7 +988,7 @@
   "@type": "PodcastSeries",
   "name": "Open Civilization",
   "url": "https://opencivilization.fm/",
-  "description": "A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process.",
+  "description": "A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change.",
   "inLanguage": "en",
   "author": { "@type": "Person", "name": "Mehdi Nayebi" }
 }
@@ -1035,10 +1017,8 @@
   </h1>
 
   <p class="hero-promise">
-    Can open societies build, govern, innovate and defend themselves at the scale and speed this century demands, without sacrificing what makes them worth defending?
+    A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change, and on whether open societies can stay strong enough to <em>build, innovate, and defend</em> the freedoms, prosperity, and stability they depend on.
   </p>
-
-  <p class="hero-descriptor">A show by Mehdi Nayebi on technology, power and the future of the free world.</p>
 
   <div class="hero-actions">
     <a href="#episodes">Episodes <span aria-hidden="true">&rarr;</span></a>
@@ -1326,10 +1306,6 @@
     <div class="colophon-brand">
       <div class="colophon-wordmark">Open <em>Civilization</em></div>
       <p class="colophon-tagline">The forces shaping the future of the free world.</p>
-    </div>
-    <div class="colophon-about">
-      <div class="colophon-label">About</div>
-      <p>Open Civilization examines whether open societies can build, govern, innovate and defend themselves without becoming less open in the process.</p>
     </div>
     <div class="colophon-nav">
       <div class="colophon-label">Navigate</div>

@@ -525,7 +525,7 @@ The Civilizational Stack essay is in git history at `a9911fd`. Do not restore it
 
 ## Homepage section order (fixed)
 
-1. **Hero** (`#hero` implicit) — wordmark, governing question, descriptor, two text links
+1. **Hero** — wordmark, then **one integrated paragraph**, then two text links
 2. **Premise** (`#premise`) — "Free, and fragile."
 3. **Episodes** (`#episodes`) — label `EPISODES`, episodes 01 to 10 only, no archive CTA
 4. **Principles** (`#principles`) — compact list, no hard-part column, no CTA to /principles
@@ -538,6 +538,35 @@ The Civilizational Stack essay is in git history at `a9911fd`. Do not restore it
 The narrative order is deliberate: the defining question, the stakes, the episodes, the principles, the host, participation. Episodes sit **above** Principles. Do not move the doctrine back up.
 
 Primary nav is Premise, Episodes, Principles, Host, Dispatch, Listen, on every public page. **Listen is last on purpose**, it is the practical action. Guests is deliberately not in the primary nav but stays in the footer nav.
+
+---
+
+## Hero
+
+One paragraph under the wordmark, no separate descriptor or byline line. Exact copy:
+
+> A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change, and on whether open societies can stay strong enough to *build, innovate, and defend* the freedoms, prosperity, and stability they depend on.
+
+- `.hero-promise`, Fraunces, `--body-lg`, `SOFT 100 / WONK 0 / opsz 32`, `max-width: 66ch` on desktop. The `<em>` on "build, innovate, and defend" is part of the approved copy.
+- **There is no `.hero-descriptor`.** A hero split into a large question plus a small byline was tried on 2026-08-04 and reverted: the second line read as detached metadata. Do not reintroduce a secondary line, tagline or heading in the hero.
+- The sentence establishes, in order: whose show it is, the subject, the context, the concern, the stakes. It deliberately does not open on the undefined term "open societies"; the Premise develops that.
+- Actions are `Episodes` and `Join the dispatch`. Do not add a third.
+
+**Metadata carries the concise first clause only**, not the whole sentence:
+
+> A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change.
+
+Applied to `<meta name="description">`, `og:description`, `twitter:description` and the JSON-LD `description`.
+
+---
+
+## Footer
+
+Three columns: **brand, navigate, contact**. `grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.75fr) minmax(0, 0.9fr)`, gap 56px. Brand spans the full first row at 1000px, everything stacks at 600px.
+
+**There is no About column.** It restated the homepage thesis in a cramped column and was removed on 2026-08-04. Do not add a mission statement back to the footer: the brand block carries the identity and the page above carries the argument.
+
+Every track is `minmax(0, ...)`. A bare `fr` cannot shrink below the unbreakable contact email and pushed the footer past the viewport between 1001px and roughly 1200px.
 
 ---
 

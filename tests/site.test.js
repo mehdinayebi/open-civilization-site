@@ -122,21 +122,24 @@ test('the dispatch body is the approved non-framework copy', () => {
   assert.match(home, /Receive the dispatch/);
 });
 
-test('the hero question avoids the open / less open repetition', () => {
+test('the hero is one integrated paragraph, not a question plus a caption', () => {
+  const paras = home.match(/<p class="hero-promise">[\s\S]*?<\/p>/g) ?? [];
+  assert.equal(paras.length, 1, 'hero should carry exactly one copy paragraph');
+  const hero = paras[0];
   assert.match(
-    home,
-    /Can open societies build, govern, innovate and defend themselves at the scale and speed this century demands, without sacrificing what makes them worth defending\?/
+    hero,
+    /A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change, and on whether open societies can stay strong enough to <em>build, innovate, and defend<\/em> the freedoms, prosperity, and stability they depend on\./
   );
-  const hero = home.match(/<p class="hero-promise">[\s\S]*?<\/p>/)[0];
-  assert.doesNotMatch(hero, /less open/);
+  // The superseded two-part hero must not come back in any form.
+  assert.doesNotMatch(home, /at the scale and speed this century demands/);
+  assert.doesNotMatch(home, /A show by Mehdi Nayebi on technology, power and the future of the free world/);
+  assert.doesNotMatch(home, /hero-descriptor/, 'the separate descriptor element or its CSS survives');
 });
 
-test('the hero descriptor is serif and subordinate', () => {
-  const rule = home.match(/\.hero-descriptor \{[^}]*\}/)[0];
+test('the hero paragraph is set in the editorial serif', () => {
+  const rule = home.match(/\.hero-promise \{[^}]*\}/)[0];
   assert.match(rule, /font-family: var\(--serif\)/);
   assert.doesNotMatch(rule, /var\(--mono\)/);
-  assert.match(rule, /var\(--body-md-size\)/);
-  assert.match(home, /A show by Mehdi Nayebi on technology, power and the future of the free world\./);
 });
 
 test('the first hero action reads Episodes', () => {
@@ -152,12 +155,67 @@ test('the episodes section uses episode language', () => {
 });
 
 test('accepted premise, guests and listen copy is intact', () => {
-  assert.match(home, /A show by Mehdi Nayebi on technology, power and the future of the free world\./);
   assert.match(home, /Free, and <em>fragile\.<\/em>/);
   assert.match(home, /Open Civilization examines what makes open societies capable/);
   assert.match(home, /Open Civilization speaks with dissidents, founders, investors/);
   assert.match(home, /Listen and <em>watch\.<\/em>/);
-  assert.match(home, /Open Civilization examines whether open societies can build, govern, innovate and defend themselves/);
+});
+
+test('metadata uses the concise description everywhere', () => {
+  const concise =
+    'A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change.';
+  for (const attr of [
+    `<meta name="description" content="${concise}" />`,
+    `<meta property="og:description" content="${concise}" />`,
+    `<meta name="twitter:description" content="${concise}" />`,
+    `"description": "${concise}",`,
+  ]) {
+    assert.ok(home.includes(attr), `missing concise description in: ${attr.slice(0, 40)}`);
+  }
+  assert.match(home, /<title>Open Civilization \| Technology, Power and the Future of the Free World<\/title>/);
+  assert.match(home, /rel="canonical" href="https:\/\/opencivilization\.fm\/"/);
+});
+
+test('the superseded metadata wording is gone from public files', () => {
+  for (const p of PUBLIC_PAGES) {
+    assert.doesNotMatch(read(p), /without becoming less open in the process/, `${p} keeps the old wording`);
+  }
+});
+
+test('the footer has no About column', () => {
+  for (const p of PUBLIC_PAGES) {
+    const html = read(p);
+    assert.doesNotMatch(html, /colophon-about/, `${p} still has About CSS or markup`);
+    assert.doesNotMatch(html, />About</, `${p} still has an About label`);
+  }
+  assert.doesNotMatch(home, /Open Civilization examines whether open societies can build/);
+});
+
+test('the footer keeps brand, navigate and contact', () => {
+  assert.match(home, /class="colophon-brand"/);
+  assert.match(home, /class="colophon-nav"/);
+  assert.match(home, /class="colophon-contact"/);
+  assert.match(home, /The forces shaping the future of the free world\./);
+  assert.match(home, /contact@opencivilization\.fm/);
+  const nav = home.match(/<div class="colophon-nav">[\s\S]*?<\/ul>/)[0];
+  const labels = [...nav.matchAll(/<li><a href="[^"]+">([^<]+)<\/a><\/li>/g)].map((m) => m[1]);
+  assert.deepEqual(labels, [
+    'The Premise',
+    'Episodes',
+    'Ten Principles',
+    'The Host',
+    'Be a Guest',
+    'Listen',
+    'Dispatch',
+  ]);
+});
+
+test('the footer grid is three columns and cannot overflow', () => {
+  const rule = home.match(/\.footer-colophon \{[^}]*\}/)[0];
+  const cols = rule.match(/grid-template-columns:([^;]*);/)[1];
+  assert.equal((cols.match(/minmax\(0,/g) ?? []).length, 3, 'expected three minmax(0, ...) tracks');
+  const loose = cols.replace(/minmax\([^)]*\)/g, '');
+  assert.doesNotMatch(loose, /fr/, 'a bare fr track can overflow, wrap it in minmax(0, ...)');
 });
 
 // ── structure ────────────────────────────────────────────────────────────────

@@ -8,6 +8,7 @@
 > Current narrative order: the defining question, the stakes, the episodes, the principles, the host, participation.
 > Current public route: `/` only. `/principles` is retained but unpromoted and out of the sitemap. `/episodes` and `/civilizational-stack` are retired and redirect.
 > Only the first ten episodes are public. The other twenty stay in `content/episodes.json` as internal planning. There are no episode subtitles.
+> The hero is one integrated paragraph with no separate descriptor. The footer has three columns and no About block.
 
 ---
 
