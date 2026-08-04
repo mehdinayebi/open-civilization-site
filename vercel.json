@@ -2,12 +2,39 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "redirects": [
-    { "source": "/principles.html", "destination": "/principles", "permanent": true },
-    { "source": "/doctrine", "destination": "/principles", "permanent": true }
+    {
+      "source": "/principles.html",
+      "destination": "/principles",
+      "permanent": true
+    },
+    {
+      "source": "/doctrine",
+      "destination": "/principles",
+      "permanent": true
+    },
+    {
+      "source": "/civilizational-stack",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/civilizational-stack.html",
+      "destination": "/",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/framing-engine", "destination": "/framing-engine.html" },
-    { "source": "/guest-desk", "destination": "/guest-desk.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/framing-engine",
+      "destination": "/framing-engine.html"
+    },
+    {
+      "source": "/guest-desk",
+      "destination": "/guest-desk.html"
+    }
   ]
 }

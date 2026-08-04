@@ -105,8 +105,12 @@
     z-index: 100;
   }
   .masthead-bar .spacer { flex: 1; }
-  .masthead-bar .back { border-bottom: 1px solid transparent; transition: border-color .15s, color .15s; }
-  .masthead-bar .back:hover { color: var(--red); border-color: var(--red); }
+  .mast-link { border-bottom: 1px solid transparent; transition: border-color .15s; }
+  .mast-link:hover { border-color: var(--ink); }
+  .mast-link[aria-current="page"] { border-color: var(--muted-2); }
+  /* Mobile keeps one practical action, matching the homepage. */
+  .mast-listen { display: none; font-weight: 600; transition: color .15s; }
+  .mast-listen:hover { color: var(--red); }
 
   .page-hero { padding: 90px 40px 70px; border-bottom: 1.5px solid var(--ink); }
   .page-eyebrow {
@@ -162,6 +166,8 @@
 
   @media (max-width: 1000px) {
     .masthead-bar { padding: 9px 20px; gap: 12px; }
+    .masthead-bar .mast-link { display: none; }
+    .masthead-bar .mast-listen { display: inline-flex; align-items: center; gap: 6px; }
     .page-hero { padding: 60px 24px 50px; }
     .page-body { padding: 56px 24px 70px; }
     .page-foot { padding: 30px 24px; }
@@ -256,7 +262,13 @@
 <nav class="masthead-bar" aria-label="Primary">
   <div><a href="/"><strong>OPEN CIVILIZATION</strong></a></div>
   <div class="spacer"></div>
-  <a class="back" href="/"><span aria-hidden="true">&larr;</span> Back to the show</a>
+  <a class="mast-link" href="/#premise">Premise</a>
+  <a class="mast-link" href="/episodes" aria-current="page">Episodes</a>
+  <a class="mast-link" href="/principles">Principles</a>
+  <a class="mast-link" href="/#host">Host</a>
+  <a class="mast-link" href="/#dispatch">Dispatch</a>
+  <a class="mast-link" href="/#listen">Listen</a>
+  <a class="mast-listen" href="/#listen">Listen <span aria-hidden="true">&rarr;</span></a>
 </nav>
 
 <main>
@@ -530,7 +542,6 @@
     <a href="/">Home</a>
     <a href="/episodes">Episodes</a>
     <a href="/principles">Ten Principles</a>
-    <a href="/civilizational-stack">The Civilizational Stack</a>
   </div>
   <div><a href="mailto:contact@opencivilization.fm">contact@opencivilization.fm</a></div>
 </footer>

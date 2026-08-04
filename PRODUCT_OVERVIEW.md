@@ -2,6 +2,12 @@
 
 **Last updated:** 2026-04-12 · v5
 
+> **Stale below this line for anything about the homepage.** This document describes the April 2026 site. The site was restructured on 2026-08-04 and the section-by-section descriptions here (masthead date, section signs, hero copy, doctrine table, episode slate, listen rows) no longer match production. **`CLAUDE.md` is authoritative for current structure, copy and conventions.** The design system, API contracts, database schema and infrastructure notes in this file are still accurate.
+>
+> Current homepage order: Hero, Premise, Episodes, Principles, Host, Guests, Listen, Dispatch, Footer.
+> Current narrative order: the defining question, the stakes, the investigations, the doctrine, the host, participation.
+> Current public routes: `/`, `/episodes`, `/principles`.
+
 ---
 
 ## Project Summary

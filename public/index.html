@@ -424,95 +424,6 @@
     .premise { max-width: 58ch; }
   }
 
-  /* ═════════════════════════════════════ THE STACK ═════════════════════════════════════ */
-  .stack-sub {
-    font-family: var(--serif);
-    font-size: var(--display-sm-size);
-    line-height: var(--display-sm-lh);
-    letter-spacing: var(--display-sm-ls);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--muted);
-    margin-top: -30px;
-    margin-bottom: 34px;
-  }
-  .stack-lede,
-  .stack-body {
-    font-family: var(--serif);
-    font-size: var(--body-lg-size);
-    line-height: var(--body-lg-lh);
-    font-weight: 400;
-    color: var(--ink);
-    max-width: 58ch;
-    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
-  }
-  .stack-body { color: var(--ink-2); }
-  .stack-body + .stack-body { margin-top: 26px; }
-  .stack-conclusion {
-    margin-top: 34px;
-    padding-top: 30px;
-    border-top: 1px solid var(--ink);
-    font-weight: 500;
-    color: var(--ink);
-  }
-  /* The sequence. An editorial diagram: rules and type, no boxes or icons. */
-  .stack-diagram {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
-    padding: 32px 0;
-    margin: 46px 0 20px;
-  }
-  .stack-term {
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: 1.9;
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    font-weight: 600;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-  .stack-term:not(:last-child)::after {
-    content: "\2192";
-    color: var(--red);
-    margin: 0 13px;
-  }
-  .stack-meta {
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    color: var(--muted);
-    margin-bottom: 54px;
-  }
-  .stack-concepts {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 46px;
-    margin: 54px 0 0;
-    padding-top: 40px;
-    border-top: 1px solid var(--ink);
-  }
-  .stack-concept h3 {
-    font-family: var(--serif);
-    font-size: var(--display-sm-size);
-    line-height: var(--display-sm-lh);
-    letter-spacing: var(--display-sm-ls);
-    font-weight: 500;
-    margin-bottom: 14px;
-  }
-  .stack-concept p {
-    font-family: var(--mono);
-    font-size: var(--body-sm-size);
-    line-height: var(--body-sm-lh);
-    color: var(--ink-2);
-  }
-
   /* ═════════════════════════════════════ DOCTRINE ═════════════════════════════════════ */
   .doctrine-table {
     border-top: 1.5px solid var(--ink);
@@ -582,6 +493,8 @@
     color: var(--ink-2);
   }
   .host-bio p:last-child { margin-bottom: 0; }
+  /* Closing line: weight and ink only. A rule here would read as a banner. */
+  .host-conclusion { font-weight: 500; color: var(--ink); }
   /* Three rows with arrows collapsed to one inline line. */
   .host-connect {
     display: flex;
@@ -1050,21 +963,6 @@
     /* Hero */
     .hero-actions { gap: 18px; margin-top: 36px; }
 
-    /* Stack: vertical sequence, same order, arrows turn downward. */
-    .stack-sub { margin-top: -14px; margin-bottom: 26px; }
-    .stack-diagram {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 26px 0;
-      margin: 34px 0 18px;
-    }
-    .stack-term:not(:last-child)::after {
-      content: "\2193";
-      display: block;
-      margin: 2px 0 2px 3px;
-    }
-    .stack-meta { margin-bottom: 40px; }
-    .stack-concepts { grid-template-columns: 1fr; gap: 34px; margin-top: 40px; padding-top: 32px; }
 
     /* Doctrine, stacked: number + title, then the sentence, then the hard part
        indented. The header row goes away; red carries the distinction. */
@@ -1145,7 +1043,6 @@
   <div><strong>OPEN CIVILIZATION</strong></div>
   <div class="spacer"></div>
   <a class="mast-link" href="#premise">Premise</a>
-  <a class="mast-link" href="#stack">The Stack</a>
   <a class="mast-link" href="#episodes">Episodes</a>
   <a class="mast-link" href="#principles">Principles</a>
   <a class="mast-link" href="#host">Host</a>
@@ -1186,52 +1083,6 @@
     <p class="premise">At home, wealthy democracies remain rich in talent, capital and knowledge, yet often struggle to convert those advantages into housing, energy, infrastructure, industrial capacity and public trust.</p>
     <p class="premise premise-conclusion">Open Civilization examines what makes open societies capable, what causes them to weaken, and how they can renew themselves without importing the coercion of their rivals.</p>
   </div>
-</section>
-
-<!-- ════════ THE CIVILIZATIONAL STACK ════════ -->
-<section class="section reveal" id="stack">
-  <div class="section-head">
-    <div class="section-num">The framework</div>
-    <h2 class="section-title">The civilizational <em>stack.</em></h2>
-  </div>
-
-  <p class="stack-sub">What power is made of now.</p>
-
-  <p class="stack-lede">The decisive competition of the twenty-first century is not over any single technology. It is over the connected system through which a society converts resources, knowledge, capital and human talent into prosperity, security and power.</p>
-
-  <ol class="stack-diagram" aria-label="The civilizational stack, in order">
-    <li class="stack-term">Energy</li>
-    <li class="stack-term">Minerals</li>
-    <li class="stack-term">Chips</li>
-    <li class="stack-term">Compute</li>
-    <li class="stack-term">Models</li>
-    <li class="stack-term">Robots</li>
-    <li class="stack-term">Factories</li>
-    <li class="stack-term">Weapons</li>
-    <li class="stack-term">Institutions</li>
-  </ol>
-  <p class="stack-meta">Across every layer: talent, capital, law, alliances and legitimacy.</p>
-
-  <p class="stack-body">A society can lead at one layer and still fail if it cannot convert that advantage through the rest. It can invent without manufacturing, spend without building, arm without replenishing and govern without executing.</p>
-  <p class="stack-body">Institutions are not simply the final layer. They are the operating system that determines whether every layer can be financed, connected, corrected and renewed.</p>
-  <p class="stack-body stack-conclusion">Open Civilization follows the bottlenecks, dependencies and institutions that determine what can be built, scaled, defended and made to endure.</p>
-
-  <div class="stack-concepts">
-    <div class="stack-concept">
-      <h3>Stack conversion</h3>
-      <p>How effectively a society turns talent, capital, knowledge and political intention into usable capability.</p>
-    </div>
-    <div class="stack-concept">
-      <h3>Stack sovereignty</h3>
-      <p>Whether essential capabilities can be accessed, replaced or rebuilt under pressure.</p>
-    </div>
-    <div class="stack-concept">
-      <h3>Stack renewal</h3>
-      <p>Whether a society is reproducing its capabilities faster than it is consuming them.</p>
-    </div>
-  </div>
-
-  <a class="section-cta" href="/civilizational-stack">Read the Civilizational Stack framework <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <!-- ════════ EPISODES ════════ -->
@@ -1411,14 +1262,12 @@
     <h2 class="section-title">Mehdi <em>Nayebi.</em></h2>
   </div>
 
-  <!-- TODO: Option A from the round-two spec is a portrait in a left column
-       alongside the bio. Blocked on a photograph. Until then the bio runs at a
-       comfortable measure (Option B). -->
   <div class="host-wrap">
     <div class="host-bio">
-      <p>Born in Tehran, raised in France, and shaped by building companies across Europe, the Middle East, and North America, Mehdi Nayebi has spent much of his life thinking about power, institutions, and why some societies stay free while others decay from within, come under pressure from abroad, or fail to keep pace with technological change.</p>
-      <p>He began in structured products and derivatives at Deutsche Bank and Bank of America in London, then co-founded Alopeyk, one of Iran's largest tech platforms, and built it inside a sanctioned authoritarian system before leaving Iran for safety reasons. That experience gave him a direct view of coercion, institutional failure, corruption, and what a closed society actually looks like.</p>
-      <p>Open Civilization grows out of that experience.</p>
+      <p>Born in Tehran and raised in France, Mehdi Nayebi is an entrepreneur and former banker who has built companies across Europe, the Middle East and North America.</p>
+      <p>He began his career in structured products at Deutsche Bank and Bank of America, then co-founded Alopeyk, one of Iran's largest technology platforms, before building technology and logistics companies in Canada.</p>
+      <p>Building under an authoritarian system, and later leaving Iran for safety reasons, gave him a direct view of coercion, institutional failure and what closed societies do to truth, enterprise and ordinary life.</p>
+      <p class="host-conclusion">Open Civilization grows out of that experience: an inquiry into how free societies can remain open, capable and strong enough to endure.</p>
     </div>
 
     <div class="host-connect">
@@ -1490,7 +1339,7 @@
   <div class="dispatch-inner">
     <div class="dispatch-eyebrow">Dispatch · Monthly</div>
     <h2>A monthly <em>dispatch</em> for people who want the deeper map.</h2>
-    <p>Essays, research notes and signals from across the civilizational stack: what is changing, where the bottlenecks are and what deserves attention next.</p>
+    <p>Essays, research notes and signals on the technologies, institutions and strategic dependencies reshaping the free world: what is changing, where the bottlenecks are and what deserves attention next.</p>
 
     <form class="dispatch-form" id="dispatch-form">
       <input type="email" placeholder="Your email address" required />
@@ -1514,7 +1363,6 @@
       <div class="colophon-label">Navigate</div>
       <ul>
         <li><a href="#premise">The Premise</a></li>
-        <li><a href="/civilizational-stack">The Civilizational Stack</a></li>
         <li><a href="/episodes">Episodes</a></li>
         <li><a href="/principles">Ten Principles</a></li>
         <li><a href="#host">The Host</a></li>

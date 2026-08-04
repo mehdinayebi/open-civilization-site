@@ -12,8 +12,4 @@
     <loc>https://opencivilization.fm/principles</loc>
     <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://opencivilization.fm/civilizational-stack</loc>
-    <priority>0.8</priority>
-  </url>
 </urlset>

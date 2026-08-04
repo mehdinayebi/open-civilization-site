@@ -25,14 +25,14 @@ This is **NOT** a Next.js / Tailwind project. Prior prompts and drafts sometimes
 
 | Layer | Choice |
 |-------|--------|
-| Markup | Static HTML. Public pages: `index.html`, `episodes.html`, `principles.html`, `civilizational-stack.html`. Internal tools: `admin.html`, `framing-engine.html`, `guest-desk.html` |
+| Markup | Static HTML. Public pages: `index.html`, `episodes.html`, `principles.html`. Internal tools: `admin.html`, `framing-engine.html`, `guest-desk.html` |
 | Styling | Inline `<style>` block in each HTML file. No external CSS. No framework. |
 | JavaScript | Vanilla JS at the bottom of each HTML file. No framework. No build step. |
 | Hosting | Vercel, auto-deploying from `master` via the Vercel GitHub App (reconnected 2026-07-31, see Deploy) |
 | Serverless API | Vercel Functions in `api/` — `subscribe.js`, `subscribers.js`, `schema.sql` |
 | Database | Neon Postgres via `@neondatabase/serverless` (HTTP driver) |
 | Analytics | Vercel Web Analytics (script in HTML head, data in Vercel dashboard) |
-| Routing | `vercel.json` sets `cleanUrls: true`, so `/episodes`, `/principles` and `/civilizational-stack` serve the matching `.html`. Legacy `/principles.html` and `/doctrine` redirect to `/principles` |
+| Routing | `vercel.json` sets `cleanUrls: true`, so `/episodes` and `/principles` serve the matching `.html`. Legacy `/principles.html` and `/doctrine` redirect to `/principles`; `/civilizational-stack` and `/civilizational-stack.html` redirect to `/` |
 | Search | Google Search Console (domain-verified via DNS TXT) |
 | Fonts | Google Fonts — Fraunces (variable serif) + IBM Plex Mono |
 | Favicon | Path-based SVG monogram, generated via `sharp` + `png-to-ico` from `scripts/generate-favicons.mjs` |
@@ -51,7 +51,6 @@ open-civilization-site/
 │   ├── index.html         ← homepage, all CSS + JS inline
 │   ├── episodes.html      ← /episodes, all 30
 │   ├── principles.html    ← /principles, full doctrine
-│   ├── civilizational-stack.html  ← /civilizational-stack, framework essay
 │   ├── admin.html         ← token-protected subscriber viewer
 │   ├── framing-engine.html / guest-desk.html  ← internal tools
 │   ├── sitemap.xml / robots.txt
@@ -275,9 +274,9 @@ Each row is now **number · name · one-sentence body · tension line**, under a
 5. **Host** (`#host`) — "Mehdi Nayebi." + 3-paragraph bio + one inline contact line
 6. **Episodes** (`#episodes`) — red label reads `WHAT'S COMING`, header "Episodes." + `EPISODE` / `THE QUESTION` header row + 10 identical rows. No lede, no featured card.
 7. **Guests** (`#guest`) — "Come on the show." + lede + pitch card (sticky on desktop)
-8. **Listen** (`#listen`) — "Listen anywhere." + one centred inline line of platform names
-9. **Dispatch** (`#dispatch`) — monthly newsletter, dark background + form
-10. **Footer** — 4-column colophon + copyright strip
+7. **Listen** (`#listen`) — "Listen anywhere." + one centred inline line of platform names
+8. **Dispatch** (`#dispatch`) — monthly newsletter, dark background + form
+9. **Footer** — 4-column colophon + copyright strip
 
 Do not reorder sections.
 
@@ -513,9 +512,10 @@ curl -s -o /dev/null -w "HTTP %{http_code}\n" \
 | `/` | `public/index.html` | Homepage |
 | `/episodes` | `public/episodes.html` | All 30 flagship investigations |
 | `/principles` | `public/principles.html` | Full ten-principle doctrine, including the hard-part column |
-| `/civilizational-stack` | `public/civilizational-stack.html` | The framework essay |
 
 `cleanUrls: true` in `vercel.json` does the extension stripping. Do not add rewrites for these.
+
+**Retired 2026-08-04.** `/civilizational-stack` shipped and was withdrawn the same day, judged too much for a pre-launch public site. Both URL forms now permanently redirect to `/`. The essay is in git history at `a9911fd`. Do not restore it, and do not add a replacement framework section, explanatory block or diagram to the homepage without an explicit instruction.
 
 **Back-compatible anchors.** `#doctrine`, `#question` and `#guest` were live hashes before the 2026-08-04 restructure. They survive as zero-height `<span class="anchor-alias">` targets immediately before the sections that replaced them (`#principles`, `#premise`, `#guests`). Do not delete them.
 
@@ -525,18 +525,17 @@ curl -s -o /dev/null -w "HTTP %{http_code}\n" \
 
 1. **Hero** (`#hero` implicit) — wordmark, governing question, descriptor, two text links
 2. **Premise** (`#premise`) — "Free, and fragile."
-3. **The Civilizational Stack** (`#stack`) — the signature framework
-4. **Episodes** (`#episodes`) — label `FIRST INVESTIGATIONS`, episodes 01 to 10 only
-5. **Principles** (`#principles`) — compact list, no hard-part column
-6. **Host** (`#host`)
-7. **Guests** (`#guests`)
+3. **Episodes** (`#episodes`) — label `FIRST INVESTIGATIONS`, episodes 01 to 10 only
+4. **Principles** (`#principles`) — compact list, no hard-part column
+5. **Host** (`#host`)
+6. **Guests** (`#guests`)
 8. **Listen** (`#listen`)
 9. **Dispatch** (`#dispatch`)
 10. **Footer**
 
-The narrative order is deliberate: the defining question, the stakes, the framework, the investigations, the doctrine, the host, participation. Episodes sit **above** Principles. Do not move the doctrine back up.
+The narrative order is deliberate: the defining question, the stakes, the investigations, the doctrine, the host, participation. Episodes sit **above** Principles. Do not move the doctrine back up.
 
-Primary nav is Premise, The Stack, Episodes, Principles, Host, Dispatch, Listen. **Listen is last on purpose**, it is the practical action. Guests is deliberately not in the primary nav but stays in the footer nav.
+Primary nav is Premise, Episodes, Principles, Host, Dispatch, Listen, on every public page. **Listen is last on purpose**, it is the practical action. Guests is deliberately not in the primary nav but stays in the footer nav.
 
 ---
 
@@ -560,21 +559,6 @@ node scripts/build-episodes.mjs
 
 ---
 
-## The civilizational stack
-
-The signature framework and the term the project is trying to own. It appears in two places: the homepage `#stack` section and the `/civilizational-stack` essay.
-
-Canonical sequence, in this order, on both pages:
-
-> Energy, minerals, chips, compute, models, robots, factories, weapons, institutions
-
-Rendered as a native `<ol class="stack-diagram">` with `list-style: none`. **Arrows are CSS generated content** on `.stack-term:not(:last-child)::after`, right-pointing on desktop and down-pointing below 1000px. There are no arrow elements in the DOM, so screen readers get the nine terms in order and nothing else. Do not reintroduce arrow spans or `role="list"` on a `div`, both were tried and replaced.
-
-Meta line under the diagram, on both pages: *Across every layer: talent, capital, law, alliances and legitimacy.*
-
-Keep it an editorial diagram: rules and type only. No boxes, pills, icons or colour fills.
-
----
 
 ## Episode slate (superseded)
 
