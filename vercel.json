@@ -21,6 +21,16 @@
       "source": "/civilizational-stack.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/episodes",
+      "destination": "/#episodes",
+      "permanent": true
+    },
+    {
+      "source": "/episodes.html",
+      "destination": "/#episodes",
+      "permanent": true
     }
   ],
   "rewrites": [

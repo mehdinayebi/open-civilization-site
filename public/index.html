@@ -247,13 +247,17 @@
     .hero-promise { max-width: 62ch; margin-top: 56px; }
   }
 
-  /* Descriptor sits under the governing question, quieter than it. */
+  /* Descriptor sits under the governing question, quieter than it. Serif, not
+     mono: mono read as detached metadata rather than part of the sentence. */
   .hero-descriptor {
     margin-top: 26px;
-    font-family: var(--mono);
+    font-family: var(--serif);
     font-size: var(--body-md-size);
-    line-height: var(--body-md-lh);
+    line-height: 1.5;
+    letter-spacing: 0;
+    font-weight: 400;
     color: var(--ink-2);
+    font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 24;
     opacity: 0;
     animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.6s forwards;
   }
@@ -283,24 +287,6 @@
   }
   .hero-actions a:hover { color: var(--red); border-color: var(--red); }
 
-  /* Shared restrained CTA for the three "read the full thing" links. */
-  .section-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 46px;
-    padding-bottom: 5px;
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    font-weight: 600;
-    color: var(--ink);
-    border-bottom: 1px solid var(--muted-2);
-    transition: color .15s, border-color .15s;
-  }
-  .section-cta:hover { color: var(--red); border-color: var(--red); }
 
   .hero-ctas {
     margin-top: 54px;
@@ -568,16 +554,6 @@
     letter-spacing: var(--display-sm-ls);
   }
   .tx-title em { font-style: italic; font-weight: 300; }
-  .tx-subtitle {
-    margin-top: 7px;
-    font-family: var(--serif);
-    font-size: var(--body-md-size);
-    line-height: 1.35;
-    font-style: italic;
-    font-weight: 400;
-    color: var(--muted);
-    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
-  }
   /* One line under each title, so a stranger knows what the episode is. */
   .tx-desc {
     margin-top: 10px;
@@ -1059,13 +1035,13 @@
   </h1>
 
   <p class="hero-promise">
-    Can open societies build, govern, innovate and defend themselves at the scale and speed this century demands, without becoming less open in the process?
+    Can open societies build, govern, innovate and defend themselves at the scale and speed this century demands, without sacrificing what makes them worth defending?
   </p>
 
   <p class="hero-descriptor">A show by Mehdi Nayebi on technology, power and the future of the free world.</p>
 
   <div class="hero-actions">
-    <a href="#episodes">Explore the first investigations <span aria-hidden="true">&rarr;</span></a>
+    <a href="#episodes">Episodes <span aria-hidden="true">&rarr;</span></a>
     <a href="#dispatch">Join the dispatch <span aria-hidden="true">&rarr;</span></a>
   </div>
 </section>
@@ -1088,11 +1064,11 @@
 <!-- ════════ EPISODES ════════ -->
 <section class="section reveal" id="episodes">
   <div class="section-head">
-    <div class="section-num">First investigations</div>
+    <div class="section-num">Episodes</div>
     <h2 class="section-title">The questions that <em>define the show.</em></h2>
   </div>
 
-  <p class="doctrine-lede">Thirty flagship investigations into the forces deciding whether open societies remain capable, prosperous, secure and free. Each begins with a structural trend, a central question and a disagreement serious enough to change what follows.</p>
+  <p class="doctrine-lede">The first ten episodes examine the forces deciding whether open societies remain capable, prosperous, secure and free. Each begins with a structural trend, a central question and a serious disagreement about what follows.</p>
 
   <div class="tx-head">
     <div class="th-left">Episode</div>
@@ -1129,7 +1105,6 @@
       <div class="tx-num">04</div>
       <div class="tx-main">
         <h3 class="tx-title">The <em>New Arsenal</em></h3>
-        <p class="tx-subtitle">Drones, autonomy and the end of expensive war</p>
         <p class="tx-desc">Cheap drones, autonomous systems and software are rewriting the economics of war faster than Western procurement can adapt.</p>
       </div>
       <p class="tx-question">Can democratic militaries move at software speed while preserving human responsibility?</p>
@@ -1154,7 +1129,6 @@
       <div class="tx-num">07</div>
       <div class="tx-main">
         <h3 class="tx-title">AI Needs <em>Electricity</em></h3>
-        <p class="tx-subtitle">The return of energy abundance</p>
         <p class="tx-desc">Data centres, industry, electrification and defense production are converging on one constraint: reliable power at enormous scale.</p>
       </div>
       <p class="tx-question">Can the free world build the energy system technological leadership requires?</p>
@@ -1186,7 +1160,6 @@
     <!-- EPISODES:END -->
   </div>
 
-  <a class="section-cta" href="/episodes">View all 30 flagship investigations <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <!-- ════════ PRINCIPLES ════════ -->
@@ -1252,7 +1225,6 @@
     </div>
   </div>
 
-  <a class="section-cta" href="/principles">Read the full doctrine <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <!-- ════════ THE HOST ════════ -->
@@ -1363,8 +1335,8 @@
       <div class="colophon-label">Navigate</div>
       <ul>
         <li><a href="#premise">The Premise</a></li>
-        <li><a href="/episodes">Episodes</a></li>
-        <li><a href="/principles">Ten Principles</a></li>
+        <li><a href="#episodes">Episodes</a></li>
+        <li><a href="#principles">Ten Principles</a></li>
         <li><a href="#host">The Host</a></li>
         <li><a href="#guests">Be a Guest</a></li>
         <li><a href="#listen">Listen</a></li>

@@ -14,10 +14,9 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(resolve(root, p), 'utf8');
 
-const PUBLIC_PAGES = ['public/index.html', 'public/episodes.html', 'public/principles.html'];
+const PUBLIC_PAGES = ['public/index.html', 'public/principles.html'];
 
 const home = read('public/index.html');
-const episodes = read('public/episodes.html');
 const principles = read('public/principles.html');
 const sitemap = read('public/sitemap.xml');
 const vercel = JSON.parse(read('vercel.json'));
@@ -61,11 +60,9 @@ test('the homepage has no stack section or stack CSS', () => {
   assert.doesNotMatch(home, /stack-diagram|stack-term|stack-concept|stack-lede|stack-meta/);
 });
 
-test('the sitemap omits the framework and keeps the three live routes', () => {
-  assert.doesNotMatch(sitemap, /civilizational-stack/);
-  for (const loc of ['/', '/episodes', '/principles']) {
-    assert.match(sitemap, new RegExp(`<loc>https://opencivilization\\.fm${loc}</loc>`));
-  }
+test('the sitemap lists the homepage only', () => {
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  assert.deepEqual(locs, ['https://opencivilization.fm/']);
 });
 
 test('both retired framework URLs redirect permanently to the homepage', () => {
@@ -74,6 +71,15 @@ test('both retired framework URLs redirect permanently to the homepage', () => {
     assert.ok(rule, `missing redirect for ${source}`);
     assert.equal(rule.destination, '/');
     assert.equal(rule.permanent, true);
+  }
+});
+
+test('the retired archive routes redirect permanently', () => {
+  for (const source of ['/episodes', '/episodes.html']) {
+    const rule = vercel.redirects.find((r) => r.source === source);
+    assert.ok(rule, `missing redirect for ${source}`);
+    assert.equal(rule.permanent, true);
+    assert.match(rule.destination, /^\/(#episodes)?$/);
   }
 });
 
@@ -116,8 +122,36 @@ test('the dispatch body is the approved non-framework copy', () => {
   assert.match(home, /Receive the dispatch/);
 });
 
-test('accepted hero, premise, guests and listen copy is intact', () => {
-  assert.match(home, /Can open societies build, govern, innovate and defend themselves at the scale and speed/);
+test('the hero question avoids the open / less open repetition', () => {
+  assert.match(
+    home,
+    /Can open societies build, govern, innovate and defend themselves at the scale and speed this century demands, without sacrificing what makes them worth defending\?/
+  );
+  const hero = home.match(/<p class="hero-promise">[\s\S]*?<\/p>/)[0];
+  assert.doesNotMatch(hero, /less open/);
+});
+
+test('the hero descriptor is serif and subordinate', () => {
+  const rule = home.match(/\.hero-descriptor \{[^}]*\}/)[0];
+  assert.match(rule, /font-family: var\(--serif\)/);
+  assert.doesNotMatch(rule, /var\(--mono\)/);
+  assert.match(rule, /var\(--body-md-size\)/);
+  assert.match(home, /A show by Mehdi Nayebi on technology, power and the future of the free world\./);
+});
+
+test('the first hero action reads Episodes', () => {
+  const actions = home.match(/<div class="hero-actions">[\s\S]*?<\/div>/)[0];
+  assert.match(actions, /href="#episodes">Episodes /);
+  assert.match(actions, /href="#dispatch">Join the dispatch /);
+});
+
+test('the episodes section uses episode language', () => {
+  assert.match(home, /<div class="section-num">Episodes<\/div>/);
+  assert.match(home, /The questions that <em>define the show\.<\/em>/);
+  assert.match(home, /The first ten episodes examine the forces deciding whether open societies remain capable/);
+});
+
+test('accepted premise, guests and listen copy is intact', () => {
   assert.match(home, /A show by Mehdi Nayebi on technology, power and the future of the free world\./);
   assert.match(home, /Free, and <em>fragile\.<\/em>/);
   assert.match(home, /Open Civilization examines what makes open societies capable/);
@@ -139,22 +173,65 @@ test('back-compatible anchors survive', () => {
   }
 });
 
-test('the homepage shows ten episodes and the archive shows thirty', () => {
+test('exactly ten episodes render publicly', () => {
   assert.equal((home.match(/class="tx-row"/g) ?? []).length, 10);
-  assert.equal((episodes.match(/class="tx-row"/g) ?? []).length, 30);
 });
 
-test('episode data matches what is rendered', () => {
-  const data = JSON.parse(read('content/episodes.json'));
-  assert.equal(data.length, 30);
-  assert.equal(data.filter((e) => e.featured).length, 10);
-  for (const ep of data) {
-    assert.match(episodes, new RegExp(`>${ep.number}</div>`), `archive missing ${ep.number}`);
+test('there is no public episode archive', () => {
+  assert.equal(existsSync(resolve(root, 'public/episodes.html')), false);
+  for (const p of PUBLIC_PAGES) {
+    assert.doesNotMatch(read(p), /href="\/episodes"/, `${p} links to the retired archive`);
   }
 });
 
+test('episodes 11 to 30 stay internal', () => {
+  const data = JSON.parse(read('content/episodes.json'));
+  for (const ep of data.filter((e) => !e.featured)) {
+    assert.ok(!home.includes(ep.title), `homepage exposes held-back episode: ${ep.title}`);
+    assert.ok(!home.includes(ep.description), `homepage exposes held-back summary: ${ep.number}`);
+  }
+});
+
+test('no public page advertises a total of thirty', () => {
+  for (const p of PUBLIC_PAGES) {
+    assert.doesNotMatch(markup(read(p)), /\b30\b|thirty/i, `${p} advertises the full slate size`);
+  }
+});
+
+test('the featured records are the ten that render', () => {
+  const data = JSON.parse(read('content/episodes.json'));
+  assert.equal(data.filter((e) => e.featured).length, 10);
+  for (const ep of data.filter((e) => e.featured)) {
+    assert.match(home, new RegExp(`>${ep.number}</div>`), `homepage missing ${ep.number}`);
+    assert.ok(home.includes(ep.description), `homepage missing summary ${ep.number}`);
+    assert.ok(home.includes(ep.question), `homepage missing question ${ep.number}`);
+  }
+});
+
+test('no episode record carries a subtitle and none renders', () => {
+  const data = JSON.parse(read('content/episodes.json'));
+  for (const ep of data) assert.ok(!('subtitle' in ep), `episode ${ep.number} still has a subtitle`);
+  for (const p of PUBLIC_PAGES) {
+    assert.doesNotMatch(read(p), /tx-subtitle/, `${p} still renders subtitles`);
+  }
+  assert.doesNotMatch(home, /Drones, autonomy and the end of expensive war/);
+  assert.doesNotMatch(home, /The return of energy abundance/);
+});
+
+test('no public-facing investigation terminology', () => {
+  for (const p of PUBLIC_PAGES) {
+    assert.doesNotMatch(read(p), /investigation/i, `${p} still says investigation`);
+  }
+});
+
+test('the promotional CTAs are gone', () => {
+  assert.doesNotMatch(home, /View all 30/);
+  assert.doesNotMatch(home, /Read the full doctrine/);
+  assert.doesNotMatch(home, /Explore the first investigations/);
+});
+
 test('planned episodes carry no published-state language', () => {
-  for (const p of ['public/index.html', 'public/episodes.html']) {
+  for (const p of PUBLIC_PAGES) {
     const m = markup(read(p));
     assert.doesNotMatch(m, /listen now/i, `${p} implies published`);
     assert.doesNotMatch(m, /\bduration\b/i, `${p} implies published`);

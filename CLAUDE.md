@@ -25,14 +25,14 @@ This is **NOT** a Next.js / Tailwind project. Prior prompts and drafts sometimes
 
 | Layer | Choice |
 |-------|--------|
-| Markup | Static HTML. Public pages: `index.html`, `episodes.html`, `principles.html`. Internal tools: `admin.html`, `framing-engine.html`, `guest-desk.html` |
+| Markup | Static HTML. Public page: `index.html`. Retained but unpromoted: `principles.html`. Internal tools: `admin.html`, `framing-engine.html`, `guest-desk.html` |
 | Styling | Inline `<style>` block in each HTML file. No external CSS. No framework. |
 | JavaScript | Vanilla JS at the bottom of each HTML file. No framework. No build step. |
 | Hosting | Vercel, auto-deploying from `master` via the Vercel GitHub App (reconnected 2026-07-31, see Deploy) |
 | Serverless API | Vercel Functions in `api/` — `subscribe.js`, `subscribers.js`, `schema.sql` |
 | Database | Neon Postgres via `@neondatabase/serverless` (HTTP driver) |
 | Analytics | Vercel Web Analytics (script in HTML head, data in Vercel dashboard) |
-| Routing | `vercel.json` sets `cleanUrls: true`, so `/episodes` and `/principles` serve the matching `.html`. Legacy `/principles.html` and `/doctrine` redirect to `/principles`; `/civilizational-stack` and `/civilizational-stack.html` redirect to `/` |
+| Routing | `vercel.json` sets `cleanUrls: true`. `/principles` still serves `principles.html` but is unpromoted and out of the sitemap. `/episodes`, `/episodes.html`, `/civilizational-stack` and `/civilizational-stack.html` are retired and permanently redirect |
 | Search | Google Search Console (domain-verified via DNS TXT) |
 | Fonts | Google Fonts — Fraunces (variable serif) + IBM Plex Mono |
 | Favicon | Path-based SVG monogram, generated via `sharp` + `png-to-ico` from `scripts/generate-favicons.mjs` |
@@ -46,11 +46,10 @@ A future Next.js migration is deferred until EP 01 is real. Do not migrate preem
 ```
 open-civilization-site/
 ├── content/
-│   └── episodes.json      ← canonical slate, all 30 investigations
+│   └── episodes.json      ← internal episode slate, 30 records, first 10 public
 ├── public/
 │   ├── index.html         ← homepage, all CSS + JS inline
-│   ├── episodes.html      ← /episodes, all 30
-│   ├── principles.html    ← /principles, full doctrine
+│   ├── principles.html    ← /principles, retained but unpromoted
 │   ├── admin.html         ← token-protected subscriber viewer
 │   ├── framing-engine.html / guest-desk.html  ← internal tools
 │   ├── sitemap.xml / robots.txt
@@ -61,7 +60,7 @@ open-civilization-site/
 │   └── schema.sql         ← Neon table reference
 ├── app/                   ← reserved for Next.js migration; favicon source files only
 ├── scripts/
-│   ├── build-episodes.mjs ← renders episode rows into the two pages
+│   ├── build-episodes.mjs ← renders the first ten episode rows into index.html
 │   └── generate-favicons.mjs
 ├── vercel.json            ← outputDirectory "public", cleanUrls, redirects
 ├── package.json
@@ -510,12 +509,15 @@ curl -s -o /dev/null -w "HTTP %{http_code}\n" \
 | Route | File | Purpose |
 |-------|------|---------|
 | `/` | `public/index.html` | Homepage |
-| `/episodes` | `public/episodes.html` | All 30 flagship investigations |
-| `/principles` | `public/principles.html` | Full ten-principle doctrine, including the hard-part column |
+| `/principles` | `public/principles.html` | Full doctrine with the hard-part column. **Retained but not promoted**: no homepage CTA, no footer link, not in the sitemap |
 
 `cleanUrls: true` in `vercel.json` does the extension stripping. Do not add rewrites for these.
 
-**Retired 2026-08-04.** `/civilizational-stack` shipped and was withdrawn the same day, judged too much for a pre-launch public site. Both URL forms now permanently redirect to `/`. The essay is in git history at `a9911fd`. Do not restore it, and do not add a replacement framework section, explanatory block or diagram to the homepage without an explicit instruction.
+**The sitemap lists the homepage only.** `/principles` is deliberately excluded so an unpromoted page is not presented as a core route.
+
+**Retired 2026-08-04.** `/episodes` and `/episodes.html` permanently redirect to `/#episodes`; `/civilizational-stack` and `/civilizational-stack.html` permanently redirect to `/`. Do not recreate either page.
+
+The Civilizational Stack essay is in git history at `a9911fd`. Do not restore it, and do not add a replacement framework section, explanatory block or diagram to the homepage without an explicit instruction.
 
 **Back-compatible anchors.** `#doctrine`, `#question` and `#guest` were live hashes before the 2026-08-04 restructure. They survive as zero-height `<span class="anchor-alias">` targets immediately before the sections that replaced them (`#principles`, `#premise`, `#guests`). Do not delete them.
 
@@ -525,15 +527,15 @@ curl -s -o /dev/null -w "HTTP %{http_code}\n" \
 
 1. **Hero** (`#hero` implicit) — wordmark, governing question, descriptor, two text links
 2. **Premise** (`#premise`) — "Free, and fragile."
-3. **Episodes** (`#episodes`) — label `FIRST INVESTIGATIONS`, episodes 01 to 10 only
-4. **Principles** (`#principles`) — compact list, no hard-part column
+3. **Episodes** (`#episodes`) — label `EPISODES`, episodes 01 to 10 only, no archive CTA
+4. **Principles** (`#principles`) — compact list, no hard-part column, no CTA to /principles
 5. **Host** (`#host`)
 6. **Guests** (`#guests`)
 8. **Listen** (`#listen`)
 9. **Dispatch** (`#dispatch`)
 10. **Footer**
 
-The narrative order is deliberate: the defining question, the stakes, the investigations, the doctrine, the host, participation. Episodes sit **above** Principles. Do not move the doctrine back up.
+The narrative order is deliberate: the defining question, the stakes, the episodes, the principles, the host, participation. Episodes sit **above** Principles. Do not move the doctrine back up.
 
 Primary nav is Premise, Episodes, Principles, Host, Dispatch, Listen, on every public page. **Listen is last on purpose**, it is the practical action. Guests is deliberately not in the primary nav but stays in the footer nav.
 
@@ -541,7 +543,13 @@ Primary nav is Premise, Episodes, Principles, Host, Dispatch, Listen, on every p
 
 ## Episode data
 
-`content/episodes.json` is the single source of truth for all 30 investigations. Fields: `number`, `title`, `titleHtml` (carries the italic `<em>`), `subtitle` (nullable), `description`, `question`, `slug`, `featured`.
+**Public terminology is "episodes", never "investigations".** The label is `EPISODES`, the hero link is `Episodes`, the column header is `EPISODE`. Internal notes may say episode slate.
+
+`content/episodes.json` is the internal editorial slate: 30 records. Fields: `number`, `title`, `titleHtml` (carries the italic `<em>`), `description`, `question`, `slug`, `featured`.
+
+**Only the ten `featured` records are ever public.** Records 11 to 30 are editorial planning. They must not render, be summarised, be counted, or be linked on any public page. There is no public archive.
+
+**There is no `subtitle` field.** It was removed from the public system on 2026-08-04. The build script throws if one reappears, and also throws on any unrecognised field rather than dropping it silently.
 
 Rows are generated into both pages, never hand-written:
 
@@ -549,10 +557,10 @@ Rows are generated into both pages, never hand-written:
 node scripts/build-episodes.mjs
 ```
 
-- Writes between the `EPISODES:START` / `EPISODES:END` markers. **Anything between those markers is overwritten.**
-- `featured: true` controls the homepage set (currently 01 to 10). The archive always renders all 30.
-- Heading level differs by page: `h3` on the homepage (inside a section that already has an `h2`), `h2` on `/episodes` (directly under the page `h1`). The script takes it as an argument.
-- The script **throws if any episode field contains an em dash**, so the rule cannot regress through a data edit.
+- Writes between the `EPISODES:START` / `EPISODES:END` markers in `public/index.html` only. **Anything between those markers is overwritten.**
+- `featured: true` controls the public set, currently 01 to 10.
+- Episode titles are `h3`, inside the Episodes section which carries the `h2`.
+- The script validates contiguous numbering, at least ten featured records, no subtitle, no unknown fields, and **throws if any episode field contains an em dash**.
 - Run it and commit the resulting HTML. There is still no build step at deploy time.
 
 **Do not** give planned episodes play controls, durations, dates or "listen now" language. Nothing is published.
@@ -562,7 +570,7 @@ node scripts/build-episodes.mjs
 
 ## Episode slate (superseded)
 
-**Superseded on 2026-08-04.** The slate below was replaced wholesale by the thirty flagship investigations in `content/episodes.json`. Kept only as a record of what was retired: The Grid Can't Take It, Three Companies Own the Frontier, The Training Data Wars, Why Rich Democracies Can't Build, The Drone War Changed Everything, The Chokepoints Nobody Planned For, When Impersonation Is Free, Open Weights, Open Risk, Science Under Political Management, Does Financial Statecraft Still Work? These remain usable future episode concepts, they are simply not the opening slate.
+**Superseded on 2026-08-04.** The slate below was replaced wholesale by the episode slate in `content/episodes.json`. Kept only as a record of what was retired: The Grid Can't Take It, Three Companies Own the Frontier, The Training Data Wars, Why Rich Democracies Can't Build, The Drone War Changed Everything, The Chokepoints Nobody Planned For, When Impersonation Is Free, Open Weights, Open Risk, Science Under Political Management, Does Financial Statecraft Still Work? These remain usable future episode concepts, they are simply not the opening slate.
 
 | # | Title | Summary | The question |
 |---|-------|---------|--------------|
