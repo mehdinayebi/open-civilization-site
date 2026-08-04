@@ -1,0 +1,302 @@
+[
+  {
+    "number": "01",
+    "title": "Can the Free World Still Build?",
+    "titleHtml": "Can the Free World <em>Still Build?</em>",
+    "subtitle": null,
+    "description": "Housing, grids, transit, factories and defense production increasingly reveal the same failure: wealthy democracies that struggle to execute.",
+    "question": "Can open societies recover speed and scale without weakening law, consent or restraint?",
+    "slug": "can-the-free-world-still-build",
+    "featured": true
+  },
+  {
+    "number": "02",
+    "title": "Who Controls Intelligence?",
+    "titleHtml": "Who Controls <em>Intelligence?</em>",
+    "subtitle": null,
+    "description": "Frontier AI depends on concentrated chips, compute, models and distribution, giving a small number of firms and states extraordinary power.",
+    "question": "Can intelligence remain open without becoming dangerously concentrated or dangerously available?",
+    "slug": "who-controls-intelligence",
+    "featured": true
+  },
+  {
+    "number": "03",
+    "title": "China's Manufacturing State",
+    "titleHtml": "China's <em>Manufacturing State</em>",
+    "subtitle": null,
+    "description": "China has turned supplier density, production learning and industrial scale into strategic power while the West has lost industrial depth.",
+    "question": "Can market democracies rebuild strategic industry without becoming command economies?",
+    "slug": "chinas-manufacturing-state",
+    "featured": true
+  },
+  {
+    "number": "04",
+    "title": "The New Arsenal",
+    "titleHtml": "The <em>New Arsenal</em>",
+    "subtitle": "Drones, autonomy and the end of expensive war",
+    "description": "Cheap drones, autonomous systems and software are rewriting the economics of war faster than Western procurement can adapt.",
+    "question": "Can democratic militaries move at software speed while preserving human responsibility?",
+    "slug": "the-new-arsenal",
+    "featured": true
+  },
+  {
+    "number": "05",
+    "title": "Can Democracy Survive Synthetic Reality?",
+    "titleHtml": "Can Democracy Survive <em>Synthetic Reality?</em>",
+    "subtitle": null,
+    "description": "AI can fabricate any voice, image or document, and make genuine evidence easier to dismiss.",
+    "question": "Can societies authenticate reality without creating an authority that decides what is real?",
+    "slug": "can-democracy-survive-synthetic-reality",
+    "featured": true
+  },
+  {
+    "number": "06",
+    "title": "Europe After the American Guarantee",
+    "titleHtml": "Europe After <em>the American Guarantee</em>",
+    "subtitle": null,
+    "description": "Europe has wealth, technology and military experience, but fragmented industry and decades of dependence have limited its strategic agency.",
+    "question": "Can Europe defend itself without weakening the alliance that has protected it?",
+    "slug": "europe-after-the-american-guarantee",
+    "featured": true
+  },
+  {
+    "number": "07",
+    "title": "AI Needs Electricity",
+    "titleHtml": "AI Needs <em>Electricity</em>",
+    "subtitle": "The return of energy abundance",
+    "description": "Data centres, industry, electrification and defense production are converging on one constraint: reliable power at enormous scale.",
+    "question": "Can the free world build the energy system technological leadership requires?",
+    "slug": "ai-needs-electricity",
+    "featured": true
+  },
+  {
+    "number": "08",
+    "title": "The Demographic Winter",
+    "titleHtml": "The <em>Demographic Winter</em>",
+    "subtitle": null,
+    "description": "Falling fertility and aging are reshaping growth, public finance, migration, military recruitment and confidence in the future.",
+    "question": "Can a civilization remain dynamic when each generation is smaller than the last?",
+    "slug": "the-demographic-winter",
+    "featured": true
+  },
+  {
+    "number": "09",
+    "title": "Borders, Belonging and Democratic Consent",
+    "titleHtml": "Borders, Belonging and <em>Democratic Consent</em>",
+    "subtitle": null,
+    "description": "Immigration can renew aging societies and deepen prosperity, but only where states can control entry, build capacity and sustain belonging.",
+    "question": "How open can a society remain without losing the consent that makes openness possible?",
+    "slug": "borders-belonging-democratic-consent",
+    "featured": true
+  },
+  {
+    "number": "10",
+    "title": "The Authoritarian Network",
+    "titleHtml": "The <em>Authoritarian Network</em>",
+    "subtitle": null,
+    "description": "China, Russia, Iran and North Korea increasingly reinforce one another across weapons, energy, finance, technology and diplomacy.",
+    "question": "Are open societies facing separate adversaries, or a connected strategic system?",
+    "slug": "the-authoritarian-network",
+    "featured": true
+  },
+  {
+    "number": "11",
+    "title": "Can Democracy Act Without a Strongman?",
+    "titleHtml": "Can Democracy Act <em>Without a Strongman?</em>",
+    "subtitle": null,
+    "description": "When institutions repeatedly fail to deliver, concentrated power begins to look less like tyranny and more like competence.",
+    "question": "Can democracy act decisively without making power harder to restrain or reverse?",
+    "slug": "can-democracy-act-without-a-strongman",
+    "featured": false
+  },
+  {
+    "number": "12",
+    "title": "Can Capitalism Still Legitimate Itself?",
+    "titleHtml": "Can Capitalism Still <em>Legitimate Itself?</em>",
+    "subtitle": null,
+    "description": "Markets remain the engine of prosperity, but scarcity, rent extraction and concentrated ownership are weakening public consent.",
+    "question": "Can capitalism recover broad legitimacy without sacrificing dynamism?",
+    "slug": "can-capitalism-still-legitimate-itself",
+    "featured": false
+  },
+  {
+    "number": "13",
+    "title": "The Meritocracy Crisis",
+    "titleHtml": "The <em>Meritocracy Crisis</em>",
+    "subtitle": null,
+    "description": "Open societies need demanding standards, and credible pathways through which talent can rise.",
+    "question": "Can merit remain real without becoming inherited, performative or politically allocated?",
+    "slug": "the-meritocracy-crisis",
+    "featured": false
+  },
+  {
+    "number": "14",
+    "title": "When Intelligence Becomes Cheap",
+    "titleHtml": "When Intelligence <em>Becomes Cheap</em>",
+    "subtitle": "AI and the end of the white-collar bargain",
+    "description": "AI may remove the junior work through which professionals learn, advance and build judgment.",
+    "question": "What happens to education, work and status when cognitive skill is no longer scarce?",
+    "slug": "when-intelligence-becomes-cheap",
+    "featured": false
+  },
+  {
+    "number": "15",
+    "title": "The State Can No Longer Afford Itself",
+    "titleHtml": "The State Can No Longer <em>Afford Itself</em>",
+    "subtitle": null,
+    "description": "Pensions, healthcare, defense, industrial policy, infrastructure and climate adaptation are colliding with debt and weak growth.",
+    "question": "Can democracies choose among worthy priorities before crisis chooses for them?",
+    "slug": "the-state-can-no-longer-afford-itself",
+    "featured": false
+  },
+  {
+    "number": "16",
+    "title": "Trade After Trust",
+    "titleHtml": "Trade <em>After Trust</em>",
+    "subtitle": null,
+    "description": "Export controls, tariffs, subsidies and friend-shoring are replacing a trade system built around efficiency with one organized around security.",
+    "question": "What should remain global when economic interdependence can be weaponized?",
+    "slug": "trade-after-trust",
+    "featured": false
+  },
+  {
+    "number": "17",
+    "title": "Financial Chokepoints and the Future of Money",
+    "titleHtml": "Financial Chokepoints and <em>the Future of Money</em>",
+    "subtitle": null,
+    "description": "Sanctions, reserve currencies, payment rails and stablecoins are turning financial infrastructure into a battlefield of state power.",
+    "question": "How long can the open world weaponize its networks before others build credible alternatives?",
+    "slug": "financial-chokepoints-and-the-future-of-money",
+    "featured": false
+  },
+  {
+    "number": "18",
+    "title": "The Elements of Power",
+    "titleHtml": "The <em>Elements of Power</em>",
+    "subtitle": "Critical minerals and the physical limits of sovereignty",
+    "description": "Batteries, grids, chips and weapons depend on mineral processing concentrated in a small number of countries.",
+    "question": "Can democracies secure the materials they need without abandoning environmental and labor standards?",
+    "slug": "the-elements-of-power",
+    "featured": false
+  },
+  {
+    "number": "19",
+    "title": "The Chip Order",
+    "titleHtml": "The <em>Chip Order</em>",
+    "subtitle": null,
+    "description": "Advanced semiconductors rely on a fragile, highly concentrated chain of design tools, equipment, fabrication, packaging and talent.",
+    "question": "Can open societies protect a strategic chokepoint without fragmenting the innovation system that created it?",
+    "slug": "the-chip-order",
+    "featured": false
+  },
+  {
+    "number": "20",
+    "title": "The Robot Economy",
+    "titleHtml": "The <em>Robot Economy</em>",
+    "subtitle": null,
+    "description": "AI is acquiring a body, bringing automation into factories, logistics, vehicles, care and the home.",
+    "question": "Will embodied intelligence restore productivity and industrial capacity, or concentrate power and displace work?",
+    "slug": "the-robot-economy",
+    "featured": false
+  },
+  {
+    "number": "21",
+    "title": "Biology Becomes Programmable",
+    "titleHtml": "Biology Becomes <em>Programmable</em>",
+    "subtitle": null,
+    "description": "Gene editing, protein design and automated laboratories are turning living systems into an engineering medium.",
+    "question": "Can open science unlock biology's benefits without making catastrophic capabilities widely accessible?",
+    "slug": "biology-becomes-programmable",
+    "featured": false
+  },
+  {
+    "number": "22",
+    "title": "The Surveillance Bargain",
+    "titleHtml": "The <em>Surveillance Bargain</em>",
+    "subtitle": null,
+    "description": "Digital identity, biometrics, data brokers and AI administration promise safer, more efficient societies at the cost of deeper visibility into individual life.",
+    "question": "How much privacy can an open society surrender before freedom becomes mostly formal?",
+    "slug": "the-surveillance-bargain",
+    "featured": false
+  },
+  {
+    "number": "23",
+    "title": "The Digital Sovereignty State",
+    "titleHtml": "The <em>Digital Sovereignty State</em>",
+    "subtitle": null,
+    "description": "Clouds, data, platforms, models and digital identity are being reorganized around borders and strategic control.",
+    "question": "Can democracies reduce technological dependency without closing the internet or expanding state power?",
+    "slug": "the-digital-sovereignty-state",
+    "featured": false
+  },
+  {
+    "number": "24",
+    "title": "The Space Infrastructure of Sovereignty",
+    "titleHtml": "The Space Infrastructure <em>of Sovereignty</em>",
+    "subtitle": null,
+    "description": "Communications, navigation, financial timing, intelligence and warfare increasingly depend on privately operated systems in orbit.",
+    "question": "Who should control infrastructure on which sovereign states can no longer function without?",
+    "slug": "the-space-infrastructure-of-sovereignty",
+    "featured": false
+  },
+  {
+    "number": "25",
+    "title": "The New Nuclear Age",
+    "titleHtml": "The <em>New Nuclear Age</em>",
+    "subtitle": null,
+    "description": "More nuclear actors, weaker arms control and the entanglement of AI, cyber and space systems are making deterrence less legible.",
+    "question": "Can open societies preserve strategic stability when decision time is shrinking and uncertainty is growing?",
+    "slug": "the-new-nuclear-age",
+    "featured": false
+  },
+  {
+    "number": "26",
+    "title": "The World After the UN",
+    "titleHtml": "The World <em>After the UN</em>",
+    "subtitle": null,
+    "description": "Institutions built for 1945 are struggling to act in a world of vetoes, rival blocs and transnational threats.",
+    "question": "Should the free world keep reforming universal institutions, or build smaller coalitions that can decide and act?",
+    "slug": "the-world-after-the-un",
+    "featured": false
+  },
+  {
+    "number": "27",
+    "title": "The World That Will Not Choose Sides",
+    "titleHtml": "The World That <em>Will Not Choose Sides</em>",
+    "subtitle": "India, the Gulf and the rise of strategic middle powers",
+    "description": "India, the Gulf, Turkey, Indonesia and other middle powers are pursuing flexible partnerships rather than permanent alignment.",
+    "question": "Can open societies build durable partnerships with states that share interests but not all of their values?",
+    "slug": "the-world-that-will-not-choose-sides",
+    "featured": false
+  },
+  {
+    "number": "28",
+    "title": "Climate Adaptation Is State Capacity",
+    "titleHtml": "Climate Adaptation Is <em>State Capacity</em>",
+    "subtitle": null,
+    "description": "Heat, fire, flood, water stress and insurance withdrawal are turning climate risk into a test of housing, infrastructure and public competence.",
+    "question": "Can democracies protect people from unavoidable risk without abandoning mitigation or honest pricing?",
+    "slug": "climate-adaptation-is-state-capacity",
+    "featured": false
+  },
+  {
+    "number": "29",
+    "title": "Can Liberalism Produce Loyalty?",
+    "titleHtml": "Can Liberalism <em>Produce Loyalty?</em>",
+    "subtitle": null,
+    "description": "Rights and procedures protect pluralism, but may not by themselves generate solidarity, duty or sacrifice.",
+    "question": "Can an open society cultivate common purpose without coercion, exclusion or manufactured nationalism?",
+    "slug": "can-liberalism-produce-loyalty",
+    "featured": false
+  },
+  {
+    "number": "30",
+    "title": "Why the Future Stopped Feeling Better",
+    "titleHtml": "Why the Future <em>Stopped Feeling Better</em>",
+    "subtitle": null,
+    "description": "Advanced societies still invent, but increasingly fail to translate invention into affordable housing, better services, higher productivity and confidence.",
+    "question": "What would make progress visible, and believable, again?",
+    "slug": "why-the-future-stopped-feeling-better",
+    "featured": false
+  }
+]

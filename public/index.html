@@ -1,6 +1,6 @@
 <!-- AUDIT: Existing animations and transitions (v2 baseline, pre-v3)
   @keyframes riseIn: hero title lines, hero-promise, hero-ctas. 1s cubic-bezier, staggered delays 0.1-0.6s. Load trigger, runs once.
-  @keyframes pulse — .status-dot red glow. 2.2s ease-out infinite. Load trigger, repeats.
+  @keyframes pulse: .status-dot red glow. 2.2s ease-out infinite. Load trigger, repeats.
 
   Hover transitions: .mast-link (border 0.15s), .mast-listen (color 0.15s),
     .doctrine-row (bg 0.25s), .tx-row (bg/padding 0.2s/0.25s), .listen-line a (color 0.15s),
@@ -15,15 +15,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Open Civilization | The forces shaping the future of the free world</title>
-<meta name="description" content="Open Civilization explores what keeps societies free, functional, cohesive, and capable of building, innovating, and defending themselves — and what causes them to decay, fragment, hollow out, or become dependent on others." />
-<meta property="og:title" content="Open Civilization | The forces shaping the future of the free world" />
-<meta property="og:description" content="Open Civilization explores what keeps societies free, functional, cohesive, and capable of building, innovating, and defending themselves — and what causes them to decay, fragment, hollow out, or become dependent on others." />
+<title>Open Civilization | Technology, Power and the Future of the Free World</title>
+<meta name="description" content="A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process." />
+<link rel="canonical" href="https://opencivilization.fm/" />
+<meta property="og:title" content="Open Civilization | Technology, Power and the Future of the Free World" />
+<meta property="og:description" content="A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://opencivilization.fm" />
+<meta property="og:url" content="https://opencivilization.fm/" />
+<meta property="og:site_name" content="Open Civilization" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Open Civilization | The forces shaping the future of the free world" />
-<meta name="twitter:description" content="Open Civilization explores what keeps societies free, functional, cohesive, and capable of building, innovating, and defending themselves — and what causes them to decay, fragment, hollow out, or become dependent on others." />
+<meta name="twitter:title" content="Open Civilization | Technology, Power and the Future of the Free World" />
+<meta name="twitter:description" content="A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process." />
 
 <link rel="icon" href="/favicon.ico" sizes="48x48" />
 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -51,41 +53,41 @@
     --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
     --serif: 'Fraunces', 'Times New Roman', Georgia, serif;
 
-    /* ═══ TYPE SCALE — mobile base (single source of truth) ═══ */
-    /* Generous mobile sizes — editorial, legible, not cramped. */
-    /* display-xl — hero wordmark "Open Civilization." only. */
+    /* ═══ TYPE SCALE, mobile base (single source of truth) ═══ */
+    /* Generous mobile sizes: editorial, legible, not cramped. */
+    /* display-xl: hero wordmark "Open Civilization." only. */
     --display-xl-size: 60px;
     --display-xl-lh: 0.95;
     --display-xl-ls: -0.02em;
-    /* display-lg — section headers, host name, dispatch headline */
+    /* display-lg: section headers, host name, dispatch headline */
     --display-lg-size: 44px;
     --display-lg-lh: 1.05;
     --display-lg-ls: -0.015em;
-    /* display-md — featured episode title, pitch card title, principle numbers */
+    /* display-md: featured episode title, pitch card title, principle numbers */
     --display-md-size: 34px;
     --display-md-lh: 1.15;
     --display-md-ls: -0.01em;
-    /* display-sm — episode titles, principle names, listen line */
+    /* display-sm: episode titles, principle names, listen line */
     --display-sm-size: 28px;
     --display-sm-lh: 1.2;
     --display-sm-ls: -0.005em;
-    /* body-lg — hero paragraph, premise, guest lede, section ledes */
+    /* body-lg: hero paragraph, premise, guest lede, section ledes */
     --body-lg-size: 24px;
     --body-lg-lh: 1.5;
     --body-lg-ls: 0;
-    /* body-md — host bio, dispatch paragraph, pitch card body */
+    /* body-md: host bio, dispatch paragraph, pitch card body */
     --body-md-size: 18px;
     --body-md-lh: 1.6;
     --body-md-ls: 0;
-    /* body-sm — principle card glosses (mono), featured episode desc */
+    /* body-sm: principle card glosses (mono), featured episode desc */
     --body-sm-size: 16px;
     --body-sm-lh: 1.65;
     --body-sm-ls: 0;
-    /* label — section markers, tags, caption labels, masthead */
+    /* label: section markers, tags, caption labels, masthead */
     --label-size: 13px;
     --label-lh: 1.4;
     --label-ls: 0.08em;
-    /* micro — footer legal, schedule block body */
+    /* micro: footer legal, schedule block body */
     --micro-size: 13px;
     --micro-lh: 1.5;
     --micro-ls: 0.02em;
@@ -121,6 +123,14 @@
     scroll-behavior: smooth;
     scroll-padding-top: 84px;
   }
+  /* Zero-height alias targets keeping old inbound hashes alive
+     (#doctrine, #question, #guest). scroll-margin matches the sticky bar. */
+  .anchor-alias {
+    display: block;
+    height: 0;
+    scroll-margin-top: 84px;
+  }
+  [id] { scroll-margin-top: 84px; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
   }
@@ -237,6 +247,61 @@
     .hero-promise { max-width: 62ch; margin-top: 56px; }
   }
 
+  /* Descriptor sits under the governing question, quieter than it. */
+  .hero-descriptor {
+    margin-top: 26px;
+    font-family: var(--mono);
+    font-size: var(--body-md-size);
+    line-height: var(--body-md-lh);
+    color: var(--ink-2);
+    opacity: 0;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.6s forwards;
+  }
+  /* Editorial text links, not buttons. */
+  .hero-actions {
+    margin-top: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    opacity: 0;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.75s forwards;
+  }
+  .hero-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 5px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 1px solid var(--muted-2);
+    transition: color .15s, border-color .15s;
+  }
+  .hero-actions a:hover { color: var(--red); border-color: var(--red); }
+
+  /* Shared restrained CTA for the three "read the full thing" links. */
+  .section-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 46px;
+    padding-bottom: 5px;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 1px solid var(--muted-2);
+    transition: color .15s, border-color .15s;
+  }
+  .section-cta:hover { color: var(--red); border-color: var(--red); }
+
   .hero-ctas {
     margin-top: 54px;
     display: flex;
@@ -345,33 +410,113 @@
     letter-spacing: var(--body-lg-ls);
     font-weight: 400;
     color: var(--ink);
+    max-width: 34ch;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  /* The closing claim, set apart by a rule and weight rather than a banner. */
+  .premise-conclusion {
+    margin-top: 44px;
+    padding-top: 34px;
+    border-top: 1px solid var(--ink);
+    font-weight: 500;
+  }
+  @media (min-width: 768px) {
+    .premise { max-width: 58ch; }
+  }
+
+  /* ═════════════════════════════════════ THE STACK ═════════════════════════════════════ */
+  .stack-sub {
+    font-family: var(--serif);
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-lh);
+    letter-spacing: var(--display-sm-ls);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: -30px;
+    margin-bottom: 34px;
+  }
+  .stack-lede,
+  .stack-body {
+    font-family: var(--serif);
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    font-weight: 400;
+    color: var(--ink);
+    max-width: 58ch;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .stack-body { color: var(--ink-2); }
+  .stack-body + .stack-body { margin-top: 26px; }
+  .stack-conclusion {
+    margin-top: 34px;
+    padding-top: 30px;
+    border-top: 1px solid var(--ink);
+    font-weight: 500;
+    color: var(--ink);
+  }
+  /* The sequence. An editorial diagram: rules and type, no boxes or icons. */
+  .stack-diagram {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 32px 0;
+    margin: 46px 0 20px;
+  }
+  .stack-term {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: 1.9;
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .stack-term:not(:last-child)::after {
+    content: "\2192";
+    color: var(--red);
+    margin: 0 13px;
+  }
+  .stack-meta {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    color: var(--muted);
+    margin-bottom: 54px;
+  }
+  .stack-concepts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 46px;
+    margin: 54px 0 0;
+    padding-top: 40px;
+    border-top: 1px solid var(--ink);
+  }
+  .stack-concept h3 {
+    font-family: var(--serif);
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-lh);
+    letter-spacing: var(--display-sm-ls);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .stack-concept p {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
+    color: var(--ink-2);
   }
 
   /* ═════════════════════════════════════ DOCTRINE ═════════════════════════════════════ */
   .doctrine-table {
     border-top: 1.5px solid var(--ink);
   }
-  /* Column header above the ten. Mirrors .doctrine-row so the labels line up. */
-  .doctrine-head {
-    display: grid;
-    grid-template-columns: 72px 1.2fr 2fr 1.4fr;
-    gap: 36px;
-    padding-bottom: 14px;
-  }
-  .doctrine-head > div {
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    font-weight: 600;
-    color: var(--muted);
-  }
-  /* Starts at the title column, not the number: the number is an index, and
-     the title and description together are the principle. */
-  .doctrine-head .dh-left  { grid-column: 2 / 4; }
-  .doctrine-head .dh-right { grid-column: 4; }
 
   .doctrine-row {
     display: grid;
@@ -383,6 +528,9 @@
     transition: background .25s;
   }
   .doctrine-row:hover { background: var(--paper-2); }
+  /* Homepage variant: number, title, core idea. The "hard part" column lives
+     only on /principles, where there is room to read it. */
+  .doctrine-table--compact .doctrine-row { grid-template-columns: 72px 1.2fr 2fr; }
   .doctrine-num {
     font-family: var(--serif);
     font-size: var(--display-md-size);
@@ -404,15 +552,6 @@
     font-size: var(--body-sm-size);
     line-height: var(--body-sm-lh);
     color: var(--ink-2);
-  }
-  /* The tension line. Red italic is the whole distinction on mobile, where
-     the column header is hidden. */
-  .doctrine-hard {
-    font-family: var(--mono);
-    font-size: var(--body-sm-size);
-    line-height: var(--body-sm-lh);
-    font-style: italic;
-    color: var(--red-ink);
   }
   .doctrine-lede {
     font-family: var(--serif);
@@ -468,8 +607,8 @@
   .transmissions {
     border-top: 1.5px solid var(--ink);
   }
-  /* Column header above the ten, mirroring .doctrine-head so the two list
-     sections read as one visual language. */
+  /* Column header above the ten. The same header pattern is used by the
+     principles table on /principles, so the two list sections read alike. */
   .tx-head {
     display: grid;
     grid-template-columns: 72px 2.4fr 1fr;
@@ -516,6 +655,16 @@
     letter-spacing: var(--display-sm-ls);
   }
   .tx-title em { font-style: italic; font-weight: 300; }
+  .tx-subtitle {
+    margin-top: 7px;
+    font-family: var(--serif);
+    font-size: var(--body-md-size);
+    line-height: 1.35;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--muted);
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
   /* One line under each title, so a stranger knows what the episode is. */
   .tx-desc {
     margin-top: 10px;
@@ -525,7 +674,7 @@
     color: var(--ink-2);
     max-width: 62ch;
   }
-  /* The episode's central question. Same treatment as .doctrine-hard. */
+  /* The episode's central question. Matches the hard-part column on /principles. */
   .tx-question {
     font-family: var(--mono);
     font-size: var(--body-sm-size);
@@ -551,6 +700,7 @@
     max-width: 40ch;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
+  .guest-lede-2 { margin-top: 26px; }
   .pitch-card {
     border: 1.5px solid var(--ink);
     background: var(--paper-2);
@@ -735,7 +885,10 @@
   }
   .footer-colophon {
     display: grid;
-    grid-template-columns: 1.6fr 1.4fr 1fr 1fr;
+    /* minmax(0,...) not bare fr: the contact column holds an unbreakable email
+       and a bare 1fr cannot shrink below its min-content, which pushed the
+       footer past the viewport between 1001px and roughly 1200px. */
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
     gap: 60px;
     padding-bottom: 60px;
     border-bottom: 1px solid var(--ink);
@@ -790,6 +943,7 @@
     line-height: var(--body-md-lh);
     padding: 5px 0;
   }
+  .colophon-contact a { overflow-wrap: anywhere; }
   .colophon-nav a,
   .colophon-contact a {
     color: var(--ink-2);
@@ -893,20 +1047,38 @@
     .section-premise { padding-top: 60px; padding-bottom: 80px; }
     .section-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 44px; }
 
-    /* Doctrine — stack: number + title, then the sentence, then the hard part
+    /* Hero */
+    .hero-actions { gap: 18px; margin-top: 36px; }
+
+    /* Stack: vertical sequence, same order, arrows turn downward. */
+    .stack-sub { margin-top: -14px; margin-bottom: 26px; }
+    .stack-diagram {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 26px 0;
+      margin: 34px 0 18px;
+    }
+    .stack-term:not(:last-child)::after {
+      content: "\2193";
+      display: block;
+      margin: 2px 0 2px 3px;
+    }
+    .stack-meta { margin-bottom: 40px; }
+    .stack-concepts { grid-template-columns: 1fr; gap: 34px; margin-top: 40px; padding-top: 32px; }
+
+    /* Doctrine, stacked: number + title, then the sentence, then the hard part
        indented. The header row goes away; red carries the distinction. */
     .doctrine-lede { margin-top: -10px; margin-bottom: 30px; }
-    .doctrine-head { display: none; }
-    .doctrine-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 19px 0 17px; }
-    .doctrine-gloss, .doctrine-hard { grid-column: 2; }
+    .doctrine-row,
+    .doctrine-table--compact .doctrine-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 19px 0 17px; }
+    .doctrine-gloss { grid-column: 2; }
     .doctrine-gloss { margin-top: 4px; }
-    .doctrine-hard { margin-top: 10px; padding-left: 16px; }
 
     /* Host */
     .host-connect { gap: 10px; }
     .host-connect a { overflow-wrap: anywhere; }
 
-    /* Episodes — same stack as the doctrine rows. */
+    /* Episodes: same stack as the doctrine rows. */
     .tx-head { display: none; }
     .tx-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 24px 0 22px; }
     .tx-title { text-wrap: balance; }
@@ -924,7 +1096,7 @@
     /* Safety net on very narrow screens: break the address rather than the page. */
     .pitch-btn span { min-width: 0; overflow-wrap: anywhere; }
 
-    /* Listen — the single line wraps to two or three lines and still reads as
+    /* Listen: the single line wraps to two or three lines and still reads as
        one element rather than five stacked rows. */
     .listen-block { padding: 28px 0 30px; }
 
@@ -943,7 +1115,8 @@
     .hero { padding: 60px 20px 50px; }
     .section { padding: 56px 20px; }
     .section-premise { padding-top: 46px; padding-bottom: 64px; }
-    .doctrine-row { grid-template-columns: 50px 1fr; padding: 17px 0 15px; gap: 14px; }
+    .doctrine-row,
+    .doctrine-table--compact .doctrine-row { grid-template-columns: 50px 1fr; padding: 17px 0 15px; gap: 14px; }
     /* Buys the email label ~8px of headroom so it stays on one line at 375px
        instead of sitting exactly on the wrap boundary. */
     .pitch-card { padding: 28px 18px; }
@@ -952,21 +1125,34 @@
     .footer-colophon { grid-template-columns: 1fr; gap: 36px; }
   }
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": "Open Civilization",
+  "url": "https://opencivilization.fm/",
+  "description": "A show by Mehdi Nayebi on whether open societies can build, govern, innovate and defend themselves without becoming less open in the process.",
+  "inLanguage": "en",
+  "author": { "@type": "Person", "name": "Mehdi Nayebi" }
+}
+</script>
 </head>
 <body>
 
 <!-- ════════ MASTHEAD BAR ════════ -->
-<div class="masthead-bar">
+<nav class="masthead-bar" aria-label="Primary">
   <div><strong>OPEN CIVILIZATION</strong></div>
   <div class="spacer"></div>
-  <a class="mast-link" href="#question">Premise</a>
-  <a class="mast-link" href="#doctrine">Doctrine</a>
-  <a class="mast-link" href="#host">Host</a>
+  <a class="mast-link" href="#premise">Premise</a>
+  <a class="mast-link" href="#stack">The Stack</a>
   <a class="mast-link" href="#episodes">Episodes</a>
-  <a class="mast-link" href="#guest">Guests</a>
+  <a class="mast-link" href="#principles">Principles</a>
+  <a class="mast-link" href="#host">Host</a>
   <a class="mast-link" href="#dispatch">Dispatch</a>
+  <a class="mast-link" href="#listen">Listen</a>
   <a class="mast-listen" href="#listen">Listen <span aria-hidden="true">&rarr;</span></a>
-</div>
+</nav>
 
 <!-- ════════ HERO ════════ -->
 <section class="hero">
@@ -976,103 +1162,246 @@
   </h1>
 
   <p class="hero-promise">
-    A show by Mehdi Nayebi on the forces shaping the future of the free world in an age of exponential technological change, and on whether open societies can stay strong enough to <em>build, innovate, and defend</em> the freedoms, prosperity, and stability they depend on.
+    Can open societies build, govern, innovate and defend themselves at the scale and speed this century demands, without becoming less open in the process?
   </p>
 
-  <!-- TODO: when EP 01 ships, add a red-filled "Listen to EP 01 →" here linking to
-       the episode. The .hero-ctas / .hero-cta styles are kept for that. -->
+  <p class="hero-descriptor">A show by Mehdi Nayebi on technology, power and the future of the free world.</p>
+
+  <div class="hero-actions">
+    <a href="#episodes">Explore the first investigations <span aria-hidden="true">&rarr;</span></a>
+    <a href="#dispatch">Join the dispatch <span aria-hidden="true">&rarr;</span></a>
+  </div>
 </section>
 
 <!-- ════════ PREMISE ════════ -->
-<section class="section section-premise reveal tinted" id="question">
+<span id="question" class="anchor-alias" aria-hidden="true"></span>
+<section class="section section-premise reveal tinted" id="premise">
   <div class="section-head">
     <div class="section-num">Premise</div>
     <h2 class="section-title">Free, and <em>fragile.</em></h2>
   </div>
   <div class="premise-wrap">
-    <p class="premise">Free societies are rare. Almost everything we take for granted depends on them: freedom, prosperity, security, the capacity to invent and build, and the rule of law. But those conditions do not sustain themselves. Societies can weaken from within, lose the ability to innovate and execute, and come under pressure from abroad.</p>
-    <p class="premise">The arrangements that governed the last eighty years are also coming apart. A rival power that can build faster than we can, alliances that no longer look automatic, and international institutions that have stopped being able to decide anything.</p>
-    <p class="premise">Open Civilization is about what happens next: whether free societies still have the capacity to build, invent and defend, and whether they still have the will to.</p>
+    <p class="premise">Free societies are rare. Almost everything we take for granted depends on them: liberty, prosperity, security, open inquiry and the rule of law.</p>
+    <p class="premise">But those conditions do not maintain themselves. Technology is concentrating power. China has turned manufacturing scale into strategic leverage. Alliances no longer look automatic, and international institutions often cannot decide or act.</p>
+    <p class="premise">At home, wealthy democracies remain rich in talent, capital and knowledge, yet often struggle to convert those advantages into housing, energy, infrastructure, industrial capacity and public trust.</p>
+    <p class="premise premise-conclusion">Open Civilization examines what makes open societies capable, what causes them to weaken, and how they can renew themselves without importing the coercion of their rivals.</p>
   </div>
 </section>
 
-
-<!-- ════════ THE DOCTRINE ════════ -->
-<section class="section reveal" id="doctrine">
+<!-- ════════ THE CIVILIZATIONAL STACK ════════ -->
+<section class="section reveal" id="stack">
   <div class="section-head">
-    <div class="section-num">Doctrine</div>
+    <div class="section-num">The framework</div>
+    <h2 class="section-title">The civilizational <em>stack.</em></h2>
+  </div>
+
+  <p class="stack-sub">What power is made of now.</p>
+
+  <p class="stack-lede">The decisive competition of the twenty-first century is not over any single technology. It is over the connected system through which a society converts resources, knowledge, capital and human talent into prosperity, security and power.</p>
+
+  <ol class="stack-diagram" aria-label="The civilizational stack, in order">
+    <li class="stack-term">Energy</li>
+    <li class="stack-term">Minerals</li>
+    <li class="stack-term">Chips</li>
+    <li class="stack-term">Compute</li>
+    <li class="stack-term">Models</li>
+    <li class="stack-term">Robots</li>
+    <li class="stack-term">Factories</li>
+    <li class="stack-term">Weapons</li>
+    <li class="stack-term">Institutions</li>
+  </ol>
+  <p class="stack-meta">Across every layer: talent, capital, law, alliances and legitimacy.</p>
+
+  <p class="stack-body">A society can lead at one layer and still fail if it cannot convert that advantage through the rest. It can invent without manufacturing, spend without building, arm without replenishing and govern without executing.</p>
+  <p class="stack-body">Institutions are not simply the final layer. They are the operating system that determines whether every layer can be financed, connected, corrected and renewed.</p>
+  <p class="stack-body stack-conclusion">Open Civilization follows the bottlenecks, dependencies and institutions that determine what can be built, scaled, defended and made to endure.</p>
+
+  <div class="stack-concepts">
+    <div class="stack-concept">
+      <h3>Stack conversion</h3>
+      <p>How effectively a society turns talent, capital, knowledge and political intention into usable capability.</p>
+    </div>
+    <div class="stack-concept">
+      <h3>Stack sovereignty</h3>
+      <p>Whether essential capabilities can be accessed, replaced or rebuilt under pressure.</p>
+    </div>
+    <div class="stack-concept">
+      <h3>Stack renewal</h3>
+      <p>Whether a society is reproducing its capabilities faster than it is consuming them.</p>
+    </div>
+  </div>
+
+  <a class="section-cta" href="/civilizational-stack">Read the Civilizational Stack framework <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<!-- ════════ EPISODES ════════ -->
+<section class="section reveal" id="episodes">
+  <div class="section-head">
+    <div class="section-num">First investigations</div>
+    <h2 class="section-title">The questions that <em>define the show.</em></h2>
+  </div>
+
+  <p class="doctrine-lede">Thirty flagship investigations into the forces deciding whether open societies remain capable, prosperous, secure and free. Each begins with a structural trend, a central question and a disagreement serious enough to change what follows.</p>
+
+  <div class="tx-head">
+    <div class="th-left">Episode</div>
+    <div class="th-right">The question</div>
+  </div>
+
+  <div class="transmissions">
+    <!-- EPISODES:START (generated by scripts/build-episodes.mjs, do not edit by hand) -->
+    <article class="tx-row">
+      <div class="tx-num">01</div>
+      <div class="tx-main">
+        <h3 class="tx-title">Can the Free World <em>Still Build?</em></h3>
+        <p class="tx-desc">Housing, grids, transit, factories and defense production increasingly reveal the same failure: wealthy democracies that struggle to execute.</p>
+      </div>
+      <p class="tx-question">Can open societies recover speed and scale without weakening law, consent or restraint?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">02</div>
+      <div class="tx-main">
+        <h3 class="tx-title">Who Controls <em>Intelligence?</em></h3>
+        <p class="tx-desc">Frontier AI depends on concentrated chips, compute, models and distribution, giving a small number of firms and states extraordinary power.</p>
+      </div>
+      <p class="tx-question">Can intelligence remain open without becoming dangerously concentrated or dangerously available?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">03</div>
+      <div class="tx-main">
+        <h3 class="tx-title">China's <em>Manufacturing State</em></h3>
+        <p class="tx-desc">China has turned supplier density, production learning and industrial scale into strategic power while the West has lost industrial depth.</p>
+      </div>
+      <p class="tx-question">Can market democracies rebuild strategic industry without becoming command economies?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">04</div>
+      <div class="tx-main">
+        <h3 class="tx-title">The <em>New Arsenal</em></h3>
+        <p class="tx-subtitle">Drones, autonomy and the end of expensive war</p>
+        <p class="tx-desc">Cheap drones, autonomous systems and software are rewriting the economics of war faster than Western procurement can adapt.</p>
+      </div>
+      <p class="tx-question">Can democratic militaries move at software speed while preserving human responsibility?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">05</div>
+      <div class="tx-main">
+        <h3 class="tx-title">Can Democracy Survive <em>Synthetic Reality?</em></h3>
+        <p class="tx-desc">AI can fabricate any voice, image or document, and make genuine evidence easier to dismiss.</p>
+      </div>
+      <p class="tx-question">Can societies authenticate reality without creating an authority that decides what is real?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">06</div>
+      <div class="tx-main">
+        <h3 class="tx-title">Europe After <em>the American Guarantee</em></h3>
+        <p class="tx-desc">Europe has wealth, technology and military experience, but fragmented industry and decades of dependence have limited its strategic agency.</p>
+      </div>
+      <p class="tx-question">Can Europe defend itself without weakening the alliance that has protected it?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">07</div>
+      <div class="tx-main">
+        <h3 class="tx-title">AI Needs <em>Electricity</em></h3>
+        <p class="tx-subtitle">The return of energy abundance</p>
+        <p class="tx-desc">Data centres, industry, electrification and defense production are converging on one constraint: reliable power at enormous scale.</p>
+      </div>
+      <p class="tx-question">Can the free world build the energy system technological leadership requires?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">08</div>
+      <div class="tx-main">
+        <h3 class="tx-title">The <em>Demographic Winter</em></h3>
+        <p class="tx-desc">Falling fertility and aging are reshaping growth, public finance, migration, military recruitment and confidence in the future.</p>
+      </div>
+      <p class="tx-question">Can a civilization remain dynamic when each generation is smaller than the last?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">09</div>
+      <div class="tx-main">
+        <h3 class="tx-title">Borders, Belonging and <em>Democratic Consent</em></h3>
+        <p class="tx-desc">Immigration can renew aging societies and deepen prosperity, but only where states can control entry, build capacity and sustain belonging.</p>
+      </div>
+      <p class="tx-question">How open can a society remain without losing the consent that makes openness possible?</p>
+    </article>
+    <article class="tx-row">
+      <div class="tx-num">10</div>
+      <div class="tx-main">
+        <h3 class="tx-title">The <em>Authoritarian Network</em></h3>
+        <p class="tx-desc">China, Russia, Iran and North Korea increasingly reinforce one another across weapons, energy, finance, technology and diplomacy.</p>
+      </div>
+      <p class="tx-question">Are open societies facing separate adversaries, or a connected strategic system?</p>
+    </article>
+    <!-- EPISODES:END -->
+  </div>
+
+  <a class="section-cta" href="/episodes">View all 30 flagship investigations <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<!-- ════════ PRINCIPLES ════════ -->
+<span id="doctrine" class="anchor-alias" aria-hidden="true"></span>
+<section class="section reveal" id="principles">
+  <div class="section-head">
+    <div class="section-num">Principles</div>
     <h2 class="section-title">Ten <em>principles.</em></h2>
   </div>
 
-  <p class="doctrine-lede">The principles beneath the project, including the conditions that allow open societies to govern themselves, generate new knowledge, build new technologies, and defend what they have built.</p>
+  <p class="doctrine-lede">Open Civilization is not neutral about freedom, but it is independent of party and faction. The show tests claims against evidence, history, incentives, power and consequences, and applies the same standard to allies and adversaries. It begins from ten convictions about what allows an open society to endure.</p>
 
-  <div class="doctrine-head">
-    <div class="dh-left">Principle</div>
-    <div class="dh-right">The hard part</div>
-  </div>
-
-  <div class="doctrine-table">
+  <div class="doctrine-table doctrine-table--compact">
     <div class="doctrine-row">
       <div class="doctrine-num">01</div>
-      <div class="doctrine-name">Rare, <em>not default.</em></div>
-      <div class="doctrine-gloss">Most societies in history have been closed, hierarchical, and unfree, and the free society is a historical exception that does not sustain itself by inertia.</div>
-      <div class="doctrine-hard">Most people alive have never lived in one, and the people who do assume it is the default.</div>
+      <h3 class="doctrine-name">Rare, <em>not default.</em></h3>
+      <p class="doctrine-gloss">Most people in history have lived under closed and hierarchical systems. An open society is a historical exception.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">02</div>
-      <div class="doctrine-name">Dispersed <em>power.</em></div>
-      <div class="doctrine-gloss">No person, class, or institution can be trusted with unchecked authority, which is why checks and balances, judicial independence, a free press, and the rule of law exist.</div>
-      <div class="doctrine-hard">The same checks that stop tyranny can stop you building anything.</div>
+      <h3 class="doctrine-name">Dispersed <em>power.</em></h3>
+      <p class="doctrine-gloss">No person, class, company or institution can be trusted with unchecked authority. Power must remain contestable.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">03</div>
-      <div class="doctrine-name">Liberty as <em>foundation.</em></div>
-      <div class="doctrine-gloss">Freedom of conscience, speech, association, movement, and economic activity are not one value among many; they are the condition that makes every other value genuinely chosen.</div>
-      <div class="doctrine-hard">Every one of those freedoms is cheaper to erode now than it was to win.</div>
+      <h3 class="doctrine-name">Liberty as <em>foundation.</em></h3>
+      <p class="doctrine-gloss">Freedom of conscience, speech, association, movement and enterprise makes every other value freely chosen.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">04</div>
-      <div class="doctrine-name">Revisable <em>belief.</em></div>
-      <div class="doctrine-gloss">Truth is discovered through inquiry and criticism, and a society that cannot update its beliefs eventually cannot innovate, compete, or survive its own errors.</div>
-      <div class="doctrine-hard">The institutions that produce knowledge are increasingly managed by people with an interest in the answer.</div>
+      <h3 class="doctrine-name">Revisable <em>belief.</em></h3>
+      <p class="doctrine-gloss">A society that cannot question its assumptions cannot correct its errors or generate new knowledge.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">05</div>
-      <div class="doctrine-name">Moral <em>universalism.</em></div>
-      <div class="doctrine-gloss">Some moral claims hold across cultures and eras: slavery was wrong when everyone accepted it, and torture is wrong wherever it happens.</div>
-      <div class="doctrine-hard">Universal claims are also how powerful countries have justified a great deal.</div>
+      <h3 class="doctrine-name">Moral <em>universalism.</em></h3>
+      <p class="doctrine-gloss">Some acts remain wrong even when customary, popular or profitable.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">06</div>
-      <div class="doctrine-name">Markets <em>with rules.</em></div>
-      <div class="doctrine-gloss">Voluntary exchange and dispersed economic power produce more prosperity and freedom than central planning, but markets require rules, courts, and sometimes correction.</div>
-      <div class="doctrine-hard">The rule-makers are routinely outspent by the people they are meant to be regulating.</div>
+      <h3 class="doctrine-name">Markets <em>with rules.</em></h3>
+      <p class="doctrine-gloss">Markets create prosperity and disperse economic power, but require competition, honest prices and correction.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">07</div>
-      <div class="doctrine-name">Reform institutions, <em>don't destroy them.</em></div>
-      <div class="doctrine-gloss">Institutions fail, become corrupt, and get captured, but the answer is usually to repair them rather than tear them down.</div>
-      <div class="doctrine-hard">Reform is slower than decay, and voters can tell the difference.</div>
+      <h3 class="doctrine-name">Reform institutions, <em>don't destroy them.</em></h3>
+      <p class="doctrine-gloss">Institutions decay and become captured. The first task is to restore function and accountability.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">08</div>
-      <div class="doctrine-name">Universal values, <em>national communities.</em></div>
-      <div class="doctrine-gloss">Rights may be universal, but solidarity, citizenship, and self-government still live mainly within nations, which remain the main political form through which free societies exist.</div>
-      <div class="doctrine-hard">Almost nothing that now determines a country's future is decided inside its borders.</div>
+      <h3 class="doctrine-name">Universal values, <em>national communities.</em></h3>
+      <p class="doctrine-gloss">Rights may be universal, but solidarity, obligation and democratic consent usually live within political communities.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">09</div>
-      <div class="doctrine-name">Tolerance that <em>defends itself.</em></div>
-      <div class="doctrine-gloss">The free society protects views it finds repugnant, but does not extend that protection to movements whose explicit goal is to end it.</div>
-      <div class="doctrine-hard">Someone has to decide which is which, and that someone can be wrong.</div>
+      <h3 class="doctrine-name">Tolerance that <em>defends itself.</em></h3>
+      <p class="doctrine-gloss">A free society protects dissent, but need not protect movements operationally committed to ending freedom.</p>
     </div>
     <div class="doctrine-row">
       <div class="doctrine-num">10</div>
-      <div class="doctrine-name">Historically <em>conscious.</em></div>
-      <div class="doctrine-gloss">Free societies know how they were built, know they have been lost before, and know that progress is not automatic.</div>
-      <div class="doctrine-hard">History is a poor guide to a situation with no precedent.</div>
+      <h3 class="doctrine-name">Historically <em>conscious.</em></h3>
+      <p class="doctrine-gloss">Open societies should remember how they were built, how they failed and how often progress has reversed.</p>
     </div>
   </div>
+
+  <a class="section-cta" href="/principles">Read the full doctrine <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <!-- ════════ THE HOST ════════ -->
@@ -1102,104 +1431,9 @@
   </div>
 </section>
 
-<!-- ════════ EPISODES ════════ -->
-<section class="section reveal" id="episodes">
-  <div class="section-head">
-    <div class="section-num">What's coming</div>
-    <h2 class="section-title">Episodes.</h2>
-  </div>
-
-  <div class="tx-head">
-    <div class="th-left">Episode</div>
-    <div class="th-right">The question</div>
-  </div>
-
-  <div class="transmissions">
-    <div class="tx-row">
-      <div class="tx-num">01</div>
-      <div class="tx-main">
-        <div class="tx-title">The Grid Can't <em>Take It</em></div>
-        <p class="tx-desc">AI's power demand has collided with grids nobody can expand fast enough.</p>
-      </div>
-      <div class="tx-question">Can a democracy still build power at the scale this needs?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">02</div>
-      <div class="tx-main">
-        <div class="tx-title">Three Companies Own <em>the Frontier</em></div>
-        <p class="tx-desc">The critical capacity of the age sits with a handful of firms and their capital partners.</p>
-      </div>
-      <div class="tx-question">What does dispersed power mean when the capacity sits with three companies?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">03</div>
-      <div class="tx-main">
-        <div class="tx-title">The <em>Training Data Wars</em></div>
-        <p class="tx-desc">The largest uncompensated transfer of privately created value in commercial history.</p>
-      </div>
-      <div class="tx-question">Can property rights be reasserted through code when law is too slow?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">04</div>
-      <div class="tx-main">
-        <div class="tx-title">Why Rich Democracies <em>Can't Build</em></div>
-        <p class="tx-desc">Permitting, veto points, and the protections that stop tyranny and also stop construction.</p>
-      </div>
-      <div class="tx-question">What would a democracy have to give up to build at speed again?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">05</div>
-      <div class="tx-main">
-        <div class="tx-title">The Drone War <em>Changed Everything</em></div>
-        <p class="tx-desc">Cheap precision has inverted the economics of defence, and every military is studying it.</p>
-      </div>
-      <div class="tx-question">Can procurement adapt as fast as the technology now demands?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">06</div>
-      <div class="tx-main">
-        <div class="tx-title">The Chokepoints <em>Nobody Planned For</em></div>
-        <p class="tx-desc">Chips are the famous one. Gallium, helium and rare earths are the ones nobody priced.</p>
-      </div>
-      <div class="tx-question">Can an open society build redundancy without becoming a command economy?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">07</div>
-      <div class="tx-main">
-        <div class="tx-title">When Impersonation <em>Is Free</em></div>
-        <p class="tx-desc">Detection is losing to generation, and the first elections inside that environment are underway.</p>
-      </div>
-      <div class="tx-question">Can verification be rebuilt, or do societies simply adapt their epistemics?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">08</div>
-      <div class="tx-main">
-        <div class="tx-title">Open Weights, <em>Open Risk</em></div>
-        <p class="tx-desc">Freedom to build against the strength required to stay safe, argued by both sides.</p>
-      </div>
-      <div class="tx-question">Is openness a value or a strategy?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">09</div>
-      <div class="tx-main">
-        <div class="tx-title">Science Under <em>Political Management</em></div>
-        <p class="tx-desc">Funding, publication and international collaboration are all being reshaped at once.</p>
-      </div>
-      <div class="tx-question">Can the open scientific system survive politicisation?</div>
-    </div>
-    <div class="tx-row">
-      <div class="tx-num">10</div>
-      <div class="tx-main">
-        <div class="tx-title">Does Financial Statecraft <em>Still Work?</em></div>
-        <p class="tx-desc">Evasion architecture is maturing faster than enforcement.</p>
-      </div>
-      <div class="tx-question">Is the main instrument short of war already spent?</div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ BE A GUEST ════════ -->
-<section class="section reveal tinted" id="guest">
+<!-- ════════ GUESTS ════════ -->
+<span id="guest" class="anchor-alias" aria-hidden="true"></span>
+<section class="section reveal tinted" id="guests">
   <div class="section-head">
     <div class="section-num">Guests</div>
     <h2 class="section-title">Come on the <em>show.</em></h2>
@@ -1207,18 +1441,19 @@
 
   <div class="guest-pitch">
     <div class="guest-pitch-left">
-      <p class="guest-lede">Open Civilization hosts dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators, and builders. If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
+      <p class="guest-lede">Open Civilization speaks with dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators and builders.</p>
+      <p class="guest-lede guest-lede-2">If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
     </div>
 
     <div class="guest-pitch-right">
       <div class="pitch-card">
         <div class="pitch-card-eyebrow">Guest Suggestion</div>
         <h3 class="pitch-card-title">Suggest a guest</h3>
-        <p class="pitch-card-body">Send a short note explaining who they are, what they work on, and why their perspective matters. A paragraph is enough. Links welcome.</p>
+        <p class="pitch-card-body">Send a short note explaining who they are, the argument they would bring and why it matters. A paragraph and one or two links are enough.</p>
 
         <a href="mailto:contact@opencivilization.fm?subject=Guest%20Suggestion" class="pitch-btn">
           <span>contact@opencivilization.fm</span>
-          <span class="pitch-arrow">→</span>
+          <span class="pitch-arrow" aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </div>
@@ -1229,7 +1464,7 @@
 <section class="section reveal" id="listen">
   <div class="section-head">
     <div class="section-num">Listen</div>
-    <h2 class="section-title">Listen <em>anywhere.</em></h2>
+    <h2 class="section-title">Listen and <em>watch.</em></h2>
   </div>
 
   <div class="listen-block">
@@ -1253,13 +1488,13 @@
 <!-- ════════ DISPATCH / NEWSLETTER ════════ -->
 <section class="dispatch reveal" id="dispatch">
   <div class="dispatch-inner">
-    <div class="dispatch-eyebrow">Dispatch · The monthly</div>
+    <div class="dispatch-eyebrow">Dispatch · Monthly</div>
     <h2>A monthly <em>dispatch</em> for people who want the deeper map.</h2>
-    <p>Essays, notes, and occasional dispatches on what the show is watching.</p>
+    <p>Essays, research notes and signals from across the civilizational stack: what is changing, where the bottlenecks are and what deserves attention next.</p>
 
     <form class="dispatch-form" id="dispatch-form">
       <input type="email" placeholder="Your email address" required />
-      <button type="submit">Subscribe →</button>
+      <button type="submit">Receive the dispatch</button>
     </form>
   </div>
 </section>
@@ -1268,21 +1503,22 @@
 <footer>
   <div class="footer-colophon">
     <div class="colophon-brand">
-      <h4 class="colophon-wordmark">Open <em>Civilization</em></h4>
+      <div class="colophon-wordmark">Open <em>Civilization</em></div>
       <p class="colophon-tagline">The forces shaping the future of the free world.</p>
     </div>
     <div class="colophon-about">
       <div class="colophon-label">About</div>
-      <p>Open Civilization is hosted by Mehdi Nayebi. Interviews on technology, power, and whether open societies can adapt fast enough to stay free, prosperous, and secure.</p>
+      <p>Open Civilization examines whether open societies can build, govern, innovate and defend themselves without becoming less open in the process.</p>
     </div>
     <div class="colophon-nav">
       <div class="colophon-label">Navigate</div>
       <ul>
-        <li><a href="#question">The Premise</a></li>
-        <li><a href="#doctrine">Ten Principles</a></li>
+        <li><a href="#premise">The Premise</a></li>
+        <li><a href="/civilizational-stack">The Civilizational Stack</a></li>
+        <li><a href="/episodes">Episodes</a></li>
+        <li><a href="/principles">Ten Principles</a></li>
         <li><a href="#host">The Host</a></li>
-        <li><a href="#episodes">Episodes</a></li>
-        <li><a href="#guest">Be a Guest</a></li>
+        <li><a href="#guests">Be a Guest</a></li>
         <li><a href="#listen">Listen</a></li>
         <li><a href="#dispatch">Dispatch</a></li>
       </ul>

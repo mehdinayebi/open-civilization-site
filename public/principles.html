@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ten Principles | Open Civilization</title>
+<meta name="description" content="Ten convictions about freedom, dispersed power, open inquiry, markets, institutions and the obligations of an open society." />
+<link rel="canonical" href="https://opencivilization.fm/principles" />
+<meta property="og:title" content="Ten Principles | Open Civilization" />
+<meta property="og:description" content="Ten convictions about freedom, dispersed power, open inquiry, markets, institutions and the obligations of an open society." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://opencivilization.fm/principles" />
+<meta property="og:site_name" content="Open Civilization" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Ten Principles | Open Civilization" />
+<meta name="twitter:description" content="Ten convictions about freedom, dispersed power, open inquiry, markets, institutions and the obligations of an open society." />
+
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<link rel="icon" href="/icon.png" type="image/png" sizes="512x512" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- Vercel Web Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
+
+<style>
+  :root {
+    --paper:    #f1ede3;
+    --paper-2:  #e9e4d5;
+    --ink:      #0e0e0e;
+    --ink-2:    #1c1c1a;
+    --muted:    #6e6a5e;
+    --muted-2:  #a8a394;
+    --red:      #b22a1f;
+    --red-ink:  #7a1a12;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --serif: 'Fraunces', 'Times New Roman', Georgia, serif;
+
+    --display-xl-size: 60px; --display-xl-lh: 0.95; --display-xl-ls: -0.02em;
+    --display-lg-size: 44px; --display-lg-lh: 1.05; --display-lg-ls: -0.015em;
+    --display-md-size: 34px; --display-md-lh: 1.15; --display-md-ls: -0.01em;
+    --display-sm-size: 28px; --display-sm-lh: 1.2;  --display-sm-ls: -0.005em;
+    --body-lg-size: 24px;    --body-lg-lh: 1.5;
+    --body-md-size: 18px;    --body-md-lh: 1.6;
+    --body-sm-size: 16px;    --body-sm-lh: 1.65;
+    --label-size: 13px;      --label-lh: 1.4;      --label-ls: 0.08em;
+    --micro-size: 13px;      --micro-lh: 1.5;      --micro-ls: 0.02em;
+  }
+  @media (min-width: 768px) {
+    :root {
+      --display-xl-size: 144px; --display-xl-lh: 0.92;
+      --display-lg-size: 80px;  --display-lg-lh: 1.0;
+      --display-md-size: 56px;  --display-md-lh: 1.1;
+      --display-sm-size: 34px;
+      --body-lg-size: 32px;     --body-lg-lh: 1.45;
+      --body-md-size: 20px;
+      --body-sm-size: 17px;
+      --label-size: 14px;       --micro-size: 14px;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    font-family: var(--mono);
+    font-size: 16px;
+    line-height: 1.6;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .masthead-bar {
+    border-bottom: 1.5px solid var(--ink);
+    padding: 14px 40px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    font-weight: 500;
+    letter-spacing: var(--label-ls);
+    text-transform: uppercase;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .masthead-bar .spacer { flex: 1; }
+  .masthead-bar .back { border-bottom: 1px solid transparent; transition: border-color .15s, color .15s; }
+  .masthead-bar .back:hover { color: var(--red); border-color: var(--red); }
+
+  .page-hero { padding: 90px 40px 70px; border-bottom: 1.5px solid var(--ink); }
+  .page-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--red);
+    margin-bottom: 26px;
+  }
+  .page-title {
+    font-family: var(--serif);
+    font-size: var(--display-lg-size);
+    line-height: var(--display-lg-lh);
+    letter-spacing: var(--display-lg-ls);
+    font-weight: 400;
+    margin-bottom: 30px;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .page-title em { font-style: italic; font-weight: 300; }
+  .page-lede {
+    font-family: var(--serif);
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    font-weight: 400;
+    color: var(--ink-2);
+    max-width: 58ch;
+    font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
+  }
+  .page-lede + .page-lede { margin-top: 24px; }
+
+  .page-body { padding: 80px 40px 90px; }
+
+  .page-foot {
+    padding: 40px;
+    border-top: 1.5px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: var(--micro-size);
+    line-height: var(--micro-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--micro-ls);
+    color: var(--muted);
+  }
+  .page-foot a { border-bottom: 1px solid transparent; transition: border-color .15s, color .15s; }
+  .page-foot a:hover { color: var(--red); border-color: var(--red); }
+  .foot-nav { display: flex; gap: 24px; flex-wrap: wrap; }
+
+  @media (max-width: 1000px) {
+    .masthead-bar { padding: 9px 20px; gap: 12px; }
+    .page-hero { padding: 60px 24px 50px; }
+    .page-body { padding: 56px 24px 70px; }
+    .page-foot { padding: 30px 24px; }
+  }
+  @media (max-width: 600px) {
+    .page-hero { padding: 46px 20px 40px; }
+    .page-body { padding: 44px 20px 60px; }
+    .page-foot { padding: 26px 20px; flex-direction: column; gap: 14px; }
+  }
+
+  .doctrine-head {
+    display: grid;
+    grid-template-columns: 72px 1.2fr 2fr 1.4fr;
+    gap: 36px;
+    padding-bottom: 14px;
+  }
+  .doctrine-head > div {
+    font-family: var(--mono);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    text-transform: uppercase;
+    letter-spacing: var(--label-ls);
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .doctrine-head .dh-left  { grid-column: 2 / 4; }
+  .doctrine-head .dh-right { grid-column: 4; }
+  .doctrine-table { border-top: 1.5px solid var(--ink); }
+  .doctrine-row {
+    display: grid;
+    grid-template-columns: 72px 1.2fr 2fr 1.4fr;
+    gap: 36px;
+    padding: 26px 0 24px;
+    border-bottom: 1px solid var(--ink);
+    align-items: baseline;
+    transition: background .25s;
+  }
+  .doctrine-row:hover { background: var(--paper-2); }
+  .doctrine-num {
+    font-family: var(--serif);
+    font-size: var(--display-md-size);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .doctrine-name {
+    font-family: var(--serif);
+    font-size: var(--display-sm-size);
+    font-weight: 500;
+    line-height: var(--display-sm-lh);
+    letter-spacing: var(--display-sm-ls);
+  }
+  .doctrine-name em { font-style: italic; font-weight: 300; color: var(--muted); }
+  .doctrine-gloss {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
+    color: var(--ink-2);
+  }
+  .doctrine-hard {
+    font-family: var(--mono);
+    font-size: var(--body-sm-size);
+    line-height: var(--body-sm-lh);
+    font-style: italic;
+    color: var(--red-ink);
+  }
+  /* Mobile: one vertical block per principle, each part labelled by colour and
+     indent rather than by a column header. Body type stays at --body-sm. */
+  @media (max-width: 1000px) {
+    .doctrine-head { display: none; }
+    .doctrine-row { grid-template-columns: 60px 1fr; gap: 18px; padding: 26px 0 24px; }
+    .doctrine-gloss, .doctrine-hard { grid-column: 2; }
+    .doctrine-gloss { margin-top: 8px; }
+    .doctrine-hard { margin-top: 12px; padding-left: 16px; }
+  }
+  @media (max-width: 600px) {
+    .doctrine-row { grid-template-columns: 50px 1fr; gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="masthead-bar" aria-label="Primary">
+  <div><a href="/"><strong>OPEN CIVILIZATION</strong></a></div>
+  <div class="spacer"></div>
+  <a class="back" href="/"><span aria-hidden="true">&larr;</span> Back to the show</a>
+</nav>
+
+<main>
+<section class="page-hero">
+  <div class="page-eyebrow">The doctrine</div>
+  <h1 class="page-title">Ten <em>principles.</em></h1>
+  <p class="page-lede">Open Civilization is not neutral about freedom, but it is independent of party and faction.</p>
+  <p class="page-lede">These principles describe the conditions that allow open societies to govern themselves, generate new knowledge, build new technologies, defend themselves and correct their own failures.</p>
+</section>
+
+<section class="page-body">
+  <div class="doctrine-head">
+    <div class="dh-left">Principle</div>
+    <div class="dh-right">The hard part</div>
+  </div>
+
+  <div class="doctrine-table">
+    <article class="doctrine-row">
+      <div class="doctrine-num">01</div>
+      <h2 class="doctrine-name">Rare, <em>not default.</em></h2>
+      <p class="doctrine-gloss">Most people in history have lived under closed and hierarchical systems. An open society is a historical exception.</p>
+      <p class="doctrine-hard">Those who inherit one can mistake it for permanent.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">02</div>
+      <h2 class="doctrine-name">Dispersed <em>power.</em></h2>
+      <p class="doctrine-gloss">No person, class, company or institution can be trusted with unchecked authority. Power must remain contestable.</p>
+      <p class="doctrine-hard">The checks that prevent tyranny can also prevent action.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">03</div>
+      <h2 class="doctrine-name">Liberty as <em>foundation.</em></h2>
+      <p class="doctrine-gloss">Freedom of conscience, speech, association, movement and enterprise makes every other value freely chosen.</p>
+      <p class="doctrine-hard">Rights are easiest to erode when the loss is gradual.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">04</div>
+      <h2 class="doctrine-name">Revisable <em>belief.</em></h2>
+      <p class="doctrine-gloss">A society that cannot question its assumptions cannot correct its errors or generate new knowledge.</p>
+      <p class="doctrine-hard">Institutions that produce knowledge can become invested in particular answers.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">05</div>
+      <h2 class="doctrine-name">Moral <em>universalism.</em></h2>
+      <p class="doctrine-gloss">Some acts remain wrong even when customary, popular or profitable.</p>
+      <p class="doctrine-hard">Universal claims have also been used to justify domination.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">06</div>
+      <h2 class="doctrine-name">Markets <em>with rules.</em></h2>
+      <p class="doctrine-gloss">Markets create prosperity and disperse economic power, but require competition, honest prices and correction.</p>
+      <p class="doctrine-hard">Rule-makers are vulnerable to capture by those they regulate.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">07</div>
+      <h2 class="doctrine-name">Reform institutions, <em>don't destroy them.</em></h2>
+      <p class="doctrine-gloss">Institutions decay and become captured. The first task is to restore function and accountability.</p>
+      <p class="doctrine-hard">Cosmetic reform is often slower than real decay.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">08</div>
+      <h2 class="doctrine-name">Universal values, <em>national communities.</em></h2>
+      <p class="doctrine-gloss">Rights may be universal, but solidarity, obligation and democratic consent usually live within political communities.</p>
+      <p class="doctrine-hard">Almost nothing shaping a nation's future is decided entirely within its borders.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">09</div>
+      <h2 class="doctrine-name">Tolerance that <em>defends itself.</em></h2>
+      <p class="doctrine-gloss">A free society protects dissent, but need not protect movements operationally committed to ending freedom.</p>
+      <p class="doctrine-hard">Someone must define the boundary, and that power can be abused.</p>
+    </article>
+    <article class="doctrine-row">
+      <div class="doctrine-num">10</div>
+      <h2 class="doctrine-name">Historically <em>conscious.</em></h2>
+      <p class="doctrine-gloss">Open societies should remember how they were built, how they failed and how often progress has reversed.</p>
+      <p class="doctrine-hard">History offers warnings and analogies, not instructions.</p>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer class="page-foot">
+  <div class="foot-nav">
+    <a href="/">Home</a>
+    <a href="/episodes">Episodes</a>
+    <a href="/principles">Ten Principles</a>
+    <a href="/civilizational-stack">The Civilizational Stack</a>
+  </div>
+  <div><a href="mailto:contact@opencivilization.fm">contact@opencivilization.fm</a></div>
+</footer>
+
+</body>
+</html>

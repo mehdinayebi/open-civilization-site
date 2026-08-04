@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin.html
+Disallow: /framing-engine
+Disallow: /guest-desk
+
+Sitemap: https://opencivilization.fm/sitemap.xml

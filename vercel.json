@@ -1,8 +1,9 @@
 {
   "outputDirectory": "public",
+  "cleanUrls": true,
   "redirects": [
-    { "source": "/principles.html", "destination": "/#doctrine", "permanent": true },
-    { "source": "/principles", "destination": "/#doctrine", "permanent": true }
+    { "source": "/principles.html", "destination": "/principles", "permanent": true },
+    { "source": "/doctrine", "destination": "/principles", "permanent": true }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },

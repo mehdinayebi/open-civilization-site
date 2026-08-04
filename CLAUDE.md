@@ -25,14 +25,14 @@ This is **NOT** a Next.js / Tailwind project. Prior prompts and drafts sometimes
 
 | Layer | Choice |
 |-------|--------|
-| Markup | Static HTML. `public/index.html` (the site), plus internal tools: `public/admin.html`, `public/framing-engine.html`, `public/guest-desk.html` |
+| Markup | Static HTML. Public pages: `index.html`, `episodes.html`, `principles.html`, `civilizational-stack.html`. Internal tools: `admin.html`, `framing-engine.html`, `guest-desk.html` |
 | Styling | Inline `<style>` block in each HTML file. No external CSS. No framework. |
 | JavaScript | Vanilla JS at the bottom of each HTML file. No framework. No build step. |
 | Hosting | Vercel, auto-deploying from `master` via the Vercel GitHub App (reconnected 2026-07-31, see Deploy) |
 | Serverless API | Vercel Functions in `api/` — `subscribe.js`, `subscribers.js`, `schema.sql` |
 | Database | Neon Postgres via `@neondatabase/serverless` (HTTP driver) |
 | Analytics | Vercel Web Analytics (script in HTML head, data in Vercel dashboard) |
-| Redirects | `vercel.json` permanent-redirects `/principles.html` and `/principles` to `/#doctrine` (Vercel emits 308) |
+| Routing | `vercel.json` sets `cleanUrls: true`, so `/episodes`, `/principles` and `/civilizational-stack` serve the matching `.html`. Legacy `/principles.html` and `/doctrine` redirect to `/principles` |
 | Search | Google Search Console (domain-verified via DNS TXT) |
 | Fonts | Google Fonts — Fraunces (variable serif) + IBM Plex Mono |
 | Favicon | Path-based SVG monogram, generated via `sharp` + `png-to-ico` from `scripts/generate-favicons.mjs` |
@@ -45,22 +45,30 @@ A future Next.js migration is deferred until EP 01 is real. Do not migrate preem
 
 ```
 open-civilization-site/
+├── content/
+│   └── episodes.json      ← canonical slate, all 30 investigations
 ├── public/
 │   ├── index.html         ← homepage, all CSS + JS inline
+│   ├── episodes.html      ← /episodes, all 30
+│   ├── principles.html    ← /principles, full doctrine
+│   ├── civilizational-stack.html  ← /civilizational-stack, framework essay
 │   ├── admin.html         ← token-protected subscriber viewer
+│   ├── framing-engine.html / guest-desk.html  ← internal tools
+│   ├── sitemap.xml / robots.txt
 │   ├── favicon.ico / icon.svg / icon.png / apple-touch-icon.png
 ├── api/
 │   ├── subscribe.js       ← POST /api/subscribe (adds email to Neon)
 │   ├── subscribers.js     ← GET /api/subscribers (admin-only, token auth)
 │   └── schema.sql         ← Neon table reference
-├── app/                   ← reserved for Next.js migration; currently holds favicon source files only
+├── app/                   ← reserved for Next.js migration; favicon source files only
 ├── scripts/
+│   ├── build-episodes.mjs ← renders episode rows into the two pages
 │   └── generate-favicons.mjs
-├── vercel.json            ← outputDirectory: "public", /api/(.*) rewrite
+├── vercel.json            ← outputDirectory "public", cleanUrls, redirects
 ├── package.json
-├── .env                   ← local dev only, gitignored, contains DATABASE_URL + ADMIN_TOKEN
+├── .env                   ← local dev only, gitignored
 ├── .env.example
-├── PRODUCT_OVERVIEW.md    ← comprehensive reference document
+├── PRODUCT_OVERVIEW.md
 └── CLAUDE.md              ← this file
 ```
 
@@ -215,7 +223,7 @@ Files live in both `app/` (for future Next.js migration) and `public/` (for curr
 
 ## Copy rules (editorial voice)
 
-- **No em-dashes** (`—`) in rendered copy. Hyphens, commas, or sentence splits instead. The only allowed em-dashes are in CSS/HTML comments (section dividers) where users never see them. This is enforced by grep in verification.
+- **No em dashes** (`—`) in rendered copy, in comments, or in `content/episodes.json`. `scripts/build-episodes.mjs` fails the build if one appears in episode data. Use commas, colons or a sentence split. Hyphens, commas, or sentence splits instead. The only allowed em-dashes are in CSS/HTML comments (section dividers) where users never see them. This is enforced by grep in verification.
 - **No "long-form podcast."** Just "a show" or "a podcast."
 - **No startup clichés**, no generic mission-statement abstractions, no dramatic apocalypse tone.
 - **No hype, no exclamation points, no "in today's world."** Confidence comes from precision, not volume.
@@ -498,9 +506,79 @@ curl -s -o /dev/null -w "HTTP %{http_code}\n" \
 
 ---
 
-## Episode slate (canonical)
+## Pages and routes
 
-Set in the round-two spec, 2026-07-31. Nothing from the earlier list survives.
+| Route | File | Purpose |
+|-------|------|---------|
+| `/` | `public/index.html` | Homepage |
+| `/episodes` | `public/episodes.html` | All 30 flagship investigations |
+| `/principles` | `public/principles.html` | Full ten-principle doctrine, including the hard-part column |
+| `/civilizational-stack` | `public/civilizational-stack.html` | The framework essay |
+
+`cleanUrls: true` in `vercel.json` does the extension stripping. Do not add rewrites for these.
+
+**Back-compatible anchors.** `#doctrine`, `#question` and `#guest` were live hashes before the 2026-08-04 restructure. They survive as zero-height `<span class="anchor-alias">` targets immediately before the sections that replaced them (`#principles`, `#premise`, `#guests`). Do not delete them.
+
+---
+
+## Homepage section order (fixed)
+
+1. **Hero** (`#hero` implicit) — wordmark, governing question, descriptor, two text links
+2. **Premise** (`#premise`) — "Free, and fragile."
+3. **The Civilizational Stack** (`#stack`) — the signature framework
+4. **Episodes** (`#episodes`) — label `FIRST INVESTIGATIONS`, episodes 01 to 10 only
+5. **Principles** (`#principles`) — compact list, no hard-part column
+6. **Host** (`#host`)
+7. **Guests** (`#guests`)
+8. **Listen** (`#listen`)
+9. **Dispatch** (`#dispatch`)
+10. **Footer**
+
+The narrative order is deliberate: the defining question, the stakes, the framework, the investigations, the doctrine, the host, participation. Episodes sit **above** Principles. Do not move the doctrine back up.
+
+Primary nav is Premise, The Stack, Episodes, Principles, Host, Dispatch, Listen. **Listen is last on purpose**, it is the practical action. Guests is deliberately not in the primary nav but stays in the footer nav.
+
+---
+
+## Episode data
+
+`content/episodes.json` is the single source of truth for all 30 investigations. Fields: `number`, `title`, `titleHtml` (carries the italic `<em>`), `subtitle` (nullable), `description`, `question`, `slug`, `featured`.
+
+Rows are generated into both pages, never hand-written:
+
+```bash
+node scripts/build-episodes.mjs
+```
+
+- Writes between the `EPISODES:START` / `EPISODES:END` markers. **Anything between those markers is overwritten.**
+- `featured: true` controls the homepage set (currently 01 to 10). The archive always renders all 30.
+- Heading level differs by page: `h3` on the homepage (inside a section that already has an `h2`), `h2` on `/episodes` (directly under the page `h1`). The script takes it as an argument.
+- The script **throws if any episode field contains an em dash**, so the rule cannot regress through a data edit.
+- Run it and commit the resulting HTML. There is still no build step at deploy time.
+
+**Do not** give planned episodes play controls, durations, dates or "listen now" language. Nothing is published.
+
+---
+
+## The civilizational stack
+
+The signature framework and the term the project is trying to own. It appears in two places: the homepage `#stack` section and the `/civilizational-stack` essay.
+
+Canonical sequence, in this order, on both pages:
+
+> Energy, minerals, chips, compute, models, robots, factories, weapons, institutions
+
+Rendered as a native `<ol class="stack-diagram">` with `list-style: none`. **Arrows are CSS generated content** on `.stack-term:not(:last-child)::after`, right-pointing on desktop and down-pointing below 1000px. There are no arrow elements in the DOM, so screen readers get the nine terms in order and nothing else. Do not reintroduce arrow spans or `role="list"` on a `div`, both were tried and replaced.
+
+Meta line under the diagram, on both pages: *Across every layer: talent, capital, law, alliances and legitimacy.*
+
+Keep it an editorial diagram: rules and type only. No boxes, pills, icons or colour fills.
+
+---
+
+## Episode slate (superseded)
+
+**Superseded on 2026-08-04.** The slate below was replaced wholesale by the thirty flagship investigations in `content/episodes.json`. Kept only as a record of what was retired: The Grid Can't Take It, Three Companies Own the Frontier, The Training Data Wars, Why Rich Democracies Can't Build, The Drone War Changed Everything, The Chokepoints Nobody Planned For, When Impersonation Is Free, Open Weights, Open Risk, Science Under Political Management, Does Financial Statecraft Still Work? These remain usable future episode concepts, they are simply not the opening slate.
 
 | # | Title | Summary | The question |
 |---|-------|---------|--------------|
