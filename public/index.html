@@ -3,7 +3,7 @@
   @keyframes pulse: .status-dot red glow. 2.2s ease-out infinite. Load trigger, repeats.
 
   Hover transitions: .mast-link (border 0.15s), .mast-listen (color 0.15s),
-    .doctrine-row (bg 0.25s), .tx-row (bg/padding 0.2s/0.25s), .listen-line a (color 0.15s),
+    .doctrine-row (bg 0.25s), .tx-row (bg 0.2s), .listen-line a (color 0.15s),
     .host-connect a (color/border 0.15s), .pitch-btn (bg/color 0.2s),
     .dispatch-form button (bg 0.2s), .colophon-nav/contact/about a (border/color 0.15s),
     .footer-bottom a (color/border-color).
@@ -528,10 +528,15 @@
     padding: 26px 0 24px;
     border-bottom: 1px solid var(--ink);
     align-items: baseline;
-    transition: background .2s, padding .25s;
+    transition: background .2s;
     cursor: default;
   }
-  .tx-row:hover { background: var(--paper-2); padding-left: 12px; }
+  /* Tint only. This row used to add padding-left: 12px on hover, which slid the
+     number, the title, the description and the question 12px to the right and
+     animated the text under the cursor. The principle rows directly above tint
+     without moving, so it was inconsistent as well as distracting. Hover states
+     here change colour, never geometry. */
+  .tx-row:hover { background: var(--paper-2); }
   .tx-num {
     font-family: var(--mono);
     font-size: var(--label-size);

@@ -316,6 +316,8 @@ Three systems, all in `public/index.html`:
 - Masthead transition disabled.
 - `riseIn` and `pulse` keyframes currently NOT explicitly disabled under reduced-motion (known gap).
 
+**Hover states change colour, never geometry.** `.tx-row` used to add `padding-left: 12px` on hover with `padding` in its transition, so pointing at an episode slid its number, title, description and question 12px right and animated the text under the cursor. Removed 2026-08-05. The principle rows never did this, so it was inconsistent as well as distracting. No `:hover` rule on a public page may set padding, margin, width, font-size, letter-spacing or a transform on a text block. The only surviving transform hovers are `.hero-cta.primary/.secondary`, which are the post-launch buttons and are not rendered today.
+
 **Do not introduce new animations without a clear editorial reason.** The site uses motion sparingly and deliberately.
 
 ---
