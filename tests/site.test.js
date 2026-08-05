@@ -154,11 +154,105 @@ test('the episodes section uses episode language', () => {
   assert.match(home, /The first ten episodes examine the forces deciding whether open societies remain capable/);
 });
 
-test('accepted premise, guests and listen copy is intact', () => {
-  assert.match(home, /Free, and <em>fragile\.<\/em>/);
-  assert.match(home, /Open Civilization examines what makes open societies capable/);
+test('accepted guests and listen copy is intact', () => {
   assert.match(home, /Open Civilization speaks with dissidents, founders, investors/);
   assert.match(home, /Listen and <em>watch\.<\/em>/);
+});
+
+test('the premise is the compressed three paragraph version', () => {
+  assert.match(home, /Free, and <em>fragile\.<\/em>/);
+  const wrap = home.match(/<div class="premise-wrap">[\s\S]*?<\/div>/)[0];
+  const paras = wrap.match(/<p class="premise[^"]*">[\s\S]*?<\/p>/g) ?? [];
+  assert.equal(paras.length, 3, 'premise should be exactly three paragraphs');
+  assert.match(paras[0], /Free societies are rare\. Their liberty and prosperity depend on institutions that work\./);
+  assert.match(paras[1], /Today, those foundations are under pressure\./);
+  assert.match(paras[1], /housing, energy and industrial capacity\./);
+  assert.match(paras[2], /premise-conclusion/);
+  assert.match(paras[2], /Can they renew their strength without surrendering what makes them free\?/);
+  for (const gone of [
+    'Almost everything we take for granted depends on them',
+    'Alliances no longer look automatic',
+    'Open Civilization examines what makes open societies capable',
+  ]) {
+    assert.ok(!home.includes(gone), 'superseded premise copy remains: ' + gone);
+  }
+});
+
+test('the premise conclusion carries no internal rule', () => {
+  const rule = home.match(/\.premise-conclusion \{[^}]*\}/)[0];
+  assert.doesNotMatch(rule, /border-top/, 'the conclusion should be weight only, not a banner');
+  assert.match(rule, /font-weight: 500/);
+});
+
+test('semantic copy tokens exist and are applied by role', () => {
+  // Assert the tokens are DEFINED in the base :root, not merely mentioned
+  // somewhere. A previous edit defined them only inside the 768px override,
+  // which left every var() undefined on mobile and silently killed the rules
+  // that used them, while a name-only check still passed.
+  const rootBlock = home.match(/:root \{[\s\S]*?\n  \}/)[0];
+  for (const tok of [
+    '--copy-hero', '--copy-thesis', '--copy-lede', '--copy-body', '--copy-ledger',
+    '--copy-hero-lh', '--copy-thesis-lh', '--copy-lede-lh', '--copy-body-lh', '--copy-ledger-lh',
+    '--rule-major-width', '--rule-section-width', '--rule-row-width',
+  ]) {
+    assert.match(rootBlock, new RegExp(tok + ':\\s*[^;]+;'), `${tok} is not defined in base :root`);
+  }
+  // Every var() used anywhere must resolve to a definition.
+  for (const [, name] of home.matchAll(/var\((--[\w-]+)\)/g)) {
+    assert.match(home, new RegExp(name + ':\\s*[^;]+;'), `${name} is used but never defined`);
+  }
+  // Anchor on a line start so `.premise` cannot match the tail of
+  // `.premise + .premise {`, which is a different rule entirely.
+  const ruleFor = (sel) => {
+    const re = new RegExp('^\\s*' + sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ' \\{[^}]*\\}', 'm');
+    const m = home.match(re);
+    assert.ok(m, 'no rule found for ' + sel);
+    return m[0];
+  };
+  assert.match(ruleFor('.hero-promise'), /var\(--copy-hero\)/);
+  assert.match(ruleFor('.premise'), /var\(--copy-thesis\)/);
+  assert.match(ruleFor('.section-lede'), /var\(--copy-lede\)/);
+  assert.match(ruleFor('.guest-lede'), /var\(--copy-lede\)/);
+  assert.match(ruleFor('.doctrine-gloss'), /var\(--copy-ledger\)/);
+  assert.match(ruleFor('.tx-desc'), /var\(--copy-ledger\)/);
+  assert.match(ruleFor('.tx-question'), /var\(--copy-ledger\)/);
+  assert.match(ruleFor('.host-bio p'), /var\(--copy-body\)/);
+  assert.match(ruleFor('.dispatch p'), /var\(--copy-body\)/);
+});
+
+test('the tonal sequence is explicit, not alternating', () => {
+  const seq = [...home.matchAll(/class="[^"]*section--(paper|tint|ink)[^"]*"/g)].map((m) => m[1]);
+  assert.deepEqual(seq, ['paper', 'tint', 'paper', 'tint', 'paper', 'tint', 'paper', 'ink', 'tint']);
+  assert.doesNotMatch(home, /class="[^"]*\btinted\b/, 'the old tinted class survives in markup');
+  // nth-child is fine for animation, never for backgrounds.
+  for (const m of home.matchAll(/[^\n]*nth-child[^\n]*/g)) {
+    assert.doesNotMatch(m[0], /background/, 'nth-child used for background: ' + m[0].trim());
+  }
+});
+
+test('principles render as two columns in document order', () => {
+  assert.match(home, /class="doctrine-table doctrine-table--compact principles-grid"/);
+  assert.equal((home.match(/class="principles-column"/g) ?? []).length, 2);
+  const nums = [...home.matchAll(/<div class="doctrine-num">(\d\d)<\/div>/g)].map((m) => m[1]);
+  assert.deepEqual(nums, ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']);
+  assert.equal((home.match(/class="doctrine-row"/g) ?? []).length, 10);
+});
+
+test('the active nav observer is present and scoped', () => {
+  assert.match(home, /aria-current="location"/, 'active state CSS missing');
+  const js = home.match(/<script>[\s\S]*?<\/script>/g).join('');
+  for (const id of ['premise', 'episodes', 'principles', 'host', 'guests', 'listen', 'dispatch']) {
+    assert.ok(js.includes("'" + id + "'"), 'observer missing section ' + id);
+  }
+  assert.match(js, /removeAttribute\('aria-current'\)/, 'must clear the previous active link');
+  assert.equal((js.match(/new IntersectionObserver/g) ?? []).length, 3, 'reveal, doctrine and nav observers');
+});
+
+test('listen is a compact utility band', () => {
+  assert.match(home, /class="section section-listen/);
+  assert.match(home.match(/\.section-listen \{[^}]*\}/)[0], /padding-top: 50px/);
+  const line = home.match(/<div class="listen-line">[\s\S]*?<\/div>/)[0];
+  assert.equal((line.match(/<a /g) ?? []).length, 6, 'six platform links');
 });
 
 test('metadata uses the concise description everywhere', () => {
