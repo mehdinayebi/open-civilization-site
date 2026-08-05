@@ -237,6 +237,9 @@
     letter-spacing: var(--body-lg-ls);
     font-weight: 400;
     color: var(--ink);
+    /* Keeps the sentence off a one word last line where the container, rather
+       than the max-width, sets the measure. Ignored by browsers without it. */
+    text-wrap: pretty;
     opacity: 0;
     animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.45s forwards;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
@@ -244,7 +247,13 @@
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
 
   @media (min-width: 768px) {
-    .hero-promise { max-width: 66ch; margin-top: 56px; }
+    /* 47ch, not 66ch. ch is the width of the "0" glyph, and every other measure
+       in this file is on IBM Plex Mono where ch equals one character exactly.
+       Fraunces' figures are much wider than its average letter, so 66ch rendered
+       about 89 characters a line. 47ch is the one value that lands the paragraph
+       in 4 lines with a 66 character maximum and no one word last line: 46ch
+       drops to 5 lines with an orphan, 48ch and up run past 66. */
+    .hero-promise { max-width: 47ch; margin-top: 56px; }
   }
 
   /* Editorial text links, not buttons. */
