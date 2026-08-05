@@ -170,20 +170,23 @@ Add `tinted` to a `.section` to tint it. The pattern lands the statement section
 
 ### Listen section
 
-One centred inline line (`.listen-block`), not a table. Collapsed in round three from five full-width rows, which made it the tallest block on the page for the least content.
+**One band, not a section with a body (2026-08-05).** `.listen-row` is a flex row: rail label, heading, and the platform list set small and right, all on a shared baseline, with the section's own `border-bottom` as the single rule underneath. Section height went from roughly 600px to 176px.
 
-- Platform names in the existing serif, middot separated, accent red on hover, thin rule above and below.
+- Platform names in the existing serif, middot separated, accent red on hover.
 - **Deleted deliberately:** row numbers, displayed URLs, and per-row action labels (SUBSCRIBE, FOLLOW, WATCH, COPY, ADD). A visitor infers the destination from the name.
 - Names stay live links. Overcast and Pocket Casts point at the RSS feed, as they did before.
-- The section header is **"Listen and *watch.*"**. Only the rows beneath it changed.
+- The section header is **"Listen and *watch.*"**.
+- **Apple Podcasts is shortened to "Apple"** in the link text only. The `href` is untouched. Beside Spotify and YouTube it is unambiguous and it recovers most of a line.
+- The list is a utility, so it sits at `--body-sm` (17px desktop, 16px mobile), not `--display-sm`. The contrast of a large display heading against a small list is the point; matching their sizes turns the band back into a banner.
 
-**Narrowed 2026-08-05.** `.listen-block` is capped at `max-width: 700px` and centred, so it reads as one contained object rather than a band running the full content width. Three details make that work, and all three are easy to undo by accident:
+**Four things that are load-bearing here:**
 
-- **The 100px top margin is not arbitrary and is not additive.** It collapses against `.section-head`'s 60px bottom margin, so the gap equals the larger of the two, not their sum. Any value under 60 does nothing at all. It exists so the block's short top rule is not read as a pair with the full width rule under the heading.
-- **The line break between YouTube and RSS is placed, not natural.** At 700px the list wraps between them and the separator lands at the head of line two, so the line opens on a middot. `<br class="listen-br">` breaks it explicitly into three names per line, and `.listen-dot-mid` hides the separator that break replaces. Line one needs 565px, so the placed break is valid down to roughly 613px of block width.
-- **Below 600px the separators come out entirely.** Measured at 320, 360, 375, 390, 414, 480 and 560, the natural wrap put a middot at the head of a line at every one. `.listen-line` becomes a centred flex wrap and `.listen-line .dot` is hidden, so the gap does the separating and there is no orphan.
+- **This section has no `.section-head`.** That element's rule sat directly above the old block's own top rule with an empty band between them, which is what read as two stacked rules. The heading lives inside `.listen-row` instead. Do not put it back.
+- **The rail is 120px with a 40px gap because those are `.section-head`'s own values.** That is what puts this heading on exactly the same left edge (200px at desktop) as the other five section titles. Any other pair of numbers silently misaligns it.
+- **`.listen-break` is a placed line break, not a natural wrap.** A `flex-basis: 100%` item cannot share a flex line, so everything after it starts a new one at every width. Left to itself the list broke five and one and stranded a separator at the end of line one, and sizing `max-width` to break it three and three only worked inside a 14px window before RSS jumped back up. The separator it replaces is deleted from the markup rather than hidden, so no line can begin or end on a middot.
+- **The band stacks at 1060px, not the 1000px the rest of the layout uses.** Side by side it needs 120 + 40 + 489 (title) + 40 + 262 (the list's wider line) + 80 padding = 1031. At 1024 and 1001 the list was squeezed under 262 and wrapped a third and fourth time. Between 1060 and 1001 only the *list* drops to its own line, indented to the same 200px content edge, so the heading stays on the rail; the full stack waits for 1000, where every other section stacks its label too. Stacking at 1000 instead would put this one heading 160px left of the other five at 1024, which is a real width.
 
-Verified clean at 18 widths from 320 to 1440: no line begins or ends with a separator, and no horizontal overflow. **If a platform name is added, renamed or removed, re-check the placed break** — it assumes this exact six-name list.
+Verified clean at 24 widths from 320 to 1512: three names per line everywhere, no line beginning or ending on a separator, no horizontal overflow, and the heading on the shared rail at every width above 1000. **If a platform name is added, renamed or removed, re-measure** — the placed break and the 1031px threshold both assume this exact six-name list.
 
 
 ### Mobile overflow — the trap in this layout

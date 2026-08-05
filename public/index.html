@@ -650,56 +650,86 @@
   .pitch-btn .pitch-arrow { font-size: var(--label-size); }
 
   /* ═════════════════════════════════════ LISTEN ═════════════════════════════════════ */
-  /* One centred line, not five full-width rows. It was the tallest block on the
-     page for the least content: row numbers, URLs and per-row CTAs that a
-     visitor infers from the platform name anyway. */
-  /* Narrower than the content column and centred, so it reads as one contained
-     object rather than a full width band. The list is six names: at full width
-     it sat on a single line that outran everything else on the page. Capped, it
-     balances onto two even lines and the rules above and below get short enough
-     to feel deliberate. */
-  .listen-block {
-    max-width: 700px;
-    /* Air above, so the block's short top rule is not read as a pair with the
-       full width rule under the heading. This margin collapses against
-       .section-head's 60px bottom margin, so the gap is this value, not the sum:
-       anything under 60 does nothing at all. */
-    margin-top: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
-    padding: 34px 0 36px;
-    text-align: center;
+  /* One band, not a section with a body: label on the rail, heading left,
+     platforms set small and tight against it on a shared baseline, and the
+     section's own bottom border as the single rule underneath.
+     What was deleted and why, so none of it comes back:
+       - The LISTEN ON label repeated the heading in smaller type.
+       - .section-head, whose rule sat above the block's own top rule with an
+         empty band between them, reading as two stacked rules.
+       - The block's borders and its centred 700px cap. It was the only centred
+         object on a page that is otherwise left aligned to the rail.
+     The list is a utility, so it drops from display-sm to body-sm. A large
+     display heading against a small list is a deliberate contrast of scale;
+     a centred list in its own bordered box is a banner. */
+  .section-listen { padding-top: 34px; padding-bottom: 34px; }
+  .listen-row {
+    display: flex;
+    align-items: baseline;
+    /* 120px rail and a 40px gap are .section-head's own values, so the heading
+       lands on exactly the same left edge as every other section title. */
+    gap: 40px;
   }
-  .listen-label {
-    font-family: var(--mono);
-    font-size: var(--label-size);
-    line-height: var(--label-lh);
-    text-transform: uppercase;
-    letter-spacing: var(--label-ls);
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 18px;
-  }
+  .listen-rail { flex: none; width: var(--rail, 120px); }
+  .listen-row .section-title { flex: none; margin: 0; }
+
   .listen-line {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 2px 12px;
+    max-width: 440px;
+    margin-left: auto;
     font-family: var(--serif);
-    font-size: var(--display-sm-size);
-    line-height: 1.4;
-    letter-spacing: var(--display-sm-ls);
-    font-weight: 500;
-    text-wrap: balance;
+    font-weight: 400;
+    font-size: var(--body-sm-size);
+    line-height: 1.5;
   }
-  /* The break is placed rather than left to the wrap. Allowed to fall naturally
-     inside 700px, the list breaks between YouTube and RSS and the separator
-     lands at the head of line two, so the line opens on a middot. Breaking
-     explicitly gives three names on each line and no separator at either edge.
-     Line one needs 565px, so this holds until the block drops under about
-     613px, which is the 600px breakpoint below. */
-  .listen-dot-mid { display: none; }
-  .listen-line a { transition: color .15s; }
-  .listen-line a:hover { color: var(--red); }
-  .listen-line .dot { color: var(--muted-2); margin: 0 6px; }
+  .listen-line a {
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .listen-line a:hover { color: var(--red); border-bottom-color: var(--red); }
+  .listen-line .dot { color: var(--muted-2); }
+  /* Three names to a line, placed rather than left to the wrap. A full basis
+     item cannot share a line, so everything after it starts a new one, at every
+     width. Left to itself the list broke five and one and stranded a separator
+     at the end of line one; sizing the cap to break it three and three instead
+     only worked inside a 14px window before RSS jumped back up. The separator
+     this break replaces is deleted from the markup rather than hidden, so no
+     line can begin or end on a middot. */
+  .listen-break { flex-basis: 100%; height: 0; }
+
+  /* Side by side the band needs 120 rail + 40 gap + 489 title + 40 gap + 262
+     for the list's wider line + 80 padding, so 1031. Measured at 1024 and 1001
+     the list was squeezed under 262, wrapped a third and fourth time and
+     stranded a separator at the end of a line.
+     Between there and 1000 the list drops to its own line rather than the whole
+     band stacking, indented to the same content edge, so the heading stays on
+     the rail with every other section title. Stacking the label here instead
+     would put this one heading 160px left of the other five, and 1024 is a real
+     width. */
+  @media (max-width: 1060px) {
+    .listen-row { flex-wrap: wrap; }
+    .listen-line {
+      flex-basis: 100%;
+      justify-content: flex-start;
+      margin-left: calc(var(--rail, 120px) + 40px);
+      margin-top: 16px;
+      max-width: none;
+    }
+  }
+  /* At 1000 the rest of the page stacks its labels above its headings, so the
+     band follows it rather than keeping a rail of its own. */
+  @media (max-width: 1000px) {
+    .listen-row { display: block; }
+    .listen-rail { width: auto; }
+    .listen-row .section-title { margin: 8px 0 18px; }
+    .listen-line { margin-left: 0; margin-top: 0; }
+  }
 
   /* ═════════════════════════════════════ DISPATCH / NEWSLETTER ═════════════════════════════════════ */
   .dispatch {
@@ -986,7 +1016,6 @@
 
     /* Listen: the single line wraps to two or three lines and still reads as
        one element rather than five stacked rows. */
-    .listen-block { padding: 28px 0 30px; }
 
     /* Dispatch */
     .dispatch { padding: 90px 24px; }
@@ -1013,19 +1042,6 @@
     .dispatch { padding: 70px 20px; }
     .footer-colophon { grid-template-columns: minmax(0, 1fr); gap: 36px; }
     .colophon-brand { grid-column: auto; }
-    /* The block is full width here and too narrow for the placed break, so the
-       list wraps on its own. Measured at 320, 360, 390, 414, 480 and 560, every
-       one of those widths put a middot at the head of a line. Rather than chase
-       the break, the separators come out and the gap separates the names. */
-    .listen-block { margin-top: 0; }
-    .listen-br { display: none; }
-    .listen-line {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2px 22px;
-    }
-    .listen-line .dot { display: none; }
   }
 </style>
 
@@ -1309,21 +1325,17 @@
 </section>
 
 <!-- ════════ LISTEN ════════ -->
-<section class="section reveal" id="listen">
-  <div class="section-head">
-    <div class="section-num">Listen</div>
+<section class="section section-listen reveal" id="listen">
+  <div class="listen-row">
+    <div class="listen-rail"><div class="section-num">Listen</div></div>
     <h2 class="section-title">Listen and <em>watch.</em></h2>
-  </div>
-
-  <div class="listen-block">
-    <div class="listen-label">Listen on</div>
     <div class="listen-line">
-      <a href="https://podcasts.apple.com/podcast/open-civilization" target="_blank" rel="noopener">Apple Podcasts</a>
+      <a href="https://podcasts.apple.com/podcast/open-civilization" target="_blank" rel="noopener">Apple</a>
       <span class="dot">·</span>
       <a href="https://open.spotify.com/show/opencivilization" target="_blank" rel="noopener">Spotify</a>
       <span class="dot">·</span>
       <a href="https://youtube.com/@opencivilization" target="_blank" rel="noopener">YouTube</a>
-      <span class="dot listen-dot-mid">·</span><br class="listen-br">
+      <span class="listen-break"></span>
       <a href="https://opencivilization.fm/rss" target="_blank" rel="noopener">RSS</a>
       <span class="dot">·</span>
       <a href="https://opencivilization.fm/rss" target="_blank" rel="noopener">Overcast</a>
