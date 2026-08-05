@@ -9,7 +9,6 @@
 > Current public route: `/` only. `/principles` is retained but unpromoted and out of the sitemap. `/episodes` and `/civilizational-stack` are retired and redirect.
 > Only the first ten episodes are public. The other twenty stay in `content/episodes.json` as internal planning. There are no episode subtitles.
 > The hero is one integrated paragraph with no separate descriptor. The footer has three columns and no About block.
-> The premise is three short paragraphs. Sections carry explicit paper, tint and ink backgrounds. Homepage principles are a two column index at 1100px and up. The masthead marks the active section.
 
 ---
 
