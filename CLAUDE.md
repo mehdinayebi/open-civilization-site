@@ -170,24 +170,24 @@ Add `tinted` to a `.section` to tint it. The pattern lands the statement section
 
 ### Listen section
 
-**One band, not a section with a body (2026-08-05).** `.listen-row` is a flex row: rail label, heading, and the platform list set small and right, all on a shared baseline, with the section's own `border-bottom` as the single rule underneath. Section height went from roughly 600px to 176px.
+**Structurally identical to every other section (2026-08-05).** Rail label, heading, the shared `.section-head` rule, then content starting under it at the same left edge as the episode and principle tables. Listen simply has one content row instead of ten. Roughly 307px at desktop.
 
 - Platform names in the existing serif, middot separated, accent red on hover.
 - **Deleted deliberately:** row numbers, displayed URLs, and per-row action labels (SUBSCRIBE, FOLLOW, WATCH, COPY, ADD). A visitor infers the destination from the name.
 - Names stay live links. Overcast and Pocket Casts point at the RSS feed, as they did before.
-- The section header is **"Listen and *watch.*"**.
-- **Apple Podcasts is shortened to "Apple"** in the link text only. The `href` is untouched. Beside Spotify and YouTube it is unambiguous and it recovers most of a line.
-- The list is a utility, so it sits at `--body-sm` (17px desktop, 16px mobile), not `--display-sm`. The contrast of a large display heading against a small list is the point; matching their sizes turns the band back into a banner.
+- The section header is **"Listen and *watch.*"**, and Apple Podcasts keeps its full name.
 
-**Four things that are load-bearing here:**
+**The governing idea.** A platform link is the same class of object as an episode title or a principle name: one item in a list, set in display serif on a ruled row. So `.listen-line` takes exactly the same type as `.tx-title` and `.doctrine-name`, through the same `--display-sm-*` tokens rather than copied numbers. If the token moves, this follows. These links are the section's only calls to action and must be the most prominent thing in it.
 
-- **This section has no `.section-head`.** That element's rule sat directly above the old block's own top rule with an empty band between them, which is what read as two stacked rules. The heading lives inside `.listen-row` instead. Do not put it back.
-- **The rail is 120px with a 40px gap because those are `.section-head`'s own values.** That is what puts this heading on exactly the same left edge (200px at desktop) as the other five section titles. Any other pair of numbers silently misaligns it.
-- **`.listen-break` is a placed line break, not a natural wrap.** A `flex-basis: 100%` item cannot share a flex line, so everything after it starts a new one at every width. Left to itself the list broke five and one and stranded a separator at the end of line one, and sizing `max-width` to break it three and three only worked inside a 14px window before RSS jumped back up. The separator it replaces is deleted from the markup rather than hidden, so no line can begin or end on a middot.
-- **The band stacks at 1060px, not the 1000px the rest of the layout uses.** Side by side it needs 120 + 40 + 489 (title) + 40 + 262 (the list's wider line) + 80 padding = 1031. At 1024 and 1001 the list was squeezed under 262 and wrapped a third and fourth time. Between 1060 and 1001 only the *list* drops to its own line, indented to the same 200px content edge, so the heading stays on the rail; the full stack waits for 1000, where every other section stacks its label too. Stacking at 1000 instead would put this one heading 160px left of the other five at 1024, which is a real width.
+**Three arrangements have now been rejected. Do not rebuild any of them:**
 
-Verified clean at 24 widths from 320 to 1512: three names per line everywhere, no line beginning or ending on a separator, no horizontal overflow, and the heading on the shared rail at every width above 1000. **If a platform name is added, renamed or removed, re-measure** — the placed break and the 1031px threshold both assume this exact six-name list.
+- **The centred bordered block.** `.listen-block` at `max-width: 700px`, centred, with its own top border directly under the section-head rule, producing two stacked rules with a dead band between. It was also the only centred object on a page with one left edge.
+- **The horizontal band.** Heading and links sharing a line, links at `--body-sm`, right aligned, wrapping to two lines. It made Listen the only section where the heading does not sit above its content, set the calls to action smaller than any body copy on the page, and introduced a right edge the page does not otherwise have.
+- **The `LISTEN ON` label**, which repeated the heading in smaller type.
 
+**Wrapping.** The full line is about 1160px at `--display-sm` desktop, so it sits on one line at 1280 and above and wraps once between 601 and 1200, where a trailing middot reads as continuation. **Below 600px the separators come out** (`.listen-line .dot { display: none }`) and the gap separates the names: measured leading middots at 390 and 414, trailing ones at 320, 360, 375 and 480, and a separator only means anything between two names on the same row. If a seventh platform is added, let it wrap. **Do not reduce the font size to prevent a wrap** — that is what produced the band.
+
+Verified at 21 widths from 320 to 1512: no line begins or ends on a separator, no horizontal overflow, and the line's left edge matches the episodes table at every width.
 
 ### Mobile overflow — the trap in this layout
 
