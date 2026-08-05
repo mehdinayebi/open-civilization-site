@@ -91,33 +91,6 @@
     --micro-size: 13px;
     --micro-lh: 1.5;
     --micro-ls: 0.02em;
-
-    /* ═══ MEASURE SYSTEM ═══
-       One left edge for all content, one right edge for all prose. The label
-       sits in a fixed rail; everything else starts at the rail's right edge.
-       Prose measures are px, never ch: ch resolves against the font's zero
-       width, so the same ch value in Fraunces and IBM Plex Mono, or at two
-       sizes, gives visibly different physical widths. */
-    --page-max:     1320px;
-    --page-pad:     48px;
-    --rail:         148px;
-    --rail-gap:     36px;
-    --measure-read: 660px;   /* all reading prose, serif or mono */
-    --measure-note: 520px;   /* captions, taglines, helper text */
-
-    /* ═══ TONAL FIELDS ═══
-       Tone changes at field boundaries, not section by section. Alternating
-       every block makes every boundary mean the same thing, which is nothing. */
-    --field-a: #f5f2ea;   /* masthead, hero, premise: the statement */
-    --field-b: #efeadd;   /* episodes, principles: the work */
-    --field-c: #e9e3d4;   /* host, guests, listen: the people and the ask */
-    --field-d: #0e0e0e;   /* dispatch: the terminal moment */
-
-    /* ═══ MOTION ═══ One curve, two durations, one stagger. */
-    --ease:      cubic-bezier(0.16, 1, 0.3, 1);
-    --dur-enter: 640ms;
-    --dur-hover: 180ms;
-    --stagger:   60ms;
   }
 
   @media (min-width: 768px) {
@@ -202,7 +175,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    transition: padding 240ms var(--ease), border-bottom-width 240ms var(--ease);
+    transition: padding 0.3s cubic-bezier(.2,.7,.2,1), font-size 0.3s cubic-bezier(.2,.7,.2,1), border-bottom-width 0.3s cubic-bezier(.2,.7,.2,1);
   }
   .masthead-bar.is-scrolled {
     padding: 10px 40px;
@@ -222,18 +195,17 @@
     70%  { box-shadow: 0 0 0 6px rgba(178,42,31,0); }
     100% { box-shadow: 0 0 0 0 rgba(178,42,31,0); }
   }
-  .mast-link { border-bottom: 1px solid transparent; transition: border-color var(--dur-hover) var(--ease); }
+  .mast-link { border-bottom: 1px solid transparent; transition: border-color .15s; }
   /* Mobile-only action. The nav links are hidden below 1000px, which left the
      bar reading as empty or broken. A hamburger is overkill on a single page. */
-  .mast-listen { display: none; font-weight: 600; transition: color var(--dur-hover) var(--ease); }
+  .mast-listen { display: none; font-weight: 600; transition: color .15s; }
   .mast-listen:hover { color: var(--red); }
   .mast-link:hover { border-color: var(--ink); }
 
   /* ═════════════════════════════════════ HERO ═════════════════════════════════════ */
   .hero {
-    padding-top: 120px;
-    padding-bottom: 80px;
-    border-bottom: 1px solid var(--ink);
+    padding: 120px 40px 80px;
+    border-bottom: 1.5px solid var(--ink);
     position: relative;
   }
 
@@ -250,16 +222,15 @@
     display: block;
     opacity: 0;
     transform: translateY(30px);
-    animation: riseIn 720ms var(--ease) forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) forwards;
   }
-  .hero-title .line:nth-child(1) { animation-delay: 80ms; }
-  .hero-title .line:nth-child(2) { animation-delay: 200ms; font-style: italic; font-weight: 300; }
+  .hero-title .line:nth-child(1) { animation-delay: 0.1s; }
+  .hero-title .line:nth-child(2) { animation-delay: 0.25s; font-style: italic; font-weight: 300; }
   @keyframes riseIn { to { opacity: 1; transform: translateY(0); } }
-  .hero-title .line { transform: translateY(14px); }
 
   .hero-promise {
     margin-top: 48px;
-    max-width: var(--measure-read);
+    max-width: 40ch;
     font-family: var(--serif);
     font-size: var(--body-lg-size);
     line-height: var(--body-lg-lh);
@@ -270,13 +241,19 @@
        than the max-width, sets the measure. Ignored by browsers without it. */
     text-wrap: pretty;
     opacity: 0;
-    animation: riseIn var(--dur-enter) var(--ease) 340ms forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.45s forwards;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .hero-promise em { font-style: italic; color: var(--red-ink); font-weight: 300; }
 
   @media (min-width: 768px) {
-    .hero-promise { margin-top: 56px; }
+    /* 47ch, not 66ch. ch is the width of the "0" glyph, and every other measure
+       in this file is on IBM Plex Mono where ch equals one character exactly.
+       Fraunces' figures are much wider than its average letter, so 66ch rendered
+       about 89 characters a line. 47ch is the one value that lands the paragraph
+       in 4 lines with a 66 character maximum and no one word last line: 46ch
+       drops to 5 lines with an orphan, 48ch and up run past 66. */
+    .hero-promise { max-width: 47ch; margin-top: 56px; }
   }
 
   /* Editorial text links, not buttons. */
@@ -286,7 +263,7 @@
     flex-wrap: wrap;
     gap: 28px;
     opacity: 0;
-    animation: riseIn var(--dur-enter) var(--ease) 440ms forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.75s forwards;
   }
   .hero-actions a {
     display: inline-flex;
@@ -301,7 +278,7 @@
     font-weight: 600;
     color: var(--ink);
     border-bottom: 1px solid var(--muted-2);
-    transition: color var(--dur-hover) var(--ease), border-color var(--dur-hover) var(--ease);
+    transition: color .15s, border-color .15s;
   }
   .hero-actions a:hover { color: var(--red); border-color: var(--red); }
 
@@ -312,7 +289,7 @@
     gap: 16px;
     flex-wrap: wrap;
     opacity: 0;
-    animation: riseIn var(--dur-enter) var(--ease) 440ms forwards;
+    animation: riseIn 1s cubic-bezier(.2,.7,.2,1) 0.6s forwards;
   }
   .hero-cta {
     display: inline-flex;
@@ -347,42 +324,19 @@
   /* TODO: when EP 01 ships, swap primary to red filled variant with "Listen to EP 01 →" */
 
   /* ═════════════════════════════════════ SECTION SYSTEM ═════════════════════════════════════ */
-  /* Centred page container, shared by every full-width band. */
-  .hero,
-  .section,
-  .dispatch,
-  footer {
-    padding-left: max(var(--page-pad), calc((100% - var(--page-max)) / 2));
-    padding-right: max(var(--page-pad), calc((100% - var(--page-max)) / 2));
-  }
   .section {
-    padding-top: 90px;
-    padding-bottom: 90px;
+    padding: 90px 40px;
+    border-bottom: 1.5px solid var(--ink);
     position: relative;
-    display: grid;
-    grid-template-columns: var(--rail) minmax(0, 1fr);
-    column-gap: var(--rail-gap);
-    align-items: start;
   }
-  /* The label is the only thing in the rail. Everything else, including the
-     heading rule, starts at the rail edge and never crosses back. */
-  .section > .section-num { grid-column: 1; }
-  .section > *:not(.section-num) { grid-column: 2; }
   .section-head {
-    position: relative;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 40px;
     padding-bottom: 30px;
     margin-bottom: 60px;
-  }
-  /* The rule is a pseudo-element, not the container's own border. Scaling the
-     container would scale the heading inside it to nothing. */
-  .section-head::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 1px;
-    background: var(--rule);
-    transform-origin: left;
-    transition: transform 560ms var(--ease);
+    border-bottom: 1px solid var(--ink);
+    align-items: baseline;
   }
   .section-num {
     font-family: var(--mono);
@@ -403,38 +357,23 @@
   }
   .section-title em { font-style: italic; font-weight: 300; }
 
-  /* ══════════════════════════════ TONAL FIELDS ══════════════════════════════
-     Tone changes at FIELD boundaries, not section by section. Alternating every
-     block makes every boundary mean the same thing, which is nothing.
+  /* ══════════════════════════════ SECTION TONE ══════════════════════════════
+     The page ran one continuous cream field from masthead to footer, with the
+     only tonal break being the dispatch at the very bottom. Alternating the two
+     paper tones gives each topic its own plate.
 
-       A  masthead, hero, premise   the statement, lightest, most air
-       B  episodes, principles      the work, denser content earns weight
-       C  host, guests, listen      the people and the ask, deepest paper
-       D  dispatch                  the terminal moment
-       E  footer                    release, returns to A and closes the arc
+     Applied at SECTION level, never to an item inside a list. Tinting one row
+     of a list reads as "this item is different"; tinting a whole section reads
+     as "this topic is different", which is the true statement. A tinted
+     featured episode was tried and reverted for exactly this reason.
 
-     Steps are 4 to 5 points of luminance: perceptible through the grain
-     without reading as stripes. The grain sits above all fields at multiply,
-     so it unifies the steps rather than sitting on them. */
-  .field-a, .masthead-bar { background: var(--field-a); }
-  .field-b { background: var(--field-b); }
-  .field-c { background: var(--field-c); }
-  .field-d { background: var(--field-d); color: var(--paper); }
-  .field-e { background: var(--field-a); }
-
-  /* A field boundary is a bigger event than a section boundary, and reads that
-     way without the reader looking for it. */
-  .field-boundary { border-bottom: 1.5px solid var(--ink); }
-  .section { border-bottom: 1px solid var(--ink); }
-  .section.field-boundary { border-bottom-width: 1.5px; }
-
-  /* Row hover moves one step LIGHTER than its own field, never to a fixed
-     value, so the relationship holds wherever the row sits. */
-  .field-b .tx-row:hover,
-  .field-b .doctrine-row:hover { background: var(--field-a); }
-  .field-c .tx-row:hover,
-  .field-c .doctrine-row:hover { background: var(--field-b); }
-  .field-c .pitch-card { background: var(--field-a); }
+     Order is paper / tint / paper / tint ... ending on the ink dispatch, so the
+     tinted sections are the statement sections (premise, host, guests) and the
+     plain ones are the lists (doctrine, episodes, listen). */
+  .section.tinted { background: var(--paper-2); }
+  /* On tinted ground, interactive surfaces go lighter rather than darker,
+     otherwise hover resolves to the same colour as the section behind it. */
+  .section.tinted .pitch-card { background: var(--paper); }
 
   /* ═════════════════════════════════════ PREMISE ═════════════════════════════════════ */
   .section-premise {
@@ -446,13 +385,13 @@
   }
   .premise + .premise { margin-top: 28px; }
   .premise {
-    max-width: var(--measure-read);
     font-family: var(--serif);
     font-size: var(--body-lg-size);
     line-height: var(--body-lg-lh);
     letter-spacing: var(--body-lg-ls);
     font-weight: 400;
     color: var(--ink);
+    max-width: 34ch;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   /* The closing claim, set apart by a rule and weight rather than a banner. */
@@ -463,6 +402,7 @@
     font-weight: 500;
   }
   @media (min-width: 768px) {
+    .premise { max-width: 58ch; }
   }
 
   /* ═════════════════════════════════════ DOCTRINE ═════════════════════════════════════ */
@@ -472,17 +412,17 @@
 
   .doctrine-row {
     display: grid;
-    grid-template-columns: 68px minmax(0, 1fr) minmax(0, 2.1fr);
-    gap: 40px;
+    grid-template-columns: 72px 1.2fr 2fr 1.4fr;
+    gap: 36px;
     padding: 20px 0 18px;
     border-bottom: 1px solid var(--ink);
     align-items: baseline;
-    transition: background var(--dur-hover) var(--ease);
+    transition: background .25s;
   }
   .doctrine-row:hover { background: var(--paper-2); }
   /* Homepage variant: number, title, core idea. The "hard part" column lives
      only on /principles, where there is room to read it. */
-  .doctrine-table--compact .doctrine-row { grid-template-columns: 68px minmax(0, 1fr) minmax(0, 2.1fr); }
+  .doctrine-table--compact .doctrine-row { grid-template-columns: 72px 1.2fr 2fr; }
   .doctrine-num {
     font-family: var(--serif);
     font-size: var(--display-md-size);
@@ -500,20 +440,18 @@
   }
   .doctrine-name em { font-style: italic; font-weight: 300; color: var(--muted); }
   .doctrine-gloss {
-    /* Ran the full page width in small mono, roughly 140 characters a line. */
-    max-width: 620px;
     font-family: var(--mono);
     font-size: var(--body-sm-size);
     line-height: var(--body-sm-lh);
     color: var(--ink-2);
   }
   .doctrine-lede {
-    max-width: var(--measure-read);
     font-family: var(--serif);
     font-size: var(--body-lg-size);
     line-height: var(--body-lg-lh);
     font-weight: 400;
     color: var(--ink-2);
+    max-width: 60ch;
     margin-top: -30px;
     margin-bottom: 40px;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
@@ -528,11 +466,11 @@
     gap: 36px;
   }
   .host-bio p {
-    max-width: var(--measure-read);
     font-family: var(--mono);
     font-size: var(--body-md-size);
     line-height: var(--body-md-lh);
     margin-bottom: 24px;
+    max-width: 68ch;
     color: var(--ink-2);
   }
   .host-bio p:last-child { margin-bottom: 0; }
@@ -554,7 +492,7 @@
   .host-connect a {
     color: var(--ink);
     border-bottom: 1px solid var(--muted-2);
-    transition: color var(--dur-hover) var(--ease), border-color var(--dur-hover) var(--ease);
+    transition: color .15s, border-color .15s;
   }
   .host-connect a:hover { color: var(--red); border-color: var(--red); }
   .host-connect .dot { color: var(--muted-2); }
@@ -567,8 +505,8 @@
      principles table on /principles, so the two list sections read alike. */
   .tx-head {
     display: grid;
-    grid-template-columns: 56px minmax(0, 1.55fr) minmax(0, 1fr);
-    gap: 40px;
+    grid-template-columns: 72px 2.4fr 1fr;
+    gap: 36px;
     padding-bottom: 14px;
   }
   .tx-head > div {
@@ -585,12 +523,12 @@
 
   .tx-row {
     display: grid;
-    grid-template-columns: 56px minmax(0, 1.55fr) minmax(0, 1fr);
-    gap: 40px;
+    grid-template-columns: 72px 2.4fr 1fr;
+    gap: 36px;
     padding: 26px 0 24px;
     border-bottom: 1px solid var(--ink);
     align-items: baseline;
-    transition: background var(--dur-hover) var(--ease), padding var(--dur-hover) var(--ease);
+    transition: background .2s, padding .25s;
     cursor: default;
   }
   .tx-row:hover { background: var(--paper-2); padding-left: 12px; }
@@ -618,6 +556,7 @@
     font-size: var(--body-sm-size);
     line-height: var(--body-sm-lh);
     color: var(--ink-2);
+    max-width: 62ch;
   }
   /* The episode's central question. Matches the hard-part column on /principles. */
   .tx-question {
@@ -632,19 +571,17 @@
   /* ═════════════════════════════════════ GUEST PITCH ═════════════════════════════════════ */
   .guest-pitch {
     display: grid;
-    /* First track is the prose measure, so the lede lands on the same right
-       edge as every other prose block instead of 45px short of it. */
-    grid-template-columns: minmax(0, var(--measure-read)) minmax(0, 1fr);
+    grid-template-columns: 1.4fr 1fr;
     gap: 80px;
     align-items: start;
   }
   .guest-lede {
-    max-width: var(--measure-read);
     font-family: var(--serif);
     font-size: var(--body-lg-size);
     line-height: var(--body-lg-lh);
     font-weight: 400;
     color: var(--ink);
+    max-width: 40ch;
     font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 32;
   }
   .guest-lede-2 { margin-top: 26px; }
@@ -681,7 +618,6 @@
     font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
   }
   .pitch-card-body {
-    max-width: var(--measure-note);
     font-family: var(--mono);
     font-size: var(--body-md-size);
     line-height: var(--body-md-lh);
@@ -703,7 +639,7 @@
     font-weight: 500;
     letter-spacing: var(--label-ls);
     text-transform: uppercase;
-    transition: background var(--dur-hover) var(--ease), color var(--dur-hover) var(--ease);
+    transition: background .2s, color .2s;
   }
   .pitch-btn:hover { background: var(--red); border-color: var(--red); }
   .pitch-btn .pitch-arrow { font-size: var(--label-size); }
@@ -736,18 +672,20 @@
     font-weight: 500;
     text-wrap: balance;
   }
-  .listen-line a { transition: color var(--dur-hover) var(--ease); }
+  .listen-line a { transition: color .15s; }
   .listen-line a:hover { color: var(--red); }
   .listen-line .dot { color: var(--muted-2); margin: 0 6px; }
 
   /* ═════════════════════════════════════ DISPATCH / NEWSLETTER ═════════════════════════════════════ */
   .dispatch {
-    padding-top: 120px;
-    padding-bottom: 120px;
+    padding: 120px 40px;
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: 1.5px solid var(--ink);
     position: relative;
   }
   .dispatch-inner {
-    max-width: none;
+    max-width: 900px;
   }
   .dispatch-eyebrow {
     font-family: var(--mono);
@@ -776,11 +714,11 @@
   }
   .dispatch h2 em { font-style: italic; font-weight: 300; color: #c9c4b3; }
   .dispatch p {
-    max-width: var(--measure-read);
     font-family: var(--mono);
     font-size: var(--body-md-size);
     line-height: var(--body-md-lh);
     color: var(--paper);
+    max-width: 60ch;
     margin-bottom: 44px;
     font-weight: 400;
   }
@@ -818,15 +756,16 @@
     text-transform: uppercase;
     letter-spacing: var(--label-ls);
     font-weight: 600;
-    transition: background var(--dur-hover) var(--ease);
+    transition: background .2s;
     border-left: 1.5px solid var(--paper);
   }
   .dispatch-form button:hover { background: var(--red); color: var(--paper); }
 
   /* ═════════════════════════════════════ FOOTER ═════════════════════════════════════ */
   footer {
-    padding-top: 90px;
-    padding-bottom: 40px;
+    padding: 90px 40px 40px;
+    background: var(--paper);
+    border-top: 1.5px solid var(--ink);
   }
   .footer-colophon {
     display: grid;
@@ -851,13 +790,13 @@
   }
   .colophon-wordmark em { font-style: italic; font-weight: 300; display: block; }
   .colophon-tagline {
-    max-width: var(--measure-note);
     font-family: var(--mono);
     font-size: var(--label-size);
     line-height: var(--label-lh);
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: var(--label-ls);
+    max-width: 32ch;
   }
   .colophon-label {
     font-family: var(--mono);
@@ -887,7 +826,7 @@
   .colophon-contact a {
     color: var(--ink-2);
     border-bottom: 1px solid transparent;
-    transition: border-color var(--dur-hover) var(--ease), color var(--dur-hover) var(--ease);
+    transition: border-color .15s, color .15s;
   }
   .colophon-nav a:hover,
   .colophon-contact a:hover {
@@ -916,78 +855,54 @@
     }
   }
 
-  /* ═════════════════════════════════════ MOTION ═════════════════════════════════════
-     One curve, two durations. Entrances use --dur-enter, hovers --dur-hover.
-     Only opacity and transform are animated.
-
-     The from-state is ONE class, .will-reveal, which the script adds and then
-     removes. Removing a class cannot lose a specificity contest: the rule
-     simply stops matching. An earlier attempt used [data-reveal] plus an
-     .is-in flag and left elements stuck at opacity 0, which is how a reveal
-     system blanks a page. If the script never runs, the class is never added
-     and nothing is ever hidden. */
-  [data-reveal] {
-    transition:
-      opacity var(--dur-enter) var(--ease),
-      transform var(--dur-enter) var(--ease);
+  /* ═════════════════════════════════════ DOCTRINE STAGGER ═════════════════════════════════════ */
+  .doctrine-row {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(.2,.7,.2,1), transform 0.7s cubic-bezier(.2,.7,.2,1);
   }
-  .will-reveal[data-reveal]         { opacity: 0; transform: translateY(10px); }
-  .will-reveal[data-reveal="fade"]  { opacity: 0; transform: none; }
-  /* rule: the container stays untouched; only its drawn line scales. */
-  .will-reveal[data-reveal="rule"] { opacity: 1; transform: none; }
-  .will-reveal[data-reveal="rule"]::after { transform: scaleX(0); }
-  [data-reveal="fade"] { transition-duration: 400ms; }
-
-  /* Sequencing from the section's own entry. Delays sit on the elements, so
-     they apply as each one is released. */
-  .section-num   { transition-delay: 60ms; }
-  .section-title { transition-delay: 120ms; }
-  .section-head  { transition-delay: 180ms; }
-  .premise-wrap, .doctrine-lede, .guest-lede, .host-bio, .listen-block { transition-delay: 260ms; }
-
-  /* The signature move: the italic tail is its own beat, 80ms behind the roman
-     words. Derived from the typography rather than applied to it. */
-  .section-title em,
-  .tx-title em,
-  .doctrine-name em,
-  .colophon-wordmark em,
-  .dispatch h2 em {
-    display: inline-block;
-    transition: opacity var(--dur-enter) var(--ease), transform var(--dur-enter) var(--ease);
-    transition-delay: 80ms;
+  .doctrine-table.is-revealed .doctrine-row {
+    opacity: 1;
+    transform: translateY(0);
   }
-  .will-reveal .section-title em,
-  .will-reveal .tx-title em,
-  .will-reveal .doctrine-name em,
-  .will-reveal.section-title em,
-  .will-reveal.tx-title em,
-  .will-reveal.doctrine-name em { opacity: 0; transform: translateY(10px); }
-
-  /* Table rows, capped at 10 so the last is never more than 400ms behind. */
-  .tx-row:nth-child(1),  .doctrine-row:nth-child(1)  { transition-delay: 40ms; }
-  .tx-row:nth-child(2),  .doctrine-row:nth-child(2)  { transition-delay: 80ms; }
-  .tx-row:nth-child(3),  .doctrine-row:nth-child(3)  { transition-delay: 120ms; }
-  .tx-row:nth-child(4),  .doctrine-row:nth-child(4)  { transition-delay: 160ms; }
-  .tx-row:nth-child(5),  .doctrine-row:nth-child(5)  { transition-delay: 200ms; }
-  .tx-row:nth-child(6),  .doctrine-row:nth-child(6)  { transition-delay: 240ms; }
-  .tx-row:nth-child(7),  .doctrine-row:nth-child(7)  { transition-delay: 280ms; }
-  .tx-row:nth-child(8),  .doctrine-row:nth-child(8)  { transition-delay: 320ms; }
-  .tx-row:nth-child(9),  .doctrine-row:nth-child(9)  { transition-delay: 360ms; }
-  .tx-row:nth-child(n+10), .doctrine-row:nth-child(n+10) { transition-delay: 400ms; }
-  /* Numerals arrive, they do not slide. Figures that slide look cheap. */
-  .tx-num, .doctrine-num { transition-delay: 80ms; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(1)  { transition-delay: 0.00s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(2)  { transition-delay: 0.05s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(3)  { transition-delay: 0.10s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(4)  { transition-delay: 0.15s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(5)  { transition-delay: 0.20s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(6)  { transition-delay: 0.25s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(7)  { transition-delay: 0.30s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(8)  { transition-delay: 0.35s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(9)  { transition-delay: 0.40s; }
+  .doctrine-table.is-revealed .doctrine-row:nth-child(10) { transition-delay: 0.45s; }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation: none !important;
-      transition-duration: 0.01ms !important;
-      transition-delay: 0ms !important;
+    .doctrine-row {
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
-    .will-reveal, .will-reveal[data-reveal] { opacity: 1 !important; transform: none !important; }
-    .will-reveal[data-reveal="rule"]::after { transform: scaleX(1) !important; }
-    .will-reveal [data-reveal] { opacity: 1 !important; transform: none !important; }
-    .section-title em, .tx-title em, .doctrine-name em,
-    .colophon-wordmark em, .dispatch h2 em { opacity: 1 !important; transform: none !important; }
+  }
+
+  /* ═════════════════════════════════════ SCROLL REVEAL ═════════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s cubic-bezier(.2,.7,.2,1), transform 0.5s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   /* ═══════════════════════════════ RESPONSIVE LAYOUT ═══════════════════════════════ */
@@ -996,11 +911,6 @@
      @media (min-width: 768px) override. These breakpoints handle LAYOUT ONLY. */
 
   @media (max-width: 1000px) {
-    :root { --page-pad: 24px; --rail: 0px; --rail-gap: 0px; --measure-read: 100%; }
-    /* Rail collapses: the label stacks above the content on one left edge. */
-    .section { display: block; }
-    .section-num { margin-bottom: 12px; }
-
     /* Masthead: nav links out, one LISTEN action in, height cut by about a third */
     .masthead-bar { padding: 9px 20px; gap: 12px; overflow: visible; }
     .masthead-bar.is-scrolled { padding: 7px 20px; }
@@ -1066,8 +976,6 @@
   }
 
   @media (max-width: 600px) {
-    :root { --page-pad: 20px; }
-
     .hero { padding: 60px 20px 50px; }
     .section { padding: 56px 20px; }
     .section-premise { padding-top: 46px; padding-bottom: 64px; }
@@ -1111,7 +1019,7 @@
 </nav>
 
 <!-- ════════ HERO ════════ -->
-<section class="hero field-a">
+<section class="hero">
   <h1 class="hero-title">
     <span class="line">Open</span>
     <span class="line">Civilization.</span>
@@ -1129,27 +1037,27 @@
 
 <!-- ════════ PREMISE ════════ -->
 <span id="question" class="anchor-alias" aria-hidden="true"></span>
-<section class="section section-premise reveal field-a field-boundary" id="premise">
-  <div class="section-num" data-reveal="fade">Premise</div>
-  <div class="section-head" data-reveal="rule">
-    <h2 class="section-title" data-reveal>Free, and <em>fragile.</em></h2>
+<section class="section section-premise reveal tinted" id="premise">
+  <div class="section-head">
+    <div class="section-num">Premise</div>
+    <h2 class="section-title">Free, and <em>fragile.</em></h2>
   </div>
-  <div class="premise-wrap" data-reveal>
-    <p class="premise" data-reveal>Free societies are rare. Almost everything we take for granted depends on them: liberty, prosperity, security, open inquiry and the rule of law.</p>
-    <p class="premise" data-reveal>But those conditions do not maintain themselves. Technology is concentrating power. China has turned manufacturing scale into strategic leverage. Alliances no longer look automatic, and international institutions often cannot decide or act.</p>
-    <p class="premise" data-reveal>At home, wealthy democracies remain rich in talent, capital and knowledge, yet often struggle to convert those advantages into housing, energy, infrastructure, industrial capacity and public trust.</p>
+  <div class="premise-wrap">
+    <p class="premise">Free societies are rare. Almost everything we take for granted depends on them: liberty, prosperity, security, open inquiry and the rule of law.</p>
+    <p class="premise">But those conditions do not maintain themselves. Technology is concentrating power. China has turned manufacturing scale into strategic leverage. Alliances no longer look automatic, and international institutions often cannot decide or act.</p>
+    <p class="premise">At home, wealthy democracies remain rich in talent, capital and knowledge, yet often struggle to convert those advantages into housing, energy, infrastructure, industrial capacity and public trust.</p>
     <p class="premise premise-conclusion">Open Civilization examines what makes open societies capable, what causes them to weaken, and how they can renew themselves without importing the coercion of their rivals.</p>
   </div>
 </section>
 
 <!-- ════════ EPISODES ════════ -->
-<section class="section section-episodes reveal field-b" id="episodes">
-  <div class="section-num" data-reveal="fade">Episodes</div>
-  <div class="section-head" data-reveal="rule">
-    <h2 class="section-title" data-reveal>The questions that <em>define the show.</em></h2>
+<section class="section reveal" id="episodes">
+  <div class="section-head">
+    <div class="section-num">Episodes</div>
+    <h2 class="section-title">The questions that <em>define the show.</em></h2>
   </div>
 
-  <p class="doctrine-lede" data-reveal>The first ten episodes examine the forces deciding whether open societies remain capable, prosperous, secure and free. Each begins with a structural trend, a central question and a serious disagreement about what follows.</p>
+  <p class="doctrine-lede">The first ten episodes examine the forces deciding whether open societies remain capable, prosperous, secure and free. Each begins with a structural trend, a central question and a serious disagreement about what follows.</p>
 
   <div class="tx-head">
     <div class="th-left">Episode</div>
@@ -1245,13 +1153,13 @@
 
 <!-- ════════ PRINCIPLES ════════ -->
 <span id="doctrine" class="anchor-alias" aria-hidden="true"></span>
-<section class="section section-principles reveal field-b field-boundary" id="principles">
-  <div class="section-num" data-reveal="fade">Principles</div>
-  <div class="section-head" data-reveal="rule">
-    <h2 class="section-title" data-reveal>Ten <em>principles.</em></h2>
+<section class="section reveal" id="principles">
+  <div class="section-head">
+    <div class="section-num">Principles</div>
+    <h2 class="section-title">Ten <em>principles.</em></h2>
   </div>
 
-  <p class="doctrine-lede" data-reveal>Open Civilization is not neutral about freedom, but it is independent of party and faction. The show tests claims against evidence, history, incentives, power and consequences, and applies the same standard to allies and adversaries. It begins from ten convictions about what allows an open society to endure.</p>
+  <p class="doctrine-lede">Open Civilization is not neutral about freedom, but it is independent of party and faction. The show tests claims against evidence, history, incentives, power and consequences, and applies the same standard to allies and adversaries. It begins from ten convictions about what allows an open society to endure.</p>
 
   <div class="doctrine-table doctrine-table--compact">
     <div class="doctrine-row">
@@ -1309,14 +1217,14 @@
 </section>
 
 <!-- ════════ THE HOST ════════ -->
-<section class="section section-host reveal field-c" id="host">
-  <div class="section-num" data-reveal="fade">Host</div>
-  <div class="section-head" data-reveal="rule">
-    <h2 class="section-title" data-reveal>Mehdi <em>Nayebi.</em></h2>
+<section class="section reveal tinted" id="host">
+  <div class="section-head">
+    <div class="section-num">Host</div>
+    <h2 class="section-title">Mehdi <em>Nayebi.</em></h2>
   </div>
 
   <div class="host-wrap">
-    <div class="host-bio" data-reveal>
+    <div class="host-bio">
       <p>Born in Tehran and raised in France, Mehdi Nayebi is an entrepreneur and former banker who has built companies across Europe, the Middle East and North America.</p>
       <p>He began his career in structured products at Deutsche Bank and Bank of America, then co-founded Alopeyk, one of Iran's largest technology platforms, before building technology and logistics companies in Canada.</p>
       <p>Building under an authoritarian system, and later leaving Iran for safety reasons, gave him a direct view of coercion, institutional failure and what closed societies do to truth, enterprise and ordinary life.</p>
@@ -1335,15 +1243,15 @@
 
 <!-- ════════ GUESTS ════════ -->
 <span id="guest" class="anchor-alias" aria-hidden="true"></span>
-<section class="section section-guests reveal field-c" id="guests">
-  <div class="section-num" data-reveal="fade">Guests</div>
-  <div class="section-head" data-reveal="rule">
-    <h2 class="section-title" data-reveal>Come on the <em>show.</em></h2>
+<section class="section reveal tinted" id="guests">
+  <div class="section-head">
+    <div class="section-num">Guests</div>
+    <h2 class="section-title">Come on the <em>show.</em></h2>
   </div>
 
   <div class="guest-pitch">
     <div class="guest-pitch-left">
-      <p class="guest-lede" data-reveal>Open Civilization speaks with dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators and builders.</p>
+      <p class="guest-lede">Open Civilization speaks with dissidents, founders, investors, scientists, historians, generals, technologists, policymakers, exiles, journalists, educators and builders.</p>
       <p class="guest-lede guest-lede-2">If your work helps explain one of the forces shaping the future of the free world, it belongs in the conversation.</p>
     </div>
 
@@ -1363,13 +1271,13 @@
 </section>
 
 <!-- ════════ LISTEN ════════ -->
-<section class="section section-listen reveal field-c field-boundary" id="listen">
-  <div class="section-num" data-reveal="fade">Listen</div>
-  <div class="section-head" data-reveal="rule">
-    <h2 class="section-title" data-reveal>Listen and <em>watch.</em></h2>
+<section class="section reveal" id="listen">
+  <div class="section-head">
+    <div class="section-num">Listen</div>
+    <h2 class="section-title">Listen and <em>watch.</em></h2>
   </div>
 
-  <div class="listen-block" data-reveal>
+  <div class="listen-block">
     <div class="listen-label">Listen on</div>
     <div class="listen-line">
       <a href="https://podcasts.apple.com/podcast/open-civilization" target="_blank" rel="noopener">Apple Podcasts</a>
@@ -1388,7 +1296,7 @@
 </section>
 
 <!-- ════════ DISPATCH / NEWSLETTER ════════ -->
-<section class="dispatch reveal field-d field-boundary" id="dispatch">
+<section class="dispatch reveal" id="dispatch">
   <div class="dispatch-inner">
     <div class="dispatch-eyebrow">Dispatch · Monthly</div>
     <h2>A monthly <em>dispatch</em> for people who want the deeper map.</h2>
@@ -1402,7 +1310,7 @@
 </section>
 
 <!-- ════════ FOOTER ════════ -->
-<footer class="field-e">
+<footer>
   <div class="footer-colophon">
     <div class="colophon-brand">
       <div class="colophon-wordmark">Open <em>Civilization</em></div>
@@ -1437,48 +1345,40 @@
 </footer>
 
 <script>
-  // Reveal system.
-  //
-  // The from-state is a single class this script adds and later removes. If the
-  // script does not run, or IntersectionObserver is missing, or the user asks
-  // for reduced motion, the class is never added and every element renders in
-  // its natural state. A reveal system must not be able to blank the page.
-  (function () {
-    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced || !('IntersectionObserver' in window)) return;
+  // Scroll-reveal observer for .reveal elements
+  (function() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function(el) {
+        el.classList.add('is-visible');
+      });
+      return;
+    }
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px 20% 0px' });
 
-    var targets = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
-    if (!targets.length) return;
-
-    targets.forEach(function (el) {
-      el.classList.add('will-reveal');
-      el.style.willChange = 'opacity, transform';
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
     });
 
-    function reveal(el) {
-      el.classList.remove('will-reveal');
-      var clear = function () {
-        el.style.willChange = '';   // never leave will-change declared at rest
-        el.removeEventListener('transitionend', clear);
-      };
-      el.addEventListener('transitionend', clear);
-      window.setTimeout(clear, 1400);
+    // Doctrine pillar stagger observer
+    var doctrineTable = document.querySelector('.doctrine-table');
+    if (doctrineTable) {
+      var doctrineObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            doctrineObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px 15% 0px' });
+      doctrineObserver.observe(doctrineTable);
     }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        reveal(entry.target);
-        io.unobserve(entry.target);   // once; never re-runs on scroll back
-      });
-    }, { threshold: 0.18 });
-
-    targets.forEach(function (el) { io.observe(el); });
-
-    // Safety net: if the observer is present but silent, nothing stays hidden.
-    window.setTimeout(function () {
-      targets.forEach(reveal);
-    }, 2500);
   })();
 
   // Masthead shrink on scroll past hero

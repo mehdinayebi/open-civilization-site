@@ -149,9 +149,7 @@ test('the first hero action reads Episodes', () => {
 });
 
 test('the episodes section uses episode language', () => {
-  // Match the label text, not the exact attribute list, so adding a hook
-  // like data-reveal does not read as a copy regression.
-  assert.match(home, /class="section-num"[^>]*>Episodes</);
+  assert.match(home, /<div class="section-num">Episodes<\/div>/);
   assert.match(home, /The questions that <em>define the show\.<\/em>/);
   assert.match(home, /The first ten episodes examine the forces deciding whether open societies remain capable/);
 });

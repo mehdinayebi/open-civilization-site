@@ -283,57 +283,6 @@ Do not reorder sections.
 
 ---
 
-## Measure, tone and motion
-
-### One left edge, one right edge
-
-The section label sits in a fixed rail; everything else starts at the rail's right edge and never crosses back. Verified at 1440px: all nine content blocks share a left edge, all prose shares a right edge.
-
-```
---page-max 1320px · --page-pad 48px · --rail 148px · --rail-gap 36px
---measure-read 660px (all prose) · --measure-note 520px (captions)
-```
-
-`.section` is a two-column grid: `.section-num` in the rail, everything else in the content column. Below 1000px the rail collapses to `display: block` and the label stacks above.
-
-**No `ch` measures anywhere.** `ch` is the width of the zero glyph, so the same value in Fraunces and IBM Plex Mono, or at two sizes, gives different physical widths. Two separate bugs came from this: a serif measure assumed to be a character count, and a measure on a wrapper that inherited mono. One px value, and the character count falls where it falls.
-
-**The hero is deliberately outside the rail.** It has no label, and its wordmark is the brand lockup at the page edge, so hero content aligns to the page pad rather than the rail. Its prose still uses `--measure-read`, just from a different origin.
-
-### Tonal fields
-
-Tone changes at field boundaries, not section by section. Alternating every block makes every boundary mean the same thing.
-
-| Field | Sections | Value |
-|---|---|---|
-| A | masthead, hero, premise | `#f5f2ea` |
-| B | episodes, principles | `#efeadd` |
-| C | host, guests, listen | `#e9e3d4` |
-| D | dispatch | `#0e0e0e` |
-| E | footer | `#f5f2ea` |
-
-`.field-boundary` gets a 1.5px rule, `.section` 1px, so a field change reads as a bigger event. Row hover moves one step lighter than its own field, never to a fixed value. `.tinted` is gone.
-
-### Motion
-
-`--ease: cubic-bezier(0.16, 1, 0.3, 1)` · `--dur-enter: 640ms` · `--dur-hover: 180ms` · `--stagger: 60ms`. Nothing outside these. Only opacity and transform animate.
-
-**The reveal from-state is ONE class, `.will-reveal`, that the script adds and removes.** Removing a class cannot lose a specificity contest; the rule simply stops matching. An earlier attempt used `[data-reveal]` plus an `.is-in` flag and left elements pinned at opacity 0. If the script never runs, IntersectionObserver is missing, or reduced motion is set, the class is never added and nothing is hidden. There is also a 2.5s safety sweep, so an observer that is present but silent cannot leave content invisible.
-
-**Verify fail-open by stripping the scripts**, not by reading the code: serve a copy with every `<script>` removed and confirm nothing is hidden.
-
-**Never put the rule-draw on a container.** `.section-head` holds the heading, so `scaleX(0)` on it collapsed the `h2` to zero width. The line is a `::after` pseudo-element; only it scales.
-
-**The signature move** is the italic tail arriving 80ms behind the roman words, on every heading `<em>`. It is derived from the typography rather than applied to it.
-
-Forbidden: parallax, scale-in, blur-in, rotation, overshoot easing, counters, typewriter, auto-advance, horizontal movement, anything re-triggering on scroll back, anything over 800ms.
-
-### This environment cannot verify observers
-
-The preview pane's IntersectionObserver does not fire, its `getComputedStyle` returns stale values (it reported `opacity: 0` for text that was visibly rendered), and it does not repaint after scripted scrolls. **Trust `getBoundingClientRect` geometry; do not trust computed styles or observer behaviour here.** Verify anything observer-driven on the deployed site.
-
----
-
 ## Hero CTA state
 
 **Pre-launch (current):** No hero CTA. The `READ THE PREMISE` button was removed on 2026-07-31. The `.hero-ctas` / `.hero-cta` styles are deliberately kept for the post-launch button.
@@ -589,57 +538,6 @@ The Civilizational Stack essay is in git history at `a9911fd`. Do not restore it
 The narrative order is deliberate: the defining question, the stakes, the episodes, the principles, the host, participation. Episodes sit **above** Principles. Do not move the doctrine back up.
 
 Primary nav is Premise, Episodes, Principles, Host, Dispatch, Listen, on every public page. **Listen is last on purpose**, it is the practical action. Guests is deliberately not in the primary nav but stays in the footer nav.
-
----
-
-## Measure, tone and motion
-
-### One left edge, one right edge
-
-The section label sits in a fixed rail; everything else starts at the rail's right edge and never crosses back. Verified at 1440px: all nine content blocks share a left edge, all prose shares a right edge.
-
-```
---page-max 1320px · --page-pad 48px · --rail 148px · --rail-gap 36px
---measure-read 660px (all prose) · --measure-note 520px (captions)
-```
-
-`.section` is a two-column grid: `.section-num` in the rail, everything else in the content column. Below 1000px the rail collapses to `display: block` and the label stacks above.
-
-**No `ch` measures anywhere.** `ch` is the width of the zero glyph, so the same value in Fraunces and IBM Plex Mono, or at two sizes, gives different physical widths. Two separate bugs came from this: a serif measure assumed to be a character count, and a measure on a wrapper that inherited mono. One px value, and the character count falls where it falls.
-
-**The hero is deliberately outside the rail.** It has no label, and its wordmark is the brand lockup at the page edge, so hero content aligns to the page pad rather than the rail. Its prose still uses `--measure-read`, just from a different origin.
-
-### Tonal fields
-
-Tone changes at field boundaries, not section by section. Alternating every block makes every boundary mean the same thing.
-
-| Field | Sections | Value |
-|---|---|---|
-| A | masthead, hero, premise | `#f5f2ea` |
-| B | episodes, principles | `#efeadd` |
-| C | host, guests, listen | `#e9e3d4` |
-| D | dispatch | `#0e0e0e` |
-| E | footer | `#f5f2ea` |
-
-`.field-boundary` gets a 1.5px rule, `.section` 1px, so a field change reads as a bigger event. Row hover moves one step lighter than its own field, never to a fixed value. `.tinted` is gone.
-
-### Motion
-
-`--ease: cubic-bezier(0.16, 1, 0.3, 1)` · `--dur-enter: 640ms` · `--dur-hover: 180ms` · `--stagger: 60ms`. Nothing outside these. Only opacity and transform animate.
-
-**The reveal from-state is ONE class, `.will-reveal`, that the script adds and removes.** Removing a class cannot lose a specificity contest; the rule simply stops matching. An earlier attempt used `[data-reveal]` plus an `.is-in` flag and left elements pinned at opacity 0. If the script never runs, IntersectionObserver is missing, or reduced motion is set, the class is never added and nothing is hidden. There is also a 2.5s safety sweep, so an observer that is present but silent cannot leave content invisible.
-
-**Verify fail-open by stripping the scripts**, not by reading the code: serve a copy with every `<script>` removed and confirm nothing is hidden.
-
-**Never put the rule-draw on a container.** `.section-head` holds the heading, so `scaleX(0)` on it collapsed the `h2` to zero width. The line is a `::after` pseudo-element; only it scales.
-
-**The signature move** is the italic tail arriving 80ms behind the roman words, on every heading `<em>`. It is derived from the typography rather than applied to it.
-
-Forbidden: parallax, scale-in, blur-in, rotation, overshoot easing, counters, typewriter, auto-advance, horizontal movement, anything re-triggering on scroll back, anything over 800ms.
-
-### This environment cannot verify observers
-
-The preview pane's IntersectionObserver does not fire, its `getComputedStyle` returns stale values (it reported `opacity: 0` for text that was visibly rendered), and it does not repaint after scripted scrolls. **Trust `getBoundingClientRect` geometry; do not trust computed styles or observer behaviour here.** Verify anything observer-driven on the deployed site.
 
 ---
 
