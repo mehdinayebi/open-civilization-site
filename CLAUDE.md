@@ -175,7 +175,15 @@ One centred inline line (`.listen-block`), not a table. Collapsed in round three
 - Platform names in the existing serif, middot separated, accent red on hover, thin rule above and below.
 - **Deleted deliberately:** row numbers, displayed URLs, and per-row action labels (SUBSCRIBE, FOLLOW, WATCH, COPY, ADD). A visitor infers the destination from the name.
 - Names stay live links. Overcast and Pocket Casts point at the RSS feed, as they did before.
-- "Listen anywhere." stays as the section header. Only the rows beneath it changed.
+- The section header is **"Listen and *watch.*"**. Only the rows beneath it changed.
+
+**Narrowed 2026-08-05.** `.listen-block` is capped at `max-width: 700px` and centred, so it reads as one contained object rather than a band running the full content width. Three details make that work, and all three are easy to undo by accident:
+
+- **The 100px top margin is not arbitrary and is not additive.** It collapses against `.section-head`'s 60px bottom margin, so the gap equals the larger of the two, not their sum. Any value under 60 does nothing at all. It exists so the block's short top rule is not read as a pair with the full width rule under the heading.
+- **The line break between YouTube and RSS is placed, not natural.** At 700px the list wraps between them and the separator lands at the head of line two, so the line opens on a middot. `<br class="listen-br">` breaks it explicitly into three names per line, and `.listen-dot-mid` hides the separator that break replaces. Line one needs 565px, so the placed break is valid down to roughly 613px of block width.
+- **Below 600px the separators come out entirely.** Measured at 320, 360, 375, 390, 414, 480 and 560, the natural wrap put a middot at the head of a line at every one. `.listen-line` becomes a centred flex wrap and `.listen-line .dot` is hidden, so the gap does the separating and there is no orphan.
+
+Verified clean at 18 widths from 320 to 1440: no line begins or ends with a separator, and no horizontal overflow. **If a platform name is added, renamed or removed, re-check the placed break** — it assumes this exact six-name list.
 
 
 ### Mobile overflow — the trap in this layout
