@@ -185,9 +185,16 @@ Add `tinted` to a `.section` to tint it. The pattern lands the statement section
 - **The horizontal band.** Heading and links sharing a line, links at `--body-sm`, right aligned, wrapping to two lines. It made Listen the only section where the heading does not sit above its content, set the calls to action smaller than any body copy on the page, and introduced a right edge the page does not otherwise have.
 - **The `LISTEN ON` label**, which repeated the heading in smaller type.
 
-**Wrapping.** The full line is about 1160px at `--display-sm` desktop, so it sits on one line at 1280 and above and wraps once between 601 and 1200, where a trailing middot reads as continuation. **Below 600px the separators come out** (`.listen-line .dot { display: none }`) and the gap separates the names: measured leading middots at 390 and 414, trailing ones at 320, 360, 375 and 480, and a separator only means anything between two names on the same row. If a seventh platform is added, let it wrap. **Do not reduce the font size to prevent a wrap** — that is what produced the band.
+**Desktop is one inline line.** About 1160px at `--display-sm`, so it sits on one line at 1280 and above and wraps once between 1001 and 1200, where a trailing middot reads as continuation.
 
-Verified at 21 widths from 320 to 1512: no line begins or ends on a separator, no horizontal overflow, and the line's left edge matches the episodes table at every width.
+**Below 1000px it collapses to stacked rows**, the same width at which the episode and principle tables collapse from grids to stacked rows, so the page changes shape once rather than in three places. A middot list only works while it fits one clean line: wrapped at display size it stranded separators at the line edges, the rag fell on word lengths rather than on anything designed, and each name was a small inline tap target about 14px from its neighbour. As rows, each platform gets the full width, a trailing `→` (the same arrow as `.pitch-btn` and the hero actions) and a real target of 46 to 51px, above the 44px iOS minimum.
+
+- **`.dot` must be `display: none` here**, never `visibility: hidden` or `opacity: 0`. In block flow each separator would take a row of its own and open six phantom gaps.
+- **The first row takes no `border-top`.** The `.section-head` rule is already directly above it, and adding one put two rules 22px apart with a dead band between, which is the defect that retired the centred block. `.tx-row` and `.doctrine-row` carry a bottom border only for exactly this reason. The last row's own bottom border closes the section, so `.listen-line` drops its container border at this width: one rule between rows, one below the last, never two. Verified as 7 rules total at every width below 1000.
+- **`white-space: normal` overrides the desktop `nowrap`**, so a narrow viewport cannot force horizontal overflow.
+- The size is `--body-md`, the nearest token to the 21px this wants. At `--display-sm` the rows run to 68px and the section past 400px. **Do not reduce the desktop font size to prevent its wrap** — that is what produced the rejected band.
+
+Verified at 15 widths from 320 to 1440: 1001px still shows the single inline line, 1000px and below stack, no horizontal overflow anywhere.
 
 ### Mobile overflow — the trap in this layout
 

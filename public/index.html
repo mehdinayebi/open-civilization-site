@@ -692,20 +692,60 @@
   .listen-line a:hover { color: var(--red); border-bottom-color: var(--red); }
   .listen-line .dot { color: var(--muted-2); user-select: none; }
 
+  /* Below 1000 the inline line collapses to stacked rows, the same width at
+     which the episode and principle tables collapse from grids to stacked rows,
+     so the page changes shape once rather than in three places.
+     A middot list only works while it fits one clean line. Wrapped at display
+     size it stranded separators at the line edges, the rag fell on word lengths
+     rather than on anything designed, and each name became a small inline tap
+     target about 14px from its neighbour. As rows each platform gets the full
+     width and a real target: about 47px tall, above the 44px iOS minimum.
+     The size drops to --body-md, the only token near the 21px this wants; at
+     --display-sm the rows run to 68px and the section to well over 400.
+     The arrow is the one already used on .pitch-btn and the hero actions. */
   @media (max-width: 1000px) {
     .section-listen { padding-top: 44px; padding-bottom: 34px; }
     .section-listen .section-head { margin-bottom: 22px; }
-    .listen-line { gap: 0 14px; }
-  }
-  /* On phones the line wraps to three and four rows whatever the gap, and the
-     separators land at the edges: measured leading middots at 390 and 414,
-     trailing ones at 320, 360, 375 and 480. A separator only means anything
-     between two names on the same row, so here it comes out and the gap does
-     the separating. Above this the list either sits on one line or wraps once,
-     where a trailing middot reads as continuation. */
-  @media (max-width: 600px) {
-    .listen-line { gap: 4px 20px; }
+    /* The row rules live on the anchors now, so the container drops its own. */
+    .listen-line {
+      display: block;
+      font-size: var(--body-md-size);
+      line-height: 1.3;
+      padding-bottom: 0;
+      border-bottom: none;
+      gap: 0;
+    }
+    /* display:none, not hidden or transparent: in block flow each separator
+       would take a row of its own and open six phantom gaps. */
     .listen-line .dot { display: none; }
+    .listen-line a {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--ink);
+      white-space: normal;
+    }
+    /* No border-top on the first row. The .section-head rule already sits above
+       it, so adding one put two rules 22px apart with a dead band between,
+       which is the same defect that retired the centred block. .tx-row and
+       .doctrine-row carry a bottom border only for exactly this reason: the
+       section rule is the top edge of the first row. The last row's own bottom
+       border closes the section, so there is one rule between rows and one
+       below the last, never two. */
+    .listen-line a::after {
+      content: "\2192";
+      font-family: var(--mono);
+      font-size: var(--label-size);
+      color: var(--muted-2);
+    }
+    .listen-line a:hover::after,
+    .listen-line a:active::after { color: var(--red); }
+  }
+  /* --body-md is already 18px below 768, so the size needs no further step
+     down here; only the row is tightened. */
+  @media (max-width: 600px) {
+    .listen-line a { padding: 11px 0; }
   }
 
   /* ═════════════════════════════════════ DISPATCH / NEWSLETTER ═════════════════════════════════════ */
