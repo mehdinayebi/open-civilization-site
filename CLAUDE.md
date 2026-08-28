@@ -128,15 +128,17 @@ Fraunces is variable along `SOFT` (0–100), `WONK` (0–1), and `opsz` (9–144
 
 | Token | Role | Mobile | Desktop (≥768px) | Line-height | Letter-spacing |
 |-------|------|--------|------------------|-------------|----------------|
-| `display-xl` | Hero wordmark ONLY | 60px | 144px | 0.95 / 0.92 | -0.02em |
-| `display-lg` | Section titles, host name, dispatch headline | 44px | 80px | 1.05 / 1.0 | -0.015em |
-| `display-md` | Featured ep title, pitch card title, principle numbers, colophon wordmark | 34px | 56px | 1.15 / 1.1 | -0.01em |
-| `display-sm` | Upcoming episode titles, principle names, platform names | 28px | 34px | 1.2 | -0.005em |
-| `body-lg` | Hero promise, premise, ledes, guest lede | 24px | 32px | 1.5 / 1.45 | 0 |
-| `body-md` | Host bio, dispatch paragraph, pitch body, footer links | 18px | 20px | 1.6 / 1.6 | 0 |
-| `body-sm` | Principle glosses (mono), featured ep desc, platform URL | 16px | 17px | 1.65 / 1.6 | 0 |
-| `label` | Section markers, tags, captions, masthead, all CTAs | 13px | 14px | 1.4 | 0.08em uppercase |
-| `micro` | Footer legal, schedule block | 13px | 14px | 1.5 | 0.02em |
+| `display-xl` | Hero wordmark ONLY | 48px | 112px | 0.95 / 0.92 | -0.02em |
+| `display-lg` | Section titles, host name, dispatch headline | 34px | 60px | 1.08 / 1.04 | -0.015em |
+| `display-md` | Featured ep title, pitch card title, principle numbers, colophon wordmark | 27px | 44px | 1.15 / 1.1 | -0.01em |
+| `display-sm` | Upcoming episode titles, principle names, platform names | 22px | 27px | 1.25 | -0.005em |
+| `body-lg` | Hero promise, premise, ledes, guest lede | 18px | 21px | 1.55 / 1.5 | 0 |
+| `body-md` | Host bio, dispatch paragraph, pitch body, footer links | 16px | 17px | 1.6 / 1.6 | 0 |
+| `body-sm` | Principle glosses (mono), featured ep desc, platform URL | 14px | 15px | 1.65 / 1.6 | 0 |
+| `label` | Section markers, tags, captions, masthead, all CTAs | 12px | 13px | 1.4 | 0.08em uppercase |
+| `micro` | Footer legal, schedule block | 12px | 13px | 1.5 | 0.02em |
+
+**Reduced 2026-08-05.** The whole scale came down: body copy was far too large, and the rest followed so the proportions hold. The specific defect was `body-lg` at 32px against `display-sm` at 34px, so a paragraph was very nearly the size of an episode title and the hierarchy between them collapsed. `body-lg` therefore took the deepest cut (0.66x); the display sizes came down about 0.75 to 0.79x and the small labels barely moved. Every measure on the page is in `ch`, so characters per line survived the change unchanged (hero 65, premise 72, episode lede 74, host bio 53, dispatch 50 at 1440). **If you change a size here, re-check the mobile Listen rows** (they are sized from `--body-md` and must clear 44px) and re-measure characters per line rather than assuming.
 
 **Rules:**
 
@@ -144,7 +146,7 @@ Fraunces is variable along `SOFT` (0–100), `WONK` (0–1), and `opsz` (9–144
 2. **Line-heights and letter-spacing are locked to the token.** Don't override per-component.
 3. **`display-xl` is reserved for the hero wordmark "Open Civilization." only.** Nothing else on the page hits that size.
 4. **Italic secondary words** (the "`Ten <em>principles.</em>`" pattern) are mandatory. Every display/serif title uses `<em>` for its second word.
-5. **Mobile cap:** `display-xl` at 60px mobile fits "Civilization." on all iPhones ≥375px. On 320px iPhone SE it will be snug but acceptable.
+5. **Mobile cap:** `display-xl` at 48px mobile fits "Civilization." on all iPhones including the 320px SE.
 
 ### Section tone (the page rhythm)
 
@@ -187,12 +189,12 @@ Add `tinted` to a `.section` to tint it. The pattern lands the statement section
 
 **Desktop is one inline line.** About 1160px at `--display-sm`, so it sits on one line at 1280 and above and wraps once between 1001 and 1200, where a trailing middot reads as continuation.
 
-**Below 1000px it collapses to stacked rows**, the same width at which the episode and principle tables collapse from grids to stacked rows, so the page changes shape once rather than in three places. A middot list only works while it fits one clean line: wrapped at display size it stranded separators at the line edges, the rag fell on word lengths rather than on anything designed, and each name was a small inline tap target about 14px from its neighbour. As rows, each platform gets the full width, a trailing `→` (the same arrow as `.pitch-btn` and the hero actions) and a real target of 46 to 51px, above the 44px iOS minimum.
+**Below 1000px it collapses to stacked rows**, the same width at which the episode and principle tables collapse from grids to stacked rows, so the page changes shape once rather than in three places. A middot list only works while it fits one clean line: wrapped at display size it stranded separators at the line edges, the rag fell on word lengths rather than on anything designed, and each name was a small inline tap target about 14px from its neighbour. As rows, each platform gets the full width, a trailing `→` (the same arrow as `.pitch-btn` and the hero actions) and a real target of 46 to 47px, above the 44px iOS minimum.
 
 - **`.dot` must be `display: none` here**, never `visibility: hidden` or `opacity: 0`. In block flow each separator would take a row of its own and open six phantom gaps.
 - **The first row takes no `border-top`.** The `.section-head` rule is already directly above it, and adding one put two rules 22px apart with a dead band between, which is the defect that retired the centred block. `.tx-row` and `.doctrine-row` carry a bottom border only for exactly this reason. The last row's own bottom border closes the section, so `.listen-line` drops its container border at this width: one rule between rows, one below the last, never two. Verified as 7 rules total at every width below 1000.
 - **`white-space: normal` overrides the desktop `nowrap`**, so a narrow viewport cannot force horizontal overflow.
-- The size is `--body-md`, the nearest token to the 21px this wants. At `--display-sm` the rows run to 68px and the section past 400px. **Do not reduce the desktop font size to prevent its wrap** — that is what produced the rejected band.
+- The size is `--body-md` (17px down to 768, 16px below). Rows are 46 to 47px, and the 12px vertical padding at ≤600 is the floor that keeps them over 44px, not a preference. **Do not reduce the desktop font size to prevent its wrap** — that is what produced the rejected band.
 
 Verified at 15 widths from 320 to 1440: 1001px still shows the single inline line, 1000px and below stack, no horizontal overflow anywhere.
 
